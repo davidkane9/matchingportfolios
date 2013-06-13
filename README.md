@@ -12,7 +12,7 @@ Hi guys, here are some steps to get started using git:
 - After that is done, type `git pull git@github.com:mjfwilliams/WilliamstownWeather`
 - Now you should have a folder called Rstuff, put all your R code, data, and .rnw files in there
 - After you do that, (one of you) type `git add *`
-- Now to commit changes, type: `git commit -m "Added all our files!"`
+- Now to commit changes, type: `git commit -m "Added all our files"`
 - Finally, type `git push git@github.com:mjfwilliams/WilliamstownWeather`
 
 
