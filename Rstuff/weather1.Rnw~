@@ -7,17 +7,17 @@
 
 This graph illustrates the average temperature (in degrees Celsius) of
 Williamstown, Massachusetts from 1892 to 2010.
-<<requires, echo = FALSE>>=
+
+<<graph1, fig.width = 4, fig.height = 3, cache = TRUE>>=
+x <- read.table("weather.txt", header = TRUE)
 library(lubridate)
 library(reshape)
 library(ggplot2)
-source("loadWeather.R")
-@
-
-
-<<graph1, fig.width = 4, fig.height = 3, cache = TRUE>>=
-y = loadWeather()
-qplot(data = y, x = Date,y = Temperature, geom = "line")
+y <- melt(x, id="Year")
+stringDates <- paste(y$variable, y$Year, 20, sep="/")
+Date <- as.Date(stringDates, format="%b/%Y/%d")
+Temperatures <- y$value
+qplot(x = Date,y = Temperatures, geom = "line")
 @
 
 This graph illustrates the average daily temperatures in degrees Celsius of
