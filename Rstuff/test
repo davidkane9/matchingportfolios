@@ -1,4 +1,3 @@
-
 ##new project! Weather
 
 setwd("~/Desktop/")
@@ -27,12 +26,11 @@ package.skeleton('SweaveTest')
 
 ##code for 2nd and 3rd graphs
 
-weather2 <- read.table("link1.txt")
-dates1 <- weather2[,1]
-temps1 <- weather2[,3]
+x <- read.table("link1.txt")
+dates1 <- x[,1]
+temps1 <- x[,3]
 plot(dates1, temps1)
-
-weather3 <- read.table("link2.txt", sep = "\t")
-dates2 <- weather3[,1]
-temps2 <- weather3[,2]
+y <- read.table("link2.txt", sep = "\t")
+dates2 <- y[,1]
+temps2 <- y[,2]
 plot(dates2, temps2)

@@ -1,0 +1,18 @@
+\documentclass{article}
+
+
+\begin{document}
+
+\section*{Williamstown Weather}
+
+This graph illustrates the average daily temperatures in degrees Celsius of
+Williamstown, Massachusetts from 1983 to 2007.
+
+<<graph3, fig.width = 4, fig.height = 3, cache = TRUE>>=
+weather3 <- read.table("link2.txt", sep = "\t")
+dates2 <- weather3[,1]
+temps2 <- weather3[,2]
+plot(dates2, temps2, xlab="Date", ylab="Temperature (degrees Celsius)")
+@
+
+\end{document}

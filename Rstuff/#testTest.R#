@@ -1,0 +1,23 @@
+x <- read.table("weather.txt", header = TRUE)
+library(lubridate)
+library(reshape)
+library(ggplot2)
+y <- melt(x, id="Year")
+stringDates <- paste(y$variable, y$Year, 20, sep="/")
+Date <- as.Date(stringDates, format="%b/%Y/%d")
+Temperatures <- y$value
+qplot(x = Date,y = Temperatures, geom = c("point", "smooth"))
+
+x <- read.table("link1.txt")
+dates1 <- x[,1]
+temps1 <- x[,3]
+qplot(x = dates1, y = temps1, geom = c("point", "smooth"), xlab="Date",
+       ylab="Temperature (degrees Celsius)")
+
+y <- read.table("link2.txt", sep = "\t")
+dates2 <- y[,1]
+temps2 <- y[,2]
+plot(dates2, temps2, xlab="Date", ylab="Temperature (degrees Celsius)")
+
+plot(data.table(read.txt())
+     plot.read(tex

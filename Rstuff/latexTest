@@ -1,0 +1,18 @@
+\documentclass{article}
+
+\title{Weather Data Plots}
+\author{Michaela Kane and Angel Zhou}
+
+\begin{document}
+
+\maketitle
+
+This table illustrates the average temperature (in degrees Celsius) of
+Williamstown, Massachusetts from 1892 to 2010.
+
+<<firstTable>>=
+2+2
+@
+
+
+\end{document}

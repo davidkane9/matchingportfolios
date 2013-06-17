@@ -54,17 +54,66 @@
 
 \usepackage{alltt}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+
 \begin{document}
-hello world
+
+\section*{Williamstown Weather}
+
+This graph illustrates the average temperature (in degrees Celsius) of
+Williamstown, Massachusetts from 1892 to 2010.
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-2 + 2
+x <- \hlfunctioncall{read.table}(\hlstring{"weather.txt"}, header = TRUE)
+\hlfunctioncall{library}(lubridate)
+\hlfunctioncall{library}(reshape)
+\hlfunctioncall{library}(ggplot2)
+y <- \hlfunctioncall{melt}(x, id = \hlstring{"Year"})
+stringDates <- \hlfunctioncall{paste}(y$variable, y$Year, 20, sep = \hlstring{"/"})
+Date <- \hlfunctioncall{as.Date}(stringDates, format = \hlstring{"%b/%Y/%d"})
+Temperatures <- y$value
+\hlfunctioncall{qplot}(x = Date, y = Temperatures, geom = \hlstring{"line"})
 \end{alltt}
-\begin{verbatim}
-## [1] 4
-\end{verbatim}
 \end{kframe}
+\includegraphics[width=\maxwidth]{figure/graph1} 
+
 \end{knitrout}
+
+
+This graph illustrates the average daily temperatures in degrees Celsius of
+Williamstown, Massachusetts from 2005 to 2013.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+x <- \hlfunctioncall{read.table}(\hlstring{"link1.txt"})
+dates1 <- x[, 1]
+temps1 <- x[, 3]
+\hlfunctioncall{plot}(dates1, temps1, xlab = \hlstring{"Date"}, ylab = \hlstring{"\hlfunctioncall{Temperature} (degrees Celsius)"})
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/graph2} 
+
+\end{knitrout}
+
+
+This graph illustrates the average daily temperatures in degrees Celsius of
+Williamstown, Massachusetts from 1983 to 2007.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+y <- \hlfunctioncall{read.table}(\hlstring{"link2.txt"}, sep = \hlstring{"\textbackslash{}t"})
+dates2 <- y[, 1]
+temps2 <- y[, 2]
+\hlfunctioncall{plot}(dates2, temps2, xlab = \hlstring{"Date"}, ylab = \hlstring{"\hlfunctioncall{Temperature} (degrees Celsius)"})
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/graph3} 
+
+\end{knitrout}
+
 
 \end{document}

@@ -1,0 +1,127 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdftex 2013.6.14)  14 JUN 2013 14:26
+entering extended mode
+**c:/Users/Angel*Zhou/Desktop/WilliamstownWeather/Rstuff/test
+("c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test"
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:1: You can't use `m
+acro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:1: You can't use `m
+acro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:5: You can't use `m
+acro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:5: You can't use `m
+acro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:7: You can't use `m
+acro parameter character #' in horizontal mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:7: You can't use `m
+acro parameter character #' in horizontal mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:9: You can't use `m
+acro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:9: You can't use `m
+acro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:16: You can't use `
+macro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:16: You can't use `
+macro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:17: Missing $ inser
+ted
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:26: Missing $ inser
+ted
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (22.6879pt too wide) in paragraph at lines 18--26
+\tenrm <- y$\teni valuedata:frame\tenrm (\teni Date; Temperatures\tenrm )\teni 
+qplot\tenrm (\teni Date; Temperatures; geom \tenrm = "\teni line\tenrm ")\teni 
+help\tenrm ("\teni Sweave\tenrm "\teni ; package \tenrm =|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\tenrm <
+.\tenrm -
+.\discretionary
+.\glue 3.33333 plus 1.66666 minus 1.11111
+.\tenrm y
+.etc.
+
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:27: You can't use `
+macro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+c:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/test:27: You can't use `
+macro parameter character #' in vertical mode
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+)
+! Emergency stop
+*** (job aborted, no legal \end found)
+
+!  ==> Fatal error occurred, no output PDF file produced!
