@@ -1,0 +1,7 @@
+
+
+setClass("randPort",
+         representation = representation(
+         match.var = "character",
+         weight.var = "character",
+

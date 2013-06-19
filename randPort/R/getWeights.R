@@ -20,13 +20,14 @@ getWeights <- function(Emat, x0, n) {
     ret = matrix(0, nrow = length(x0), ncol = n + 1)
     ## Would it be better to use apply here?
     nc = ncol(Z)
-    ret[, 1] = x0 + Z %*% rnorm(nc, 0, 0.4)/nc
+    mn = mean(x0)
+    ret[, 1] = x0 + Z %*% rnorm(nc, 0, mn)/sqrt(nc)
     k = 0
     cat("Created Vectors: ")
     cat(paste(k))
 
     for (i in 2:(n + 1)) {
-        ret[, i] = ret[, i - 1] + Z %*% rnorm(nc, 0, 0.4)/nc
+        ret[, i] = ret[, i - 1] + Z %*% rnorm(nc, 0, mn)/sqrt(nc)
         m = k + 1;
         while(any(ret[, i] < 0)) {
             reflection = rep(0, ncol(Emat))
