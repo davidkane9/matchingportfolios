@@ -1,0 +1,64 @@
+
+R version 2.15.0 (2012-03-30)
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: i386-pc-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "randPort"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> library('randPort')
+Loading required package: MASS
+> 
+> assign(".oldSearch", search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("getWeights")
+> ### * getWeights
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getWeights
+> ### Title: Generates weights to a new portfolio, randomly, and fulfilling
+> ###   equality constraints. Fulfills equality constraints while maintaining
+> ###   randomness by using a Monte Carlo Random Walk.
+> ### Aliases: getWeights
+> ### Keywords: Matching-Portfolio Monte-Carlo Random-Portfolio
+> 
+> ### ** Examples
+> 
+> Emat = matrix(1, ncol = 3, nrow = 1)
+> x0 = c(.3, .3, .4)
+> getWeights(Emat, x0, 1)
+Created Vectors: 01
+[1] 0.21661801 0.02013265 0.76324934
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.11 0.03 0.18 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

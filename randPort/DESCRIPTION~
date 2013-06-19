@@ -13,5 +13,3 @@ License: GPL-2
 LazyLoad: yes
 Collate:
     'getWeights.R'
-    'AllClasses.R'
-    'randPort.R'

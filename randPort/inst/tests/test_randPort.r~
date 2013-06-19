@@ -1,0 +1,9 @@
+
+context("Testing randPort objects")
+
+data(jan)
+rP <- randPort(jan, match.var = "value", weight.var = "portfolio", n=10)
+test_that("", {
+    expect_that(apply(rP@matched.weights, 2, sum), all.equal(1))
+
+})
