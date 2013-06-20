@@ -52,22 +52,14 @@ Extensions' manual.
 * checking contents of 'data' directory ... OK
 * checking data for non-ASCII characters ... OK
 * checking data for ASCII and uncompressed saves ... OK
+* checking installed files from 'inst/doc' ... OK
 * checking examples ... OK
 * checking for unstated dependencies in tests ... WARNING
 'library' or 'require' call not declared from: 'testthat'
-* checking tests ... ERROR
-Running the tests in 'tests/run-all.R' failed.
-Last 13 lines of output:
-  > 
-  > test_package("randPort")
-  Testing constraints : Created Vectors: 01
-  .Created Vectors: 01
-  .
-  Testing randPort objects : Created Vectors: 012345678910
-  1
-  
-  
-  1. Failure:  -------------------------------------------------------------------
-  all(apply(rP@matched.weights, 2, sum) == 1) isn't true
-  Error: Test failures
-  Execution halted
+* checking tests ... OK
+  Running 'run-all.R'
+* checking PDF version of manual ... OK
+WARNING: There were 4 warnings.
+See
+  'C:/Users/Michael/Desktop/randPort/randPort/..Rcheck/00check.log'
+for details.

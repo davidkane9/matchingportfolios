@@ -52,7 +52,7 @@ Created Vectors: 01
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.11 0.03 0.18 NA NA 
+Time elapsed:  0.18 0.02 0.19 NA NA 
 > grDevices::dev.off()
 null device 
           1 

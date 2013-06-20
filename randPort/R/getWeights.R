@@ -15,7 +15,7 @@
 #' Emat = matrix(1, ncol = 3, nrow = 1)
 #' x0 = c(.3, .3, .4)
 #' getWeights(Emat, x0, 1)
-getWeights <- function(Emat, x0, n) {
+getWeights <- function(Emat, x0, n, verbose = FALSE) {
     Z = Null(t(Emat))
     ret = matrix(0, nrow = length(x0), ncol = n + 1)
     ## Would it be better to use apply here?
@@ -23,8 +23,8 @@ getWeights <- function(Emat, x0, n) {
     mn = mean(x0)
     ret[, 1] = x0 + Z %*% rnorm(nc, 0, mn)/sqrt(nc)
     k = 0
-    cat("Created Vectors: ")
-    cat(paste(k))
+    if(verbose) cat("Created Vectors: ")
+    if(verbose) cat(paste(k))
 
     for (i in 2:(n + 1)) {
         ret[, i] = ret[, i - 1] + Z %*% rnorm(nc, 0, mn)/sqrt(nc)
@@ -37,15 +37,15 @@ getWeights <- function(Emat, x0, n) {
                   j] %*% Z[, j])
             }
             ##for(i in 1:nchar(paste(k)))  cat("\b")
-            ##cat(paste(m))
+            ##if(verbose) cat(paste(m))
             ##k = m
             ##m = k + 1
         }
-        for(i in 1:nchar(paste(k)))  cat("\b")
-        cat(paste(m))
+        if(verbose) for(i in 1:nchar(paste(k)))  cat("\b")
+        if(verbose) cat(paste(m))
         k = m
     }
     ret = ret[, 2:(n + 1)]
-    cat("\n")
+    if(verbose) cat("\n")
     return(ret)
 }

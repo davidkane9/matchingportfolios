@@ -10,4 +10,4 @@ Description: Creates random Portfolios to test the skill of a portfolio manager
 License: GPL-2
 LazyLoad: yes
 Collate: 'getWeights.R' 'AllClasses.R' 'randPort.R'
-Built: R 2.15.0; ; 2013-06-19 20:30:30 UTC; windows
+Built: R 2.15.0; ; 2013-06-20 14:38:14 UTC; windows

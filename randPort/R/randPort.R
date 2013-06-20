@@ -14,6 +14,15 @@
 #'
 
 randPort <- function(data, match.var, weight.var, n) {
+
+
+    stopifnot(all(match.var %in% names(data)))
+    stopifnot(length(weight.var) == 1)
+    stopifnot(weight.var %in% names(data))
+    if(all(data[[weight.var]] == 0)) {
+        stop("All portfolio weights are set to zero")
+    }
+
     x0 = data[[weight.var]]
     Emat = matrix(1, ncol = nrow(data), nrow = 1)
     mW = getWeights(Emat, x0, n)
