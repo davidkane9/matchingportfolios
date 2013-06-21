@@ -8,7 +8,7 @@
 This graph illustrates the average temperature (in degrees Celsius) of
 Williamstown, Massachusetts from 1892 to 2010.
 
-<<graph1, fig.width = 4, fig.height = 3, cache = TRUE>>=
+<<graph1, fig.width = 6, fig.height = 4, cache = TRUE>>=
 x <- read.table("weather.txt", header = TRUE)
 library(lubridate)
 library(reshape)
@@ -20,24 +20,46 @@ Temperatures <- y$value
 qplot(x = Date,y = Temperatures, geom = "line")
 @
 
+This is a box-and-whiskers plot of the monthly temperatures of
+Williamstown, Massachusetts as recorded from January 1892 to December 2010.
+
+<<graph1_5, fig.width = 6, fig.height = 4, cache = TRUE>>=
+x <- read.table("weather.txt", header = TRUE)
+y <- melt(x, id="Year")
+stringDates <- paste(y$variable, y$Year, 20, sep="/")
+Date <- as.Date(stringDates, format="%b/%Y/%d")
+y$Temperatures <- y$value
+months <- months(Date, abbr = TRUE)
+months_fac = factor(months, levels = month.abb)
+y$Month <- sort(months_fac)
+weather1_5 <- ggplot(y, aes(Month, Temperatures)) + geom_boxplot()
+weather1_5
+@
+
 This graph illustrates the average daily temperatures in degrees Celsius of
 Williamstown, Massachusetts from 2005 to 2013.
 
-<<graph2, fig.width = 4, fig.height = 3, cache = TRUE>>=
+<<graph2, fig.width = 6, fig.height = 4, cache = TRUE>>=
 x <- read.table("link1.txt")
-dates1 <- x[,1]
-temps1 <- x[,3]
-plot(dates1, temps1, xlab="Date", ylab="Temperature (degrees Celsius)")
+Date <- x[,1]
+Temperature <- x[,3]
+y <- ggplot(x, aes(Date, Temperature))
+y <- y + layer(geom="point")
+y
 @
 
 This graph illustrates the average daily temperatures in degrees Celsius of
 Williamstown, Massachusetts from 1983 to 2007.
 
-<<graph3, fig.width = 4, fig.height = 3, cache = TRUE>>=
+<<graph3, fig.width = 6, fig.height = 4, cache = TRUE>>=
 y <- read.table("link2.txt", sep = "\t")
-dates2 <- y[,1]
-temps2 <- y[,2]
-plot(dates2, temps2, xlab="Date", ylab="Temperature (degrees Celsius)")
+date <- y[,1]
+Temperature <- y[,2]
+dateTrim <- strtrim(date, 10)
+Date <- as.Date(dateTrim)
+y <- ggplot(weather3, aes(Date, Temperature))
+y <- y + layer(geom="point")
+y
 @
 
 \end{document}

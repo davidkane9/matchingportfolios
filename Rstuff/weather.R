@@ -1,7 +1,6 @@
-
 ##new project! Weather
 
-setwd("~/Desktop/")
+setwd("~/Desktop/WilliamstownWeather/RStuff")
 
 ## check argument for read.table to get variable names
 
