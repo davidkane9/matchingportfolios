@@ -15,3 +15,7 @@ Collate:
     'getWeights.R'
     'AllClasses.R'
     'randPort.R'
+    'getWeights.resample.R'
+    'getWeights.shuffle.R'
+    'matching.R'
+    'jan-data.R'

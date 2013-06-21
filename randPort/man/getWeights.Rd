@@ -5,7 +5,7 @@ equality constraints.
 Fulfills equality constraints while maintaining randomness by
 using a Monte Carlo Random Walk.}
 \usage{
-  getWeights(Emat, x0, n)
+  getWeights(Emat, x0, n, verbose = FALSE)
 }
 \arguments{
   \item{Emat}{This is the matrix of the equality constraint

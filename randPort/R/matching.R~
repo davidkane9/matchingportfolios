@@ -7,7 +7,7 @@ matching <- function(x, date.var, match.var, ret.var, port.weight, number = 100,
     if(length(unique(x[[date.var]])) != 1) {
         multi = TRUE
     } else {
-        multi = FALSE
+        mutli = FALSE
     }
 
     ## save the number of stocks in the portfolio for later

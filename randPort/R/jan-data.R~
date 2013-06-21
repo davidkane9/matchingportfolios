@@ -1,0 +1,5 @@
+#' @name jan
+#' @title Jan
+#' @description A dataset that contains data from MSCI Barra for the
+#' month of January, 2011
+#' @docType
