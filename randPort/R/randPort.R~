@@ -12,6 +12,7 @@
 #' @export
 #' @examples
 #'
+#' rP = randPort(jan, "value", "portfolio", 10)
 
 randPort <- function(data, match.var, weight.var, n) {
 

@@ -6,13 +6,15 @@ setClass("randPort",
          weight.var = "character",
          matched.weights = "matrix",
          universe = "data.frame",
-         n = "numeric"
+         n = "numeric",
+         type = "character"
          ),
          prototype = prototype(
          match.var = character(),
          weight.var = character(),
          matched.weights = matrix(),
          universe = data.frame(),
-         n = numeric()
+         n = numeric(),
+         type = character()
          ),
          validity = function(object){})

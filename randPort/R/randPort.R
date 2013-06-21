@@ -6,6 +6,7 @@
 #' @param match.var Variables to match on
 #' @param weight.var Weights for the stocks
 #' @param n Number of generated portfolios
+#' @param type Type of random sampling (shuffle, resample, MCMC)
 
 #' @keywords Random-Portfolio
 
@@ -14,7 +15,7 @@
 #'
 #' rP = randPort(jan, "value", "portfolio", 10)
 
-randPort <- function(data, match.var, weight.var, n) {
+randPort <- function(data, match.var, weight.var, n, type) {
 
 
     stopifnot(all(match.var %in% names(data)))
@@ -23,10 +24,18 @@ randPort <- function(data, match.var, weight.var, n) {
     if(all(data[[weight.var]] == 0)) {
         stop("All portfolio weights are set to zero")
     }
-
     x0 = data[[weight.var]]
-    Emat = matrix(1, ncol = nrow(data), nrow = 1)
-    mW = getWeights(Emat, x0, n)
-    rP = new("randPort", match.var = match.var, weight.var = weight.var, matched.weights = mW, universe = data)
+    if(type == "MCMC") {
+        Emat = matrix(1, ncol = nrow(data), nrow = 1)
+        mW = getWeights(Emat, x0, n)
+    } else if(type == "resample") {
+        mW = getWeights.resample(x0, n)
+    } else if(type == "shuffle") {
+        mW = getWeights.shuffle(x0, n)
+    } else {
+        stop("Invalid type")
+    }
+    rP = new("randPort", match.var = match.var, weight.var =
+    weight.var, matched.weights = mW, universe = data)
     return(rP)
 }
