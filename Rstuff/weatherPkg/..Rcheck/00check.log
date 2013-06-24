@@ -1,0 +1,80 @@
+* using log directory 'C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/..Rcheck'
+* using R version 3.0.1 (2013-05-16)
+* using platform: i386-w64-mingw32 (32-bit)
+* using session charset: ISO8859-1
+* checking for file './DESCRIPTION' ... OK
+* checking extension type ... Package
+* this is package 'weatherPkg' version '1.0'
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for .dll and .exe files ... OK
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  ..Rcheck
+  R/..Rcheck
+These were most likely included in error. See section 'Package
+structure' in the 'Writing R Extensions' manual.
+* checking for portable file names ... OK
+* checking whether package 'weatherPkg' can be installed ... WARNING
+Found the following significant warnings:
+  Warning: C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:33: All text must be in a section
+  Warning: C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:34: All text must be in a section
+See 'C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/..Rcheck/00install.out' for details.
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... WARNING
+Found the following directories with names of check directories:
+  ./..Rcheck
+  ./R/..Rcheck
+Most likely, these were included erroneously.
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking for unstated dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+readWeather1: no visible global function definition for 'melt'
+* checking Rd files ... WARNING
+prepare_Rd: weatherPkg-package.Rd:33: All text must be in a section
+prepare_Rd: weatherPkg-package.Rd:34: All text must be in a section
+* checking Rd metadata ... OK
+* checking Rd cross-references ... WARNING
+Unknown package '<pkg>' in Rd xrefs
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... WARNING
+Warning: parse error in file 'weatherPkg-Ex.R':
+55:11: unexpected symbol
+54: 
+55: ~~ simple examples
+             ^
+* checking examples ... ERROR
+Running examples in 'weatherPkg-Ex.R' failed
+The error most likely occurred in:
+
+> ### Name: read
+> ### Title: Reads tables
+> ### Aliases: read
+> 
+> ### ** Examples
+> 
+> weather2 = read("./inst/extdata/link1.txt", FALSE, 1, 3)
+Warning in file(file, "rt") :
+  cannot open file './inst/extdata/link1.txt': No such file or directory
+Error in file(file, "rt") : cannot open the connection
+Calls: read -> read.table -> file
+Execution halted

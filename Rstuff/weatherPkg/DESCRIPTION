@@ -1,0 +1,16 @@
+Package: weatherPkg
+Type: Package
+Title: Temperature in Williamstown, Massachusetts
+Version: 1.0
+Date: 2013-06-24
+Author: Angel Zhou and Michaela Kane
+Maintainer: Angel Zhou <angel.zhou@hutchinhill.com>; Michaela Kane
+    <michaela.kane@hutchinhill.com>
+Description: This package contains three R functions that create data frames of
+    the temperatures in Williamstown, Massachusetts, monthly from 1892 to 2010,
+    daily from 1983 to 2007, and daily from 2005 to 2013
+License: MIT
+Collate:
+    'read.R'
+    'weatherPkg-internal.R'
+    'readWeather1.R'
