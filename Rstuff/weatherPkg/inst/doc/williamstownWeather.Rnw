@@ -35,3 +35,4 @@ This takes the information from the following link:
 
 and creates a data frame of the date compared to the daily temperature
 in degrees Farenheit of Williamstown, MA from 1983 to 2007.
+\end{document}
