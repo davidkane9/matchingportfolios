@@ -16,4 +16,3 @@ Hi guys, here are some steps to get started using git:
 - Finally, type `git push git@github.com:mjfwilliams/WilliamstownWeather`
 
 
-
