@@ -9,11 +9,6 @@
 #' @param yVar Second variable for data frame
 #'
 #' @export
-#' @examples
-#'
-#' weather2 = read(system.file("raw/link1.txt", package="weatherPkg"), FALSE, 1, 3)
-#'
-#' weather3 = read(system.file("raw/link2.txt", package="weatherPkg"), TRUE, 1, 2)
 
 read <- function(fileName, s, xVar, yVar){
     if (s)
