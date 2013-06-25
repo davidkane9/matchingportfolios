@@ -15,7 +15,7 @@
 readWeather1 <- function(fileName, h, dateFormat) {
     dframe = read.table(fileName, header = h)
     mframe = melt(dframe, id = "Year")
-    stringDates <- paste(mframe$p="/")
+    stringDates <- paste(mframe$variable, mframe$Year, 20, sep="/")
     Date = as.Date(stringDates, format=dateFormat)
     Temperature <- mframe$value
     cleanFrame <- data.frame(Date, Temperature)
