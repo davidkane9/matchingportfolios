@@ -24,20 +24,18 @@ Type 'q()' to quit R.
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > cleanEx()
-> nameEx("read")
-> ### * read
+> nameEx("readWeather1")
+> ### * readWeather1
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: read
+> ### Name: readWeather1
 > ### Title: Reads tables
-> ### Aliases: read
+> ### Aliases: readWeather1
 > 
 > ### ** Examples
 > 
-> weather2 = read("./inst/extdata/link1.txt", FALSE, 1, 3)
-Warning in file(file, "rt") :
-  cannot open file './inst/extdata/link1.txt': No such file or directory
-Error in file(file, "rt") : cannot open the connection
-Calls: read -> read.table -> file
+> weather1 = readWeather1("weather.txt", TRUE, "%b/%Y/%d")
+Error in library(reshape) : there is no package called 'reshape'
+Calls: readWeather1 -> library
 Execution halted

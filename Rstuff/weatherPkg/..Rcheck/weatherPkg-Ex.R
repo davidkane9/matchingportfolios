@@ -5,24 +5,6 @@ library('weatherPkg')
 
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 cleanEx()
-nameEx("read")
-### * read
-
-flush(stderr()); flush(stdout())
-
-### Name: read
-### Title: Reads tables
-### Aliases: read
-
-### ** Examples
-
-weather2 = read("./inst/extdata/link1.txt", FALSE, 1, 3)
-
-weather3 = read("link2.txt", TRUE, 1, 2)
-
-
-
-cleanEx()
 nameEx("readWeather1")
 ### * readWeather1
 

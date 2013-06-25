@@ -13,6 +13,7 @@
 #' weather1 = readWeather1("weather.txt", TRUE, "%b/%Y/%d")
 
 readWeather1 <- function(fileName, h, dateFormat) {
+	library(reshape)
     dframe = read.table(fileName, header = h)
     mframe = melt(dframe, id = "Year")
     stringDates <- paste(mframe, sep = "/")

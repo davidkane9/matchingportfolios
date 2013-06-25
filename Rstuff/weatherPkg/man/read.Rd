@@ -18,9 +18,4 @@
   Creates a data frame with desirable data from data tables
   formatted the way they are in links 2 and 3.
 }
-\examples{
-weather2 = read("./inst/extdata/link1.txt", FALSE, 1, 3)
-
-weather3 = read("link2.txt", TRUE, 1, 2)
-}
 
