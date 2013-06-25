@@ -1,13 +1,13 @@
-* installing *source* package 'weatherPkg' ...
+* installing *source* package ‘weatherPkg’ ...
 ** R
 ** inst
 ** preparing package for lazy loading
 ** help
-Warning: C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:33: All text must be in a section
-Warning: C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:34: All text must be in a section
+Warning: /Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:33: All text must be in a section
+Warning: /Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:34: All text must be in a section
 *** installing help indices
 ** building package indices
+** installing vignettes
+   ‘williamstownWeather.Rnw’ 
 ** testing if installed package can be loaded
-*** arch - i386
-*** arch - x64
 * DONE (weatherPkg)

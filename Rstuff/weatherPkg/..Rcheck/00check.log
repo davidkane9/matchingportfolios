@@ -1,35 +1,47 @@
-* using log directory 'C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/..Rcheck'
+* using log directory ‘/Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/..Rcheck’
 * using R version 3.0.1 (2013-05-16)
-* using platform: i386-w64-mingw32 (32-bit)
-* using session charset: ISO8859-1
-* checking for file './DESCRIPTION' ... OK
+* using platform: x86_64-apple-darwin10.8.0 (64-bit)
+* using session charset: UTF-8
+* checking for file ‘./DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package 'weatherPkg' version '1.0'
+* this is package ‘weatherPkg’ version ‘1.0’
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
 * checking if there is a namespace ... OK
-* checking for .dll and .exe files ... OK
+* checking for executable files ... OK
 * checking for hidden files and directories ... NOTE
 Found the following hidden files and directories:
+  .DS_Store
+  R/.DS_Store
+  R/.Rapp.history
+  inst/.DS_Store
   ..Rcheck
+  R/...Rcheck
   R/..Rcheck
-These were most likely included in error. See section 'Package
-structure' in the 'Writing R Extensions' manual.
+These were most likely included in error. See section ‘Package
+structure’ in the ‘Writing R Extensions’ manual.
 * checking for portable file names ... OK
-* checking whether package 'weatherPkg' can be installed ... WARNING
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘weatherPkg’ can be installed ... WARNING
 Found the following significant warnings:
-  Warning: C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:33: All text must be in a section
-  Warning: C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:34: All text must be in a section
-See 'C:/Users/Angel Zhou/Desktop/WilliamstownWeather/Rstuff/weatherPkg/..Rcheck/00install.out' for details.
+  Warning: /Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:33: All text must be in a section
+  Warning: /Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/man/weatherPkg-package.Rd:34: All text must be in a section
+See ‘/Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/..Rcheck/00install.out’ for details.
+* checking installed package size ... OK
 * checking package directory ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK
-* checking index information ... OK
+* checking index information ... WARNING
+Vignettes with missing or empty \VignetteIndexEntry:
+[1] "williamstownWeather.Rnw"
+See the information on INDEX files and package subdirectories in the
+chapter ‘Creating R packages’ of the ‘Writing R Extensions’ manual.
 * checking package subdirectories ... WARNING
 Found the following directories with names of check directories:
   ./..Rcheck
+  ./R/...Rcheck
   ./R/..Rcheck
 Most likely, these were included erroneously.
 * checking R files for non-ASCII characters ... OK
@@ -45,25 +57,31 @@ Most likely, these were included erroneously.
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... NOTE
-readWeather1: no visible global function definition for 'melt'
+readWeather1: no visible global function definition for ‘melt’
 * checking Rd files ... WARNING
 prepare_Rd: weatherPkg-package.Rd:33: All text must be in a section
 prepare_Rd: weatherPkg-package.Rd:34: All text must be in a section
 * checking Rd metadata ... OK
 * checking Rd cross-references ... WARNING
-Unknown package '<pkg>' in Rd xrefs
+Unknown package ‘<pkg>’ in Rd xrefs
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... OK
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... WARNING
-Warning: parse error in file 'weatherPkg-Ex.R':
-55:11: unexpected symbol
-54: 
-55: ~~ simple examples
+Warning: parse error in file ‘weatherPkg-Ex.R’:
+54:11: unexpected symbol
+53: 
+54: ~~ simple examples
              ^
+* checking installed files from ‘inst/doc’ ... NOTE
+The following files should probably not be installed:
+  ‘williamstownWeather.Rnw~’
+
+Consider the use of a .Rinstignore file: see ‘Writing R Extensions’,
+or move the vignette sources from ‘inst/doc’ to ‘vignettes’.
 * checking examples ... ERROR
-Running examples in 'weatherPkg-Ex.R' failed
+Running examples in ‘weatherPkg-Ex.R’ failed
 The error most likely occurred in:
 
 > ### Name: read

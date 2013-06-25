@@ -1,0 +1,37 @@
+\documentclass{article}
+
+
+\begin{document}
+
+\title{Williamstown Weather Package}
+\author{Angel Zhou and Michaela Kane}
+\maketitle
+
+\section*{Introduction}
+
+The Williamstown Weather package takes data tables of the temperatures
+(in degrees Farenheit) of Williamstown, MA and, from the tables,
+extracts the desired data sets of date and temperature and puts them
+into a new data frame.
+
+\section*{The Read Weather 1 Function}
+The \verb+readWeather1+ function takes data formatted in a similar
+manner to that of the table at
+\verb+http://web.williams.edu/weather/100_history.php?type=Temperature+, 
+and creates a data frame directly comparing the date to the monthly
+temperatures in Williamstown, MA from 1892 to 2010. This function
+accepts as parameters the \verb+fileName+ (the name of the text file
+of data to be used), the logical \verb+h+ value (if \verb+TRUE+, it
+keeps the current header), and the \verb+dateFormat+ (what format the
+date object should be read in as).
+
+\subsection*{Weather 2}
+This takes the information from the following link:
+
+and creates a data frame of the date compared to the daily temperature
+in degrees Farenheit of Williamstown, MA from 2005 to 2013.
+\subsection*{Weather 3}
+This takes the information from the following link:
+
+and creates a data frame of the date compared to the daily temperature
+in degrees Farenheit of Williamstown, MA from 1983 to 2007.

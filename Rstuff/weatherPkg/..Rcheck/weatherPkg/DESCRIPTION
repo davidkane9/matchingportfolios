@@ -11,4 +11,4 @@ Description: This package contains three R functions that create data frames of
     daily from 1983 to 2007, and daily from 2005 to 2013
 License: MIT
 Collate: 'read.R' 'weatherPkg-internal.R' 'readWeather1.R'
-Built: R 3.0.1; ; 2013-06-24 17:58:03 UTC; windows
+Built: R 3.0.1; ; 2013-06-25 14:10:25 UTC; unix

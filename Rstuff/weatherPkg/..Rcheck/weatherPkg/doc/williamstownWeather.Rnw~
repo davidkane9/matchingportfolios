@@ -1,0 +1,31 @@
+\documentclass{article}
+
+
+\begin{document}
+
+\title{Williamstown Weather Data}
+\author{Angel Zhou and Michaela Kane}
+\maketitle
+
+\section*{Introduction}
+
+The following document provides an illustration of the temperatures in degrees Farenheit of
+Williamstown, MA.
+
+\section*{The Read Weather 1 Function}
+This takes the information from the following link:
+
+and creates a data frame directly comparing the date to the monthly
+temperature in Williamstown, MA from 1892 to 2010.
+
+\section*{The Read Function}
+\subsection*{Weather 2}
+This takes the information from the following link:
+
+and creates a data frame of the date compared to the daily temperature
+in degrees Farenheit of Williamstown, MA from 2005 to 2013.
+\subsection*{Weather 3}
+This takes the information from the following link:
+
+and creates a data frame of the date compared to the daily temperature
+in degrees Farenheit of Williamstown, MA from 1983 to 2007.
