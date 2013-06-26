@@ -1,33 +1,3 @@
-scan(file="", what=double(0), nmax=-1, n=-1, sep="", quote= if (sep=="\n") "" else " \"", dec="", skip=0, nlines=0, na.strings="NA", flush=FALSE, fill=FALSE, strip.white=FALSE, quiet=FALSE, blank.lines.skip=TRUE, multi.line=TRUE, comment.char="", allowEscapes=TRUE)
-scan(file="", what=double(0), nmax=-1, sep="", quote= if (sep=="\n") "" else " \"", dec="", skip=0, nlines=0, na.strings="NA", flush=FALSE, fill=FALSE, strip.white=FALSE, quiet=FALSE, blank.lines.skip=TRUE, multi.line=TRUE, comment.char="", allowEscapes=TRUE)
-ls(pat=:^m)
-ls(pat="^m")
-r<- "r"
-r
-r<- q
-r
-?read.fwf
-Rtest
-Rtest.R
-¬Rtest.R
-mydata<- scan("data.txt", what=list("", 0, 0))
-?device
-split.screen(c(1, 2))
-layout.show(4)
-layout(matrix(1:6, 3, 2))
-layout.show(6)
-m<-matrix(c(1:3, 3), 2, 2)
-layout(m)
-layout.show(3)
-layout.show(2)
-layout.show(4)
-m<-matrix(scan(), 5, 5)
-layout(m)
-layout.show(5)
-plot(m)
-x<-1:20
-plot(x)
-plot(1:20, 20:1)
 boxplot(x)
 stripchart(x)
 dotchart(x)
@@ -242,9 +212,39 @@ d + stat_bin(aes(y=1, fill=..count..), binwidth=0.1, geom="tile", position="iden
 ?INSTALL
 ?REMOVE
 ?INSTALL
-getwd()
-setwd("/Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg")
-install.packages(roxygen2)
-install.packages("roxygen2")
-library(roxygen2)
-document()
+install.packages(lubridate)
+install.packages("lubridate")
+library(lubridate)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE, "%b/%Y/%d")
+library(weatherPkg)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE, "%b/%Y/%d")
+library(reshape)
+install.packages("reshape")
+library(reshape)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE, "%b/%Y/%d")
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+debug(readWeather1)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+head(dframe)
+head(mframe)
+head(stringDates)
+q
+debug(readWeather1)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+mframe
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+library(weatherPkg)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+library(reshape)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+debug(readWeather1)
+weather1 = readWeather1(system.file("raw/weather.txt", package="weatherPkg"), TRUE)
+head(mframe)
+library(devtools)
+install_github("WilliamstownWeather", subdir="Rstuff/weatherPkg", username="michaelakane", password="eaglewing12")
+install.packages("Rtools")
+library("devtools")
+install_github("WilliamstownWeather", subdir="Rstuff/weatherPkg", username="mjfwilliams")
+setwd("Desktop/WilliamstownWeather/Rstuff/weatherPkg")
+library(knitr)
+knit2pdf("williamstownWeather.Rnw")
