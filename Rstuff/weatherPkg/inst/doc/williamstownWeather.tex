@@ -146,24 +146,20 @@ Williamstown, Massachusetts from 1983 to 2007.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-dailyTemp <- \hlfunctioncall{read.table}(\hlstring{"dailyTemp2.txt"}, sep = \hlstring{"\textbackslash{}t"})
+y <- \hlfunctioncall{read.table}(\hlstring{"dailyTemp2.txt"}, sep = \hlstring{"\textbackslash{}t"})
 date <- y[, 1]
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: incorrect number of dimensions}}\begin{alltt}
 Temperature <- y[, 2]
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: incorrect number of dimensions}}\begin{alltt}
 dateTrim <- \hlfunctioncall{strtrim}(date, 10)
 Date <- \hlfunctioncall{as.Date}(dateTrim)
-y <- \hlfunctioncall{ggplot}(dailyTemp, \hlfunctioncall{aes}(Date, Temperature))
+y <- \hlfunctioncall{ggplot}(y, \hlfunctioncall{aes}(Date, Temperature))
 y <- y + \hlfunctioncall{layer}(geom = \hlstring{"point"})
-\hlcomment{## y}
+y
 \end{alltt}
-\end{kframe}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 1 rows containing missing values (geom\_point).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/graph3} 
+
 \end{knitrout}
 
 

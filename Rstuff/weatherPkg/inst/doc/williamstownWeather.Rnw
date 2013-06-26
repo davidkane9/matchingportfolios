@@ -75,14 +75,14 @@ This graph illustrates the average daily temperatures in degrees Celsius of
 Williamstown, Massachusetts from 1983 to 2007.
 
 <<graph3, fig.width = 6, fig.height = 4, cache = TRUE>>=
-dailyTemp <- read.table("dailyTemp2.txt", sep = "\t")
+y <- read.table("dailyTemp2.txt", sep = "\t")
 date <- y[,1]
 Temperature <- y[,2]
 dateTrim <- strtrim(date, 10)
 Date <- as.Date(dateTrim)
-y <- ggplot(dailyTemp, aes(Date, Temperature))
+y <- ggplot(y, aes(Date, Temperature))
 y <- y + layer(geom="point")
-##y
+y
 @
 
 \end{document}
