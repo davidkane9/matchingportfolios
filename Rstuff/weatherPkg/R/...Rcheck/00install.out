@@ -1,9 +1,0 @@
-* installing *source* package ‘weatherPkg’ ...
-** R
-Error in parse(outFile) : 
-  /Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/R/readWeather1.R:18:34: unexpected '='
-17:     mframe = melt(dframe, id = "Year")
-18:     stringDates <- paste(mframe$p=
-                                    ^
-ERROR: unable to collate and parse R files for package ‘weatherPkg’
-* removing ‘/Users/mkane/Desktop/WilliamstownWeather/Rstuff/weatherPkg/R/...Rcheck/weatherPkg’
