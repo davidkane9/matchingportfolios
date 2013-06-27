@@ -53,8 +53,8 @@
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
+\usepackage{pdflscape}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-
 
 \begin{document}
 
@@ -148,19 +148,24 @@ Williamstown, Massachusetts from 1983 to 2007.
 \begin{alltt}
 y <- \hlfunctioncall{read.table}(\hlstring{"dailyTemp2.txt"}, sep = \hlstring{"\textbackslash{}t"})
 date <- y[, 1]
-Temperature <- y[, 2]
+y$Temperature <- y[, 2]
 dateTrim <- \hlfunctioncall{strtrim}(date, 10)
-Date <- \hlfunctioncall{as.Date}(dateTrim)
-y <- \hlfunctioncall{ggplot}(y, \hlfunctioncall{aes}(Date, Temperature))
-y <- y + \hlfunctioncall{layer}(geom = \hlstring{"point"})
-y
+y$Date <- \hlfunctioncall{as.Date}(dateTrim)
+p <- \hlfunctioncall{ggplot}(y, \hlfunctioncall{aes}(Date, Temperature))
+p <- p + \hlfunctioncall{geom_point}(size = 0.5, na.rm = TRUE)
+p <- p + \hlfunctioncall{layer}(geom = \hlstring{"smooth"}, method = \hlstring{"lm"}, na.rm = TRUE)
 \end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 1 rows containing missing values (geom\_point).}}\end{kframe}
-\includegraphics[width=\maxwidth]{figure/graph3} 
+\begin{landscape}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/graph3Landscape} 
 
 \end{knitrout}
 
+\end{landscape}
 
 \end{document}

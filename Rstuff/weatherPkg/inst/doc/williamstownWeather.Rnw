@@ -1,5 +1,5 @@
 \documentclass{article}
-
+\usepackage{pdflscape}
 
 \begin{document}
 
@@ -29,7 +29,7 @@ date object should be read in as).
 This is a box-and-whiskers plot of the monthly temperatures of
 Williamstown, Massachusetts as recorded from January 1892 to December 2010.
 
-<<graph1_5, fig.width = 6, fig.height = 4, cache = TRUE>>=
+<<graph1_5, fig.width = 6, fig.height = 4, cache = FALSE>>=
 library(lubridate)
 library(reshape)
 library(ggplot2)
@@ -74,15 +74,21 @@ in degrees Farenheit of Williamstown, MA from 1983 to 2007.
 This graph illustrates the average daily temperatures in degrees Celsius of
 Williamstown, Massachusetts from 1983 to 2007.
 
-<<graph3, fig.width = 6, fig.height = 4, cache = TRUE>>=
+<<graph3, fig.width = 6, fig.height = 4, cache = FALSE>>=
 y <- read.table("dailyTemp2.txt", sep = "\t")
 date <- y[,1]
-Temperature <- y[,2]
+y$Temperature <- y[,2]
 dateTrim <- strtrim(date, 10)
-Date <- as.Date(dateTrim)
-y <- ggplot(y, aes(Date, Temperature))
-y <- y + layer(geom="point")
-y
+y$Date <- as.Date(dateTrim)
+p <- ggplot(y, aes(Date, Temperature))
+p <- p + geom_point(size = .5, na.rm = TRUE)
+p <- p + layer(geom = "smooth", method = "lm", na.rm = TRUE)
 @
+
+\begin{landscape}
+<<graph3Landscape, fig.width = 10, fig.height = 6, cache = FALSE, echo = FALSE>>=
+p
+@
+\end{landscape}
 
 \end{document}
