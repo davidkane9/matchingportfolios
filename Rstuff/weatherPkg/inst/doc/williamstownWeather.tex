@@ -121,8 +121,10 @@ Williamstown, Massachusetts from 2005 to 2013.
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 x <- \hlfunctioncall{read.table}(\hlstring{"dailyTemp1.txt"})
-Date <- x[, 1]
+date <- x[, 1]
 Temperature <- x[, 3]
+dateTrim <- \hlfunctioncall{strtrim}(date, 10)
+Date <- \hlfunctioncall{as.Date}(dateTrim)
 y <- \hlfunctioncall{ggplot}(x, \hlfunctioncall{aes}(Date, Temperature))
 y <- y + \hlfunctioncall{layer}(geom = \hlstring{"point"})
 y
@@ -146,6 +148,7 @@ Williamstown, Massachusetts from 1983 to 2007.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+<<<<<<< HEAD
 y <- \hlfunctioncall{read.table}(\hlstring{"dailyTemp2.txt"}, sep = \hlstring{"\textbackslash{}t"})
 date <- y[, 1]
 y$Temperature <- y[, 2]
@@ -154,6 +157,16 @@ y$Date <- \hlfunctioncall{as.Date}(dateTrim)
 p <- \hlfunctioncall{ggplot}(y, \hlfunctioncall{aes}(Date, Temperature))
 p <- p + \hlfunctioncall{geom_point}(size = 0.5, na.rm = TRUE)
 p <- p + \hlfunctioncall{layer}(geom = \hlstring{"smooth"}, method = \hlstring{"lm"}, na.rm = TRUE)
+=======
+x <- \hlfunctioncall{read.table}(\hlstring{"dailyTemp2.txt"}, sep = \hlstring{"\textbackslash{}t"})
+date <- x[, 1]
+Temperature <- x[, 2]
+dateTrim <- \hlfunctioncall{strtrim}(date, 10)
+Date <- \hlfunctioncall{as.Date}(dateTrim)
+y <- \hlfunctioncall{ggplot}(x, \hlfunctioncall{aes}(Date, Temperature))
+y <- y + \hlfunctioncall{layer}(geom = \hlstring{"point"})
+y
+>>>>>>> 03758425ac864f6203be0d0ce3068a22c09e93d1
 \end{alltt}
 \end{kframe}
 \end{knitrout}

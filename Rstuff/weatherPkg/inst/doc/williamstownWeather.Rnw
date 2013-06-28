@@ -57,8 +57,10 @@ Williamstown, Massachusetts from 2005 to 2013.
 
 <<graph2, fig.width = 6, fig.height = 4, cache = TRUE>>=
 x <- read.table("dailyTemp1.txt")
-Date <- x[,1]
+date <- x[,1]
 Temperature <- x[,3]
+dateTrim <- strtrim(date, 10)
+Date <- as.Date(dateTrim)
 y <- ggplot(x, aes(Date, Temperature))
 y <- y + layer(geom="point")
 y
@@ -74,6 +76,7 @@ in degrees Farenheit of Williamstown, MA from 1983 to 2007.
 This graph illustrates the average daily temperatures in degrees Celsius of
 Williamstown, Massachusetts from 1983 to 2007.
 
+<<<<<<< HEAD
 <<graph3, fig.width = 6, fig.height = 4, cache = FALSE>>=
 y <- read.table("dailyTemp2.txt", sep = "\t")
 date <- y[,1]
@@ -88,6 +91,17 @@ p <- p + layer(geom = "smooth", method = "lm", na.rm = TRUE)
 \begin{landscape}
 <<graph3Landscape, fig.width = 10, fig.height = 6, cache = FALSE, echo = FALSE>>=
 p
+=======
+<<graph3, fig.width = 6, fig.height = 4, cache = TRUE>>=
+x <- read.table("dailyTemp2.txt", sep="\t")
+date <- x[,1]
+Temperature <- x[,2]
+dateTrim <- strtrim(date, 10)
+Date <- as.Date(dateTrim)
+y <- ggplot(x, aes(Date, Temperature))
+y <- y + layer(geom = "point")
+y
+>>>>>>> 03758425ac864f6203be0d0ce3068a22c09e93d1
 @
 \end{landscape}
 

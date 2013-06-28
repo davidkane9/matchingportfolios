@@ -57,7 +57,7 @@ date <- y[,1]
 Temperature <- y[,2]
 dateTrim <- strtrim(date, 10)
 Date <- as.Date(dateTrim)
-y <- ggplot(weather3, aes(Date, Temperature))
+y <- ggplot(y, aes(Date, Temperature))
 y <- y + layer(geom="point")
 y
 @
