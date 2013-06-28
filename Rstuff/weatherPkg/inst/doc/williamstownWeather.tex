@@ -171,6 +171,20 @@ p <- p + \hlfunctioncall{geom_point}(size = 0.6)
 \end{figure}
 \end{landscape}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+dateObj <- \hlfunctioncall{as.Date}(Date)
+Month <- \hlfunctioncall{month}(dateObj, label = TRUE)
+p2 <- \hlfunctioncall{ggplot}(x, \hlfunctioncall{aes}(Month, Temperature))
+bp <- p2 + \hlfunctioncall{geom_boxplot}()
+bp
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/graph2BoxPlot} 
+
+\end{knitrout}
+
 
 \subsection*{Weather 3}
 This takes the information from the following link:
@@ -208,5 +222,20 @@ p <- p + \hlfunctioncall{layer}(geom = \hlstring{"smooth"}, method = \hlstring{"
   January 1, 1983 to December 31, 2007.}
 \end{figure}
 \end{landscape}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+dateObj <- \hlfunctioncall{as.Date}(date)
+Month <- \hlfunctioncall{month}(dateObj, label = TRUE)
+p3 <- \hlfunctioncall{ggplot}(y, \hlfunctioncall{aes}(Month, Temperature))
+bp <- p3 + \hlfunctioncall{geom_boxplot}(na.rm = TRUE)
+bp
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/graph3BoxPlot} 
+
+\end{knitrout}
+
 
 \end{document}

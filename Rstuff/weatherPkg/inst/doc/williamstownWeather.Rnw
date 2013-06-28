@@ -93,6 +93,13 @@ p
 \end{figure}
 \end{landscape}
 
+ <<graph2BoxPlot, fig.width = 10, fig.height = 6, cache = FALSE>>=
+ dateObj <- as.Date(Date)
+  Month <- month(dateObj, label = TRUE)
+ p2 <- ggplot(x, aes(Month, Temperature))
+ bp <- p2 + geom_boxplot()
+bp
+@
 
 \subsection*{Weather 3}
 This takes the information from the following link:
@@ -122,5 +129,13 @@ p
   January 1, 1983 to December 31, 2007.}
 \end{figure}
 \end{landscape}
+
+ <<graph3BoxPlot, fig.width = 10, fig.height = 6, cache = FALSE>>=
+dateObj <- as.Date(date)
+Month <- month(dateObj, label = TRUE)
+p3 <- ggplot(y, aes(Month, Temperature))
+bp <- p3 + geom_boxplot(na.rm = TRUE)
+bp
+@
 
 \end{document}
