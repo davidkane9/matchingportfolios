@@ -57,17 +57,26 @@ p
   1892 to December 2010.}
 \end{figure}
 \end{landscape}
+
+\subsection{Analysis}
+Because the data was collected monthly over a term of over 200 years, the plot is quite crowded. However, we notice
+that the fluctuation in temperature over the course of each year has not changed significantly despite theories regarding
+global warming and climate change. This could be due to Williamstown's relatively remote location or to its low population,
+but overall very little change is seen between the relative maximums/minimums in temperature.
+
 \begin{figure}
 <<graph1_5, fig.width = 6, fig.height = 4, cache = FALSE>>=
 bp <- ggplot(y, aes(Month, Temperatures)) + geom_boxplot()
 bp
 @
 
-\caption{This box-and-whiskers plot illustrates the monthly
-  temperatures in degrees Farenheit of Williamstown, Massachusetts as recorded from January 1892 to December 2010.}
+\caption{This box-and-whiskers plot illustrates the monthly temperatures in degrees Farenheit of Williamstown, Massachusetts as recorded each month from January 1892 to December 2010.}
 \end{figure}
 
-\subsection*{Weather 2}
+\subsection{Analysis}
+While the temperature does not fluctuate in the mid-year months (most notably May through September), the winter months (especially January and December) vary greatly in terms of temperature. This is unusual, as one would expect the transitional months of spring and fall to fluctuate the most due to their transient nature.
+
+\section*{Weather 2}
 This takes the information from the following link:
 \verb+http://web.williams.edu/weather/current_get_date_range.php?start=10_01_2005&end=6_10_2013&interval=24hours+
 and creates a data frame of the date compared to the daily temperature
@@ -87,12 +96,14 @@ p <- p + geom_point(size = .6)
 p
 @
 
-\caption{This scatterplot illustrates the average daily temperatures in
-  degrees Celsius of Williamstown, Massachusetts as recorded from
-  October 1, 2005 to June 10,  2013.}
+\caption{This scatterplot illustrates the average daily temperatures in degrees Celsius of Williamstown, Massachusetts as recorded from October 1, 2005 to June 10,  2013.}
 \end{figure}
 \end{landscape}
 
+\subsection{Analysis}
+The temperatures fluctuate regularly over the 7 years, reaching a relative minimums of approximately -17 degrees Celsius and relative maximums of approximately 27 degrees Celsius.
+
+\begin{figure}
  <<graph2BoxPlot, fig.width = 10, fig.height = 6, cache = FALSE>>=
  dateObj <- as.Date(Date)
   Month <- month(dateObj, label = TRUE)
@@ -100,8 +111,13 @@ p
  bp <- p2 + geom_boxplot()
 bp
 @
+\caption{This box-and-whiskers plot illustrates the monthly temperatures in degrees Celsius of Williamstown, Massachusetts as recorded daily from October 1, 2005 to June 10, 2013.
+\end{figure}
 
-\subsection*{Weather 3}
+\subsection{Analysis}
+Once again we see that the greatest fluctuation in temperature is found in January and December, while the least fluctuation occurs in June through August.
+
+\section*{Weather 3}
 This takes the information from the following link:
  \verb+http://web.williams.edu/weather/archive_get_date_range.php?begin=1_01_1983&end=12_31_2007+
 and creates a data frame of the date compared to the daily temperature
@@ -130,6 +146,11 @@ p
 \end{figure}
 \end{landscape}
 
+\subsection{Analysis}
+The temperatures fluctuate regularly over the 24 years, with an average temperature (depicted by the line) of approximately
+8 degrees Celsius.
+
+\begin{figure}
  <<graph3BoxPlot, fig.width = 10, fig.height = 6, cache = FALSE>>=
 dateObj <- as.Date(date)
 Month <- month(dateObj, label = TRUE)
@@ -137,5 +158,10 @@ p3 <- ggplot(y, aes(Month, Temperature))
 bp <- p3 + geom_boxplot(na.rm = TRUE)
 bp
 @
+\caption{This box-and-whiskers plot illustrates the monthly temperatures in degrees Celsius of Williamstown, Massachusetts as recorded daily from January 1, 1983 to December 31, 2007.}
+\end{figure}
+
+\subsection{Analysis}
+Again, the monthly temperatures fluctuate the most in the months of January and February but remain more stable in the months of June, July and August.
 
 \end{document}
