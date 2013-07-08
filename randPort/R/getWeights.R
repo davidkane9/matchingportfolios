@@ -31,12 +31,18 @@ getWeights <- function(Emat, x0, n, verbose = FALSE) {
         m = k + 1;
         while(any(ret[, i] < 0)) {
             reflection = rep(0, ncol(Emat))
-            reflection[which(ret[, i] < 0)] = ret[, i][which(ret[, i] < 0)]
+            overdist = rep(0, ncol(Emat))
+            overdist[which(ret[, i] < 0)] = ret[, i][which(ret[, i] < 0)]
+            dist = sqrt(sum(overdist^2))
+            str = paste("Distance from walls: ", dist)
+            cat(str)
             for (j in 1:ncol(Z)) {
-                ret[, i] = ret[, i] - 2* Z[, j] * (reflection %*% Z[, j])/sqrt(Z[,
-                  j] %*% Z[, j])
+                proj =  Z[, j] * (overdist %*% Z[, j])/Z[,j] %*% Z[, j]
+                reflection = reflection  - proj
+                overdist = overdist - proj
             }
-            ##for(i in 1:nchar(paste(k)))  cat("\b")
+            ret[,i] = ret[,i] + reflection
+            for(j in 1:nchar(str))  cat("\b")
             ##if(verbose) cat(paste(m))
             ##k = m
             ##m = k + 1

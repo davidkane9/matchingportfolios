@@ -1,5 +1,5 @@
 
-
+## randPort class ######################
 setClass("randPort",
          representation = representation(
          match.var = "character",
