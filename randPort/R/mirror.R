@@ -20,11 +20,11 @@ mirror <- function(Emat, x0, n, verbose = FALSE, numjump= 20) {
     ## Would it be better to use apply here?
     nc = ncol(Z)
     mn = mean(x0)
-    ret[, 1] = x0 + Z %*% rnorm(nc, 0, mn)/sqrt(nc)
+    ret[, 1] = x0 + Z %*% rnorm(nc, 0, abs(mn))/sqrt(nc)
     k = 0
     bestjump = 0
     for (i in 2:(n + 1)) {
-        ret[, i] = ret[, i - 1] + Z %*% rnorm(nc, 0, mn)/sqrt(nc)
+        ret[, i] = ret[, i - 1] + Z %*% rnorm(nc, 0, abs(mn))/sqrt(nc)
         while(any(ret[, i] < 0)) {
             reflection = rep(0, ncol(Emat))
             overdist = rep(0, ncol(Emat))

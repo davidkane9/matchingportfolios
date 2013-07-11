@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.6.3)  10 JUL 2013 10:49
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.6.3)  11 JUL 2013 12:34
 entering extended mode
 **vignette.tex
 (C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.tex
@@ -228,30 +228,25 @@ Package color Info: Redefining color shadecolor on input line 93.
 [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
+Package color Info: Redefining color shadecolor on input line 129.
 
- []
+<figure/figChunk1.pdf, id=11, 216.81pt x 216.81pt>
+File: figure/figChunk1.pdf Graphic file (type pdf)
+ <use figure/figChunk1.pdf>
+Package pdftex.def Info: figure/figChunk1.pdf used on input line 130.
+(pdftex.def)             Requested size: 216.80946pt x 216.81938pt.
+Package color Info: Redefining color shadecolor on input line 138.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
-
- []
-
-Package color Info: Redefining color shadecolor on input line 131.
-[2] [3] (C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.aux) ) 
+[2 <C:/Users/Michael/Desktop/randPort/randPort/inst/doc/figure/figChunk1.pdf>]
+[3] [4] (C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.aux) ) 
 Here is how much of TeX's memory you used:
- 2458 strings out of 494045
- 33611 string characters out of 3148382
+ 2465 strings out of 494045
+ 33734 string characters out of 3148382
  93689 words of memory out of 3000000
- 5732 multiletter control sequences out of 15000+200000
+ 5736 multiletter control sequences out of 15000+200000
  11056 words of font info for 44 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 33i,6n,22p,833b,243s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 33i,6n,22p,973b,243s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:
 /Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program
  Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/M
@@ -262,9 +257,9 @@ c/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
 s/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy1
 0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C
 :/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on vignette.pdf (3 pages, 113357 bytes).
+Output written on vignette.pdf (4 pages, 283616 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
+ 61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

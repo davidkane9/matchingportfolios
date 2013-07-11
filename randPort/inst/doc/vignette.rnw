@@ -12,13 +12,14 @@
 
 <<libs, echo = FALSE, warning=FALSE, message = FALSE, error = FALSE>>=
 library(ggplot2)
+library(grid)
 library(devtools)
 load_all("../..")
 @
 
-A simple case to consider is one with only 3 stocks in the universe, say GE, IBM and Coca-Cola (Ko). Assume that there is some data available about these stocks:
+A simple case to consider is one with only 3 stocks in the universe, say GE, IBM and Coca-Cola (KO). Assume that there is some data available about these stocks:
 
-<<myChunk>>=
+<<myChunk, cache = TRUE>>=
 set.seed(40)
 stocks <- data.frame(ticker = c("GE", "IBM", "KO"), sizerank = c(1, 0, -1))
 stocks
@@ -26,7 +27,7 @@ stocks
 
 The most basic constraint is the long-only constraint i.e. the weights of the stock must add up to one and be positive. This can be represented by a linear equation: let the weights of ``GE",``IBM", and ``KO", be $x$, $y$, and $z$, respectively. Then $x+y+z =1$, $x,y,z \ge 0$ are the only constraints. The \verb+randPort+ package is designed to sample underdetermined equations of the form $Ax=b$, with $x \ge 0$ and so it is ideal for this set of constraints. In this case $A = [1,1,1]$ and $b = 1$. With \verb+hitandrun+, we can easily obtain a set of weights that are randomly distributed and fulfill the constraints. 
 
-<<achunk, message = FALSE>>=
+<<achunk, message = FALSE, cache = TRUE>>=
 A <- matrix(c(1,1,1), nrow = 1, ncol = 3)
 A
 b <- 1
@@ -37,10 +38,106 @@ colnames(points) <- stocks$ticker
 head(points)
 @
 
+<<w2, cache=TRUE, echo = FALSE>>=
+w2 <- hitandrun(A, b, n = 100000)
+points2 <- as.data.frame(t(w2))
+colnames(points2) = colnames(points)
+@
+
 The pairwise scatters display the fact that any pair of variables has a sum bounded by 1, but can be anywhere between that line and the axes. 
-\\ \\
-Graphs go here
-\\ \\
+
+<<figChunk1, echo=FALSE, fig.height = 3, fig.width = 3>>=
+scatterTheme1 = theme(
+  panel.background = NULL,
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  axis.title.x = element_blank(),
+  axis.ticks.x = element_blank(),
+  axis.text.x = element_blank(),
+  plot.margin = unit(c(0.1,0.1,0.1,1.5), "lines")
+)
+
+scatterTheme2 = theme(
+  panel.background = NULL,
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  plot.margin = unit(c(0.1,0.1,0.1,1.5), "lines")
+)
+
+scatterTheme3 = theme(
+  panel.background = NULL,
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  axis.title.y = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.text.y = element_blank(),
+  plot.margin = unit(c(0.1,0.5,0.1,0.1), "lines")
+)
+
+histTheme1 = theme(
+  panel.background = element_blank(),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.border = element_blank(),
+  axis.title = element_blank(),
+  axis.ticks = element_blank(),
+  axis.text = element_blank(),
+  plot.margin = unit(c(0.1,0.05,0.1,1.5), "lines")
+)
+
+histTheme2 = theme(
+  panel.background = element_blank(),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.border = element_blank(),
+  axis.title = element_blank(),
+  axis.ticks = element_blank(),
+  axis.text = element_blank(),
+  plot.margin = unit(c(0.1,0.1,0.1,0.1), "lines")
+)
+
+histTheme3 = theme(
+  panel.background = element_blank(),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.border = element_blank(),
+  axis.title.y = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.text.y = element_blank(),
+  plot.margin = unit(c(0.1,0.1,0.1,0.1), "lines")
+)
+
+vp = function(x,y) viewport(layout.pos.row = x, layout.pos.col = y)
+grid.newpage()
+pushViewport(viewport(layout = grid.layout(3, 3)))
+##, heights = unit(c(0.5, 5, 5, 5), "null")
+p1 <- ggplot(data = points, aes(x = GE, y = KO))
+p1 <- p1 + geom_point(size = 1) + scatterTheme2
+
+p2 <- ggplot(data = points, aes(x = GE, y = IBM))
+p2 <- p2 + geom_point(size = 1) + scatterTheme1
+
+p3 <- ggplot(data = points, aes(x = IBM, y = KO))
+p3 <- p3 + geom_point(size = 1) + scatterTheme3
+
+h1 <- ggplot(data = points2, aes(x = GE))
+h1 <- h1 + geom_histogram(binwidth = .125/4, fill = "white", color = "black")
+h1 <- h1 + ylab("Counts") + histTheme1
+
+h2 <- ggplot(data = points2, aes(x = IBM))
+h2 <- h2 + geom_histogram(binwidth = .125/4, fill = "white", color = "black")
+h2 <- h2 + ylab("Counts") + histTheme2
+
+h3 <- ggplot(data = points2, aes(x = KO))
+h3 <- h3 + geom_histogram(binwidth = .125/4, fill = "white", color = "black")
+h3 <- h3 + ylab("Counts") + histTheme3
+print(p1, vp = vp(3,1))
+print(p2, vp = vp(2,1))
+print(p3, vp = vp(3,2))
+print(h1, vp = vp(1,1))
+print(h2, vp = vp(2,2))
+print(h3, vp = vp(3,3))
+@
 
 Perhaps now we want to match a portfolio that has an exposure to size rank of 0.5. This is the same thing as adding a new row to A and b, corresponding to the column ``sizerank" of our stock data and 0.5 respectively.
 
