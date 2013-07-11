@@ -1,5 +1,0 @@
-getWeights.resample <- function(weights, n) {
-    weights.mat = matrix(sample(weights, length(weights)*n, replace = TRUE), ncol = n)
-    weights.mat = apply(weights.mat, 2, function(c) c/sum(c))
-    return(weights.mat)
-}

@@ -9,7 +9,7 @@ b = 1
 ## this sets the random number generator so we can have repeatable results
 set.seed(40)
 
-w = getWeights.hnr(A = Amat, b = b, n = 1000)
+w = hitandrun(A = Amat, b = b, n = 1000)
 points = as.data.frame(t(w))
 colnames(points) = c("GE", "IBM", "KO")
 
