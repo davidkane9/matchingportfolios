@@ -1,5 +1,9 @@
 #' Uniformly samples from {A*x=A*x0} U {x>0}
 hitandrun <- function(A, b = NULL, x0 = NULL, n, discard = 0, skiplength = 5, verbose = FALSE) {
+  if(n <= 0 || n %% 1 != 0){
+    stop("n must be a positive integer")
+  }
+  
     stopifnot(!is.null(x0) || !is.null(b))
     if(is.null(x0)) {
         str = "Finding an intial solution..."
@@ -39,7 +43,11 @@ hitandrun <- function(A, b = NULL, x0 = NULL, n, discard = 0, skiplength = 5, ve
             ## random direction
             u = Z%*%r
             c = y/u
-            ## determine intersections of x + t*u with edges
+            ## determine intersections of x + t*u with
+            ## not sure if the following code is necessary
+            if(tmin == -Inf || tmax == Inf){
+              stop("problem is unbounded")
+            }
             tmin = max(-c[u>0]); tmax = min(-c[u<0]);
             if(tmin==0 && tmax ==0) {
                 stop("found bad direction")
