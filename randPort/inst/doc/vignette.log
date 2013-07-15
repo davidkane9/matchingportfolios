@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.6.3)  11 JUL 2013 12:34
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.6.3)  12 JUL 2013 15:29
 entering extended mode
 **vignette.tex
 (C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.tex
@@ -174,92 +174,153 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\subfig\subfig.sty"
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption.sty"
+Package: caption 2012/02/19 v3.2f Customizing captions (AR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption3.sty"
+Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
+\captionmargin=\dimen127
+\captionmargin@=\dimen128
+\captionwidth=\dimen129
+\caption@indent=\dimen130
+\caption@parindent=\dimen131
+\caption@hangindent=\dimen132
+)
+\c@ContinuedFloat=\count104
+)
+\c@KVtest=\count105
+\sf@farskip=\skip50
+\sf@captopadj=\dimen133
+\sf@capskip=\skip51
+\sf@nearskip=\skip52
+\c@subfigure=\count106
+\c@subfigure@save=\count107
+\c@lofdepth=\count108
+\c@subtable=\count109
+\c@subtable@save=\count110
+\c@lotdepth=\count111
+\sf@top=\skip53
+\sf@bottom=\skip54
+)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
 (C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count104
-\scratchdimen=\dimen127
+\scratchcounter=\count112
+\scratchdimen=\dimen134
 \scratchbox=\box28
-\nofMPsegments=\count105
-\nofMParguments=\count106
+\nofMPsegments=\count113
+\nofMParguments=\count114
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count107
-\MPscratchDim=\dimen128
-\MPnumerator=\count108
-\makeMPintoPDFobject=\count109
+\MPscratchCnt=\count115
+\MPscratchDim=\dimen135
+\MPnumerator=\count116
+\makeMPintoPDFobject=\count117
 \everyMPtoPDFconversion=\toks21
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 65.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 66.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 65.
+LaTeX Font Info:    Try loading font information for U+msb on input line 66.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Package color Info: Redefining color shadecolor on input line 74.
+Package color Info: Redefining color shadecolor on input line 76.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 76.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 78.
 
-Overfull \hbox (48.74657pt too wide) in paragraph at lines 77--77
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 79--79
 []\OT1/cmtt/m/n/10 stocks <- []data.frame[](ticker = []c[]([]"GE"[], []"IBM"[],
  []"KO"[]), sizerank = []c[](1, 0, -1))[] 
  []
 
-Package color Info: Redefining color shadecolor on input line 93.
+Package color Info: Redefining color shadecolor on input line 95.
 [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Package color Info: Redefining color shadecolor on input line 129.
+Package color Info: Redefining color shadecolor on input line 132.
 
-<figure/figChunk1.pdf, id=11, 216.81pt x 216.81pt>
+<figure/figChunk1.pdf, id=12, 361.35pt x 216.81pt>
 File: figure/figChunk1.pdf Graphic file (type pdf)
  <use figure/figChunk1.pdf>
-Package pdftex.def Info: figure/figChunk1.pdf used on input line 130.
-(pdftex.def)             Requested size: 216.80946pt x 216.81938pt.
-Package color Info: Redefining color shadecolor on input line 138.
+Package pdftex.def Info: figure/figChunk1.pdf used on input line 133.
+(pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+Package color Info: Redefining color shadecolor on input line 143.
 
 [2 <C:/Users/Michael/Desktop/randPort/randPort/inst/doc/figure/figChunk1.pdf>]
-[3] [4] (C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.aux) ) 
+Package color Info: Redefining color shadecolor on input line 173.
+
+<figure/plots2.pdf, id=21, 361.35pt x 216.81pt>
+File: figure/plots2.pdf Graphic file (type pdf)
+ <use figure/plots2.pdf>
+Package pdftex.def Info: figure/plots2.pdf used on input line 174.
+(pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+
+<figure/simplex1.png, id=22, 481.8pt x 481.8pt>
+File: figure/simplex1.png Graphic file (type png)
+ <use figure/simplex1.png>
+Package pdftex.def Info: figure/simplex1.png used on input line 190.
+(pdftex.def)             Requested size: 120.44969pt x 120.44969pt.
+
+<figure/simplex2.png, id=23, 481.8pt x 481.8pt>
+File: figure/simplex2.png Graphic file (type png)
+ <use figure/simplex2.png>
+Package pdftex.def Info: figure/simplex2.png used on input line 191.
+(pdftex.def)             Requested size: 120.44969pt x 120.44969pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3] [4 <C:/Users/Michael/Desktop/randPort/randPort/inst/doc/figure/plots2.pdf>]
+[5 <C:/Users/Michael/Desktop/randPort/randPort/inst/doc/figure/simplex1.png> <C
+:/Users/Michael/Desktop/randPort/randPort/inst/doc/figure/simplex2.png>]
+(C:\Users\Michael\Desktop\randPort\randPort\inst\doc\vignette.aux) ) 
 Here is how much of TeX's memory you used:
- 2465 strings out of 494045
- 33734 string characters out of 3148382
- 93689 words of memory out of 3000000
- 5736 multiletter control sequences out of 15000+200000
+ 3630 strings out of 494045
+ 54535 string characters out of 3148382
+ 123250 words of memory out of 3000000
+ 6888 multiletter control sequences out of 15000+200000
  11056 words of font info for 44 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 33i,6n,22p,973b,243s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy1
-0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C
-:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on vignette.pdf (4 pages, 283616 bytes).
+ 44i,10n,46p,1018b,383s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program
+ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
+7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on vignette.pdf (5 pages, 475251 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
+ 78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -55,6 +55,7 @@
 \usepackage{alltt}
 \usepackage{mathtools}
 \usepackage{amsfonts}
+\usepackage{subfig}
 %\VignetteEngine{knitr}
 %\VignetteIndexEntry{}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -64,6 +65,7 @@
 \author{Mike Flynn, Angel Zhou, Dave Kane}
 \maketitle
 
+\section*{Sampling from Linear Inverse problems}
 
 
 
@@ -125,12 +127,15 @@ points <- \hlfunctioncall{as.data.frame}(\hlfunctioncall{t}(w))
 
 The pairwise scatters display the fact that any pair of variables has a sum bounded by 1, but can be anywhere between that line and the axes. 
 
+\begin{figure}[t]
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 \includegraphics[width=\maxwidth]{figure/figChunk1} 
 
 \end{knitrout}
 
+\caption{Consider the case with 3 stocks. The only constraint is that we are fully invested and long-only. For the scatterplots, 1000 random portfolios were sampled. For the histograms, 100,000 samples were taken to increase resolution. Because each stock is exchangeable in the current scheme, we should have that all their weight distributions are identical. For each stock the probability density of its weight decreases linearly as the weight increases. The reason is as follows: each variable is a function of the other 2. For example: let $x$ be GE, $y$-IBM, and $z$-KO. We know $z = 1 - (x+y)$. The most probable value of $(x+y)$ corresponds to the line $y= c-x$ with the most points on it, the longest line. As can be seen in the distributions, the longest such line is $y=1-x$, therefore the most probable value for $x+y$ is 1 and the most probable value for $z$ is 0, and likewise for $x$ and $y$.}
+\end{figure}
 
 Perhaps now we want to match a portfolio that has an exposure to size rank of 0.5. This is the same thing as adding a new row to A and b, corresponding to the column ``sizerank" of our stock data and 0.5 respectively.
 
@@ -138,44 +143,60 @@ Perhaps now we want to match a portfolio that has an exposure to size rank of 0.
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 A <- \hlfunctioncall{rbind}(A, stocks$sizerank)
-b <- \hlfunctioncall{c}(b, 0.5)
+b <- \hlfunctioncall{c}(b, 0)
 
-w2 <- \hlfunctioncall{hitandrun}(A, b, n = 1000)
-points2 <- \hlfunctioncall{as.data.frame}(\hlfunctioncall{t}(w))
-\hlfunctioncall{colnames}(points2) = \hlfunctioncall{colnames}(points)
-\hlfunctioncall{head}(points2)
+w3 <- \hlfunctioncall{hitandrun}(A, b, n = 1000)
+points3 <- \hlfunctioncall{as.data.frame}(\hlfunctioncall{t}(w3))
+\hlfunctioncall{colnames}(points3) <- \hlfunctioncall{colnames}(points)
+\hlfunctioncall{head}(points3)
 \end{alltt}
 \begin{verbatim}
-##        GE     IBM     KO
-## 1 0.10506 0.03877 0.8562
-## 2 0.07990 0.83320 0.0869
-## 3 0.09234 0.80191 0.1057
-## 4 0.14397 0.44635 0.4097
-## 5 0.43460 0.26308 0.3023
-## 6 0.13072 0.19263 0.6766
+##        GE    IBM      KO
+## 1 0.25915 0.4817 0.25915
+## 2 0.12576 0.7485 0.12576
+## 3 0.07995 0.8401 0.07995
+## 4 0.02807 0.9439 0.02807
+## 5 0.40548 0.1890 0.40548
+## 6 0.05422 0.8916 0.05422
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
 
 
-Running this code is equivalent to sampling from the positive solution space of $x+y+z = 1$ and $x-z = .5$, which corresponds to the line segment paramterized by $r(t) = [t, 1.5 - 2t, t - .5]$ with $.5 \le t \le 0.75$. This is very clear when looking at pairwise plots of the variables: 
 
+
+
+Running this code is equivalent to sampling from the positive solution space of $x+y+z = 1$ and $x-z = 0$, which corresponds to the line segment paramterized by $r(t) = [t, 1 - 2t, t]$ with $0 \le t \le 0.5$. This is very clear when looking at pairwise plots of the variables.
+
+\begin{figure}[b]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/plots2} 
+
+\end{knitrout}
+
+\caption{Perhaps we add another constraint that we must be "sizerank" neutral. Again, the scatterplots display 1000 portfolios and the histograms display 100,000. This slices our old plane $x+y+z=1$ by the plane $x - z = 0$. As derived in the text, this curve can be parameterized by $r(t) = [t, 1 - 2t, t]$ with $0 \le t \le 0.5$. This curve can be checked by looking at the pairwise scatter plots (check the end points). Since there is no difference between the number of points at one point of the line vs. another, all the variables are uniformly distributed, however they have different limits, as can be seen by the histograms.}
+\end{figure}
 
 \section*{Geometric Nature of the Problem}
 
-It is easier to picture the space of each problem when looking at things geometrically. Each row of Ax=b corresponds to a linear equation $c_1x_1 + c_2x_2 + \dots + c_n x_n = b_m$. Geometrically, this is an (n-1)-plane in $\mathbb{R}^n$ which our solution must lie in. When there are $m$ rows, our solution must lie in the intersection of those $m$ planes which is itself an $(n-m)$ plane. A concrete example is the 3 stock case with only the long-only constraint. This is the peice of the ($3-1 = 2$)-plane $x+y+z = 1$ that is in the positive quadrant. It forms a triangle. If another constraint is added, we can see this as the intersection of two 2-planes, also known as a line, as you can see via these graphs. When we sample with our function, the random points are distributed uniformly along these shapes. 
+It is easier to picture the space of each problem when looking at things geometrically. Each row of Ax=b corresponds to a linear equation $c_1x_1 + c_2x_2 + \dots + c_n x_n = b_m$. Geometrically, this means our solution lies on an (n-1)-plane in $\mathbb{R}^n$. When there are $m$ rows, our solution must lie in the intersection of those $m$ planes which is itself an $(n-m)$ plane. A concrete example is the 3 stock case with no additional constraints. This is the peice of the ($3-1 = 2$)-plane $x+y+z = 1$ that is in the positive quadrant. It forms a triangle. If another constraint is added, it cuts a slice in this triangle, making the valid solution space a line, as you can see via figure \ref{trifig}. When we sample with our function, the random points are distributed uniformly along these shapes. 
 
-Caption1:
-Consider the case with only 3 stocks and the only constraint is that we are fully invested, long-only. Here are pairwise scatterplots of the variables, as well as histograms for each variable on the diagonals. For the scatterplots, 1000 samples were taken. For the histograms, 100,000 samples were taken to increase resolution. If all the portfolios are distributed uniformly, we should have that all the distributions are identical. Notice that it seems like the probability distribution seems to decrease linearly as each variable increases. The reason can be figured out by looking at the pairwise plots. Each variable is a function of the other 2. For example: $z = 1 - x+y$. The most probable value of $x+y$ corresponds to the line $y= c-x$ with the most points on it, or the longest line. As can be seen in the distributions, the longest such line is $y=1-x$, therefore the most probable value for $x+y$ is 1 and the most probable value for $z$ is 0. 
+Normally we will be dealing with universes much larger than 3 stocks and so the problem becomes harder to picture. The concepts, however, remain the same, we are still just sampling the intersections of planes. In math literature, these shapes are called convex polytopes, and they are very well studied. 
 
-Caption2: 
-Perhaps we add another constraint that we must be "sizerank" neutral. Here are scatterplots and histograms again with the sample sample sizes for each. This effectively slices our current plane by the plane $x - z = 0$. As derived in the text, this curve can be parameterized by $r(t) = [t, 1 - 2t, t]$ with $0 \le t \le 0.5$. This curve can be checked by looking at the pairwise scatter plots (check the end points). Since there is no difference between the number of points at one point of the line vs. another, all the variables are uniformly distributed as can be seen by the histograms. 
+\begin{figure}[h]
+\centering
 
-Caption3: 
-Here it is easy to visualize the simplex, mapped to 2-d coordinates. Every point on the simplex is fully invested, long only. Each vertex is the single position portfolio for GE, IBM, or KO, respectively. The points generated are uniformly distributed on this triangle. 
+\subfloat[][]{\includegraphics[scale=0.25]{figure/simplex1.png}\label{simplex1}}
+\subfloat[][]{\includegraphics[scale=0.25]{figure/simplex2.png}\label{simplex2}}
+\caption{Each vertex of these triangles is a portfolio where we are fully invested in one of the stocks. It is naturally in 3-dimensions, with vertices at $(1,0,0)$, $(0,1,0)$, and $(0,0,1)$, but has been mapped here to 2-dimensions.\\ \protect\subref{simplex1} Here the points only have the constraint that they must add up to 1. As you can see, they are uniformly distributed on this triangle.
+ \\ \protect\subref{simplex2} Here we have added the constraint: $x-z=0$. As you can see, only certain points on a line are allowed.Full investment in IBM is allowed because it has a natural exposure to ``sizerank" of 0, and the half and half portfolio with GE and KO is allowed because their average ``sizerank" is 0. The line connecting them is the set of all portfolios fulfilling the constraints and we have sampled them uniformly. It is considerably easier to fully sample a space of smaller dimension.}
+ \label{trifig}
+\end{figure}
 
-Caption4:
-This is the corresponding slice of the simplex. As you can see, only certain points, on a line, are allowed. Full investment in IBM is allowed because it has a natural exposure to ``sizerank" of 0, and the half and half portfolio with GE and KO is allowed because their average ``sizerank" is 0. The line connecting them is the set of valid portfolios. 
+\section*{Algorithm} 
+
+
 
 
 \end{document}

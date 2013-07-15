@@ -8,10 +8,12 @@ Maintainer: Mike Flynn <mjf2@williams.edu>; Angel Zhou <azhou@bbns.org>
 Depends:
     R (>= 2.15.0),
     MASS,
-    limSolve
+    limSolve,
+    knitr
 Description: Creates random Portfolios to test the skill of a portfolio manager
 License: GPL-2
 LazyLoad: yes
+VignetteBuilder: knitr
 Collate:
     'getWeights.R'
     'AllClasses.R'

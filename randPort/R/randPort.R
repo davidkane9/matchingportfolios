@@ -13,36 +13,54 @@
 #' @export
 #' @examples
 #'
-#' rP = randPort(jan, "value", "portfolio", 10)
+#' rP = randPort(data = jan, match.var = "value",exposures = 0, n = 1000 )
 
-randPort <- function(data, match.var, weight.var, n, type) {
+randPort <- function(data, match.var=NULL, weight.var=NULL, exposures=NULL, n,
+                     verbose = FALSE) {
 
 
     stopifnot(all(match.var %in% names(data)))
-    stopifnot(length(weight.var) == 1)
-    stopifnot(weight.var %in% names(data))
-    if(all(data[[weight.var]] == 0)) {
-        stop("All portfolio weights are set to zero")
-    }
-    x0 = data[[weight.var]]
-    if(type == "reflect") {
-        Emat = matrix(1, ncol = nrow(data), nrow = 1)
-        mW = getWeights(Emat, x0, n)
-    } else if(type == "resample") {
-        mW = getWeights.resample(x0, n)
-    } else if(type == "shuffle") {
-        mW = getWeights.shuffle(x0, n)
-    } else if(type == "hnr") {
-        Amat = matrix(1, ncol = nrow(data), nrow = 1)
-        for(v in match.var) {
-            Amat = rbind(Amat, data[[v]])
+    if(!is.null(weight.var)) {
+        stopifnot(length(weight.var) == 1)
+        stopifnot(weight.var %in% names(data))
+        if(all(data[[weight.var]] == 0)) {
+            stop("All portfolio weights are set to zero")
         }
-        x0 = data[[weight.var]]
-        mW = getWeights.hnr(Amat, x0, n, 10)
-    } else {
-        stop("Invalid type")
     }
+
+    Amat = matrix(1, ncol = nrow(data), nrow = 1)
+    for(v in match.var) {
+        Amat = rbind(Amat, data[[v]])
+    }
+
+    if(!is.null(weight.var)) {
+        if(!is.null(exposures)){
+           warning("exposures overrides weight.var to determine constraints")
+           b = c(1, exposures)
+       } else {
+           b =  Amat %*% data[[weight.var]]
+       }
+    } else {
+        if(!is.null(exposures)) {
+            b = c(1, exposures)
+        } else {
+            stop("One of 'weight.var' or 'exposures' must be provided")
+        }
+    }
+
+    mW = hitandrun(A = Amat, b=b, n=n, verbose = verbose)
+
+    if(is.null(match.var)) {
+        match.var = character(0)
+    }
+    if(is.null(weight.var)){
+        weight.var = character(0)
+    }
+    if(is.null(exposures)) {
+        exposures = numeric(0)
+    }
+
     rP = new("randPort", match.var = match.var, weight.var =
-    weight.var, matched.weights = mW, universe = data)
+    weight.var, exposures = exposures, matched.weights = mW, universe = data, x0provided = !is.null(weight.var))
     return(rP)
 }
