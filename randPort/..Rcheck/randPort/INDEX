@@ -1,4 +1,0 @@
-getWeights              Generates weights to a new portfolio, randomly,
-                        and fulfilling equality constraints. Fulfills
-                        equality constraints while maintaining
-                        randomness by using a Monte Carlo Random Walk.
