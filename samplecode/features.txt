@@ -32,11 +32,3 @@ Usage:
 
 randPort(originaldata, originalPortfolio) + match("country", "US") + set("value", 0) + size(200) + generate()
 
-kmatch 
-=======
-
-----able to match exposures for a general problem
-----setting and matching
-----includes hitandrun and mirror
-----overlap should be a function in this package
-----
