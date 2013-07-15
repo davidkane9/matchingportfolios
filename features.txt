@@ -2,7 +2,7 @@ Feature List: Random Portfolios
 ==============
 
 -single period
-----Create random portfolios matching constraints
+----Create random portfolios matching constraints (check)
 ----Long/short
 ----Transaction Costs
 ----randomize number of stocks in portfolio
@@ -16,11 +16,12 @@ Feature List: Random Portfolios
 ----Estimate overlap between portfolios
 --------Euclidian distance and correlation (is large correlation bad?)
 --------Comparisons to uniformly distributed portfolios of similar size
-----Plot, Summary, print
+----Plot, Summary, show -- 
 ----Intuitive error messages
 -Vignette
 ----Explain problem: Sampling from Convex Polytope
 --------Calc-Volume: NP-Hard, random algorithms used to approximate
+----Go over what a "convex polytope" is
 ----Demonstrate randomness
 ----Pretty graphics
 --------histograms of returns

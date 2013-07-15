@@ -15,7 +15,7 @@
 #'
 #' rP = randPort(data = jan, match.var = "value",exposures = 0, n = 1000 )
 
-randPort <- function(data, match.var=NULL, weight.var=NULL, exposures=NULL, n,
+randPort <- function(data, match.var=NULL, weight.var=NULL, ret.var = NULL, exposures=NULL, n,
                      verbose = FALSE) {
 
 
@@ -58,6 +58,9 @@ randPort <- function(data, match.var=NULL, weight.var=NULL, exposures=NULL, n,
     }
     if(is.null(exposures)) {
         exposures = numeric(0)
+    }
+    if(is.null(ret.var)) {
+      ret.var = character(0)
     }
 
     rP = new("randPort", match.var = match.var, weight.var =

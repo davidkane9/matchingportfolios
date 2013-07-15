@@ -4,6 +4,7 @@ setClass("randPort",
          representation = representation(
          match.var = "character",
          weight.var = "character",
+         ret.var = "character"
          exposures = "numeric",
          matched.weights = "matrix",
          universe = "data.frame",
@@ -13,6 +14,7 @@ setClass("randPort",
          prototype = prototype(
          match.var = character(),
          weight.var = character(),
+         ret.var = character(),
          exposures = numeric(),
          matched.weights = matrix(),
          universe = data.frame(),
