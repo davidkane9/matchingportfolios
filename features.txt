@@ -35,7 +35,10 @@ randPort(originaldata, originalPortfolio) + match("country", "US") + set("value"
 kmatch 
 =======
 
-----able to match exposures for a general problem
-----setting and matching
-----includes hitandrun and mirror
-----overlap should be a function in this package
+----able to match exposures for a general problem (check)
+----includes hitandrun and mirror (check)
+----overlap should be a function in this package (check)
+----document (check)
+----install (check)
+----inequality constraints?
+----allow different bounds
