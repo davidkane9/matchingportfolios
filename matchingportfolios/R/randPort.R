@@ -5,8 +5,13 @@
 #' @param data A dataframe containing data about the universe of stocks
 #' @param match.var Variables to match on
 #' @param weight.var Weights for the stocks
+#' @param ret.var The return variable
+#' @param exposures A numeric vector of exposures to the matched factors the the output
+#' portfolio should have, in the order they are given in match.var
+#' @replace FALSE if names in the original portfolio should not be in the new one
 #' @param n Number of generated portfolios
-#' @param type Type of random sampling (shuffle, resample, reflect)
+#' @param verbose Set to TRUE to give verbose output
+#' @param ... arguments to be passed to kmatching MCMC algorithms
 
 #' @keywords Random-Portfolio
 
@@ -15,8 +20,8 @@
 #'
 #' rP = randPort(data = jan, match.var = "value",exposures = 0, n = 1000 )
 
-randPort <- function(data, match.var=NULL, weight.var=NULL, ret.var = NULL, exposures=NULL, n,
-                     verbose = FALSE) {
+randPort <- function(data, match.var=NULL, weight.var=NULL, ret.var = NULL, exposures=NULL, n, replace = TRUE,
+                     verbose = FALSE, ...) {
 
 
     stopifnot(all(match.var %in% names(data)))
@@ -48,8 +53,8 @@ randPort <- function(data, match.var=NULL, weight.var=NULL, ret.var = NULL, expo
         }
     }
 
-    mW = hitandrun(A = Amat, b=b, n=n, verbose = verbose)
-
+    mW = kmatch(x = data, weight.var = ret.var, match.var = match.var, n=n, replace = replace, ...)
+      
     if(is.null(match.var)) {
         match.var = character(0)
     }
