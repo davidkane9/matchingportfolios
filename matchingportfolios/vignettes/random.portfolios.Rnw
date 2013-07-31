@@ -74,7 +74,7 @@ layOut(list(p1, 1, 1), list(p2, 1, 2))
 \caption{1,000 random samples of two stocks were taken, where each stocks' value represents the percentage of the total money that is invested in each stock. The two percentages are represented in decimal form, thus summing to one. The result is a diagonal line from the points (0,1) to (1,0). Each point on this line represents a possible portfolio.}
 \end{figure}
 
-Now let's say that you want to add Coca-Cola (KO) to the stocks that you are investing in. Now that you have three stocks, you must generate three random weights that sum to 1. 
+Now let's say that you want to add Coca-Cola (KO) to the stocks that you are investing in. Now that you have three stocks, you must generate three random weights that sum to 1. For example, you could invest .3, .3, and .4 of your total funding in KO, GE, and IBM respectively. 
   
 \begin{figure}[t]
 <<figChunk1, echo=FALSE, fig.height = 3, fig.width = 5, cache =TRUE>>=
@@ -184,7 +184,7 @@ print(h1, vp = vp(1,1))
 print(h2, vp = vp(2,2))
 print(h3, vp = vp(3,3))
 @
-\caption{In the figure, 1,000 random portfolios were generated for each scatterplot, while the histograms consisted of 100,000 samples in order to increase resolution. Because each stock is exchangeable in the current scheme, all their weight distributions should be identical. For each stock, the probability density of its weight decreases linearly as the weight increases. This is because each variable is a function of the other. For example, let $x$ represent GE, let $y$ stand for IBM, and let $z$ be KO. We know that $z = 1 - (x+y)$. The most probable value of $(x+y)$ corresponds to the line $y= c-x$ with the most points on it, the longest line. As can be seen in the distributions, the longest such line is $y=1-x$, therefore the most probable value for $x+y$ is 1 and the most probable value for $z$ is 0, and likewise for $x$ and $y$.}
+\caption{Random weights were sampled for Google (GE), Coca-Cola (KO), and International Business Machines (IBM). Each set of randomly sampled weights for the three stocks all sum to 1. The pairwise scatterplots display the same distribution of 1000 random weights, and shows that they were of the same distribution. Additionally, the maximum sum for the weight distributions for any two variables is 1, and the minimum sum is 0. On the diagonal above the three scatterplots are three histograms. They represent density plots of 10,000 randomly sampled weights. The histograms display the distributions of the variables and indicate that the most likely value for any given variable is close to 0.}
 \end{figure}
 
 \begin{figure}[t]
