@@ -345,7 +345,7 @@ print(h1, vp = vp(1,1))
 print(h2, vp = vp(2,2))
 print(h3, vp = vp(3,3))
 @
-\caption{1000 random samples}
+\caption{1000 random samples.}
 \end{figure}
 
 \end{document}
