@@ -1,10 +1,10 @@
 Package: randPort
 Type: Package
 Title: Generate Random or Matching Portfolios
-Version: 1.0
+Version: 0.1-1
 Date: 2013-06-18
-Author: Mike Flynn and Angel Zhou
-Maintainer: Mike Flynn <mjf2@williams.edu>; Angel Zhou <azhou@bbns.org>
+Author: Mike Flynn, Angel Zhou and David Kane
+Maintainer: David Kane <dave.kane@gmail.com>
 Depends:
     R (>= 2.15.0),
     MASS,
