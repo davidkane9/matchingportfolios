@@ -1,7 +1,7 @@
 Feature List: Random Portfolios
 ==============
 
--single period
+-single period:
 ----Create random portfolios matching constraints (check)
 ----Long/short
 ----Transaction Costs
