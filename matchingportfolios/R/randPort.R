@@ -8,7 +8,7 @@
 #' @param ret.var The return variable
 #' @param exposures A numeric vector of exposures to the matched factors the the output
 #' portfolio should have, in the order they are given in match.var
-#' @replace FALSE if names in the original portfolio should not be in the new one
+#' @param replace FALSE if names in the original portfolio should not be in the new one
 #' @param n Number of generated portfolios
 #' @param verbose Set to TRUE to give verbose output
 #' @param ... arguments to be passed to kmatching MCMC algorithms

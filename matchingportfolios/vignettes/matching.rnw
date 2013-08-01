@@ -44,12 +44,12 @@
 
 \end{titlepage}
 
-<<echo=FALSE, results=hide>>=
+<<echo=FALSE, results = FALSE>>=
 
-require(portfolioMatch)
-source("library.R")
-require(lattice)
-lattice.options(default.theme = globalcex(canonical.theme(color = FALSE), .8))
+##require(portfolioMatch)
+##source("library.R")
+##require(lattice)
+##lattice.options(default.theme = globalcex(canonical.theme(color = FALSE), .8))
 
 set.seed(0)
 data(starmine)
@@ -62,6 +62,7 @@ s1.all$country <- factor.collapse(s1.all$country, 5, " Other")
 s1.all$btom    <- s1.all$common.equity / s1.all$cap
 s1.all$stom    <- s1.all$sales / s1.all$cap
 s1.all$weight.uni <- scale1(rep(1, nrow(s1.all)))
+
 s1.all <- s1.all[order(s1.all$cap.usd, decreasing = TRUE),]
 
 # Define the rated universe
@@ -418,7 +419,7 @@ characteristics and the forward return.
 \end{itemize}
 
 \begin{figure}
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=4>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
 
 lf <- data.frame(Country= as.numeric(s1.all$country),
                  Sector = as.numeric(s1.all$sector),
@@ -529,7 +530,7 @@ example, imagine that the CP is over-exposed to Japan. If Japanese
 stocks rise strongly, the CP will tell a misleading story.
 
 \begin{figure}
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=4>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
 
 print(xyplot(I(rank(btom) / 500 + .5) ~ I(rank(cap.usd) / 500 + .5) |
              paste("Momentum", ret.12.0.m.q), s1,
@@ -598,7 +599,7 @@ portfolio and the CP, and the sum spans all universe securities $i$.
 
 \begin{figure}
   \centering
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=4>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
 
 if (!file.exists("overlap.rda")) {
   # Obtaining a range of Daniel weights
@@ -683,7 +684,7 @@ Hitachi and Havas, which are labeled in the figure. But by and large,
 matches are plentiful and easy to find.
 
 \begin{figure}
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=6>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=6>>=
 
 mf <- subset(s1, country %in% levels(s1$country)[1:4])
 print(stripplot(sector ~ cap.usd | country, mf,
@@ -824,7 +825,7 @@ comes in its ability to match the target portfolio more closely on
 sector, country and reversal.
 
 \begin{figure}
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=5>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=5>>=
 
 uni.expo2(s1,
           c("Universe" = "weight.uni",
@@ -850,7 +851,7 @@ uni.expo2(s1,
 \end{figure}
 
 \begin{figure}
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=3>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=3>>=
 
 mf <- rbind(round(abs.bias("weight.uni", "weight.smi", vcontrol.q, s1), 3),
             round(abs.bias("weight.dan", "weight.smi", vcontrol.q, s1), 3),
@@ -905,7 +906,7 @@ RPs. In the MPs, we see much more balanced bias across the eight
 characteristics.
 
 \begin{figure}
-<<echo=FALSE, fig=TRUE, results=hide, width=6, height=5>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=5>>=
 
 mf <- data.frame(Method = rep(c("Random", "Characteristics", "Matching"),
                    8 * nsim),
@@ -1015,7 +1016,7 @@ above what would be expected for a long-short portfolio with similar
 exposures.
 
 \begin{figure}
-<<echo=FALSE, results=hide, fig=TRUE, width=6, height=4>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
 
 uni.expo2(s1, c("StarMine Long-Short Portfolio" = "weight.smi.ls",
                 "Matching Portfolio" = "weight.mat.ls"), vcontrol.e)
@@ -1114,7 +1115,7 @@ which denotes a 14\% difference in the exposures of the target
 portfolio and the average random MP.
 
 \begin{figure}
-<<echo=FALSE, results=hide, fig=TRUE, width=6, height=4>>=
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
 
 # Generate random portfolios
 if (!file.exists("random.rda")) {
@@ -1205,7 +1206,7 @@ and 97.5\% quantiles of the random MP returns.
 
 \begin{figure}
   \centering
-<<echo=FALSE, fig=TRUE, results=hide, width=4, height=4>>=
+<<echo=FALSE, results=FALSE, fig.width=4, fig.height=4>>=
 
 rp.hist2(ran, adjust = 0.015)
 
