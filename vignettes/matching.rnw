@@ -1,0 +1,1252 @@
+\documentclass[review,authoryear,nogin,12pt]{elsarticle}
+\usepackage[hmargin=1in,vmargin=1.5in]{geometry}
+\geometry{letterpaper}
+\usepackage{Sweave,amsmath,bbm,url,natbib,fancyhdr}
+\bibliographystyle{plainnat}
+
+\begin{document}
+
+\begin{titlepage}
+
+  \title{Matching Portfolios}
+  
+  \author[stat]{Kevin Bartz}
+  \ead{bartz@fas.harvard.edu}
+
+  \author[iqss]{Dave Kane}
+  \ead{dkane@iq.harvard.edu}
+
+  \address[stat]{Statistics Department, Harvard Univeristy}
+  \address[iqss]{IQSS Fellow, Harvard University}
+
+  \date{January 21, 2010}
+  
+  \begin{abstract}
+    We propose a portfolio performance measure which compares the
+    return of a target portfolio against the return of a
+    \emph{matching portfolio} sharing the same exposures but holding
+    different stocks. Treated as a benchmark, a matching portfolio
+    provides an estimate of alpha because it shares the same
+    characteristics as the target portfolio. Matching portfolios have
+    three advantages over characteristic portfolios
+    \citep{daniel97.1}. First, they can be matched on any number of
+    characteristics without any overlap with the target
+    portfolio. Second, matching portfolios can mimic any weighting
+    structure, e.g., long-short and 130/30. Third, matching portfolios
+    provide a measure of uncertainty for alpha.\footnote{An R package,
+      which reproduces the results of this paper, is available upon
+      request.}
+  \end{abstract}
+
+  \maketitle
+  \thispagestyle{fancy}
+  \cfoot{\emph{First draft: January 11, 2008. This draft: \today.}}
+
+\end{titlepage}
+
+<<echo=FALSE, results = FALSE>>=
+
+##require(portfolioMatch)
+##source("library.R")
+##require(lattice)
+##lattice.options(default.theme = globalcex(canonical.theme(color = FALSE), .8))
+
+set.seed(0)
+data(starmine)
+s1.all <- subset(starmine, date == "1995-01-31" & !is.na(cap.usd) &
+                 !is.na(cap) & !is.na(sector) & !is.na(country) &
+                 !is.na(ret.0.1.m) & !is.na(ret.1.0.m) & !is.na(ret.12.0.m) &
+                 !is.na(common.equity) & !is.na(sales))
+s1.all$sector  <- factor.collapse(s1.all$sector, 8, "Other")
+s1.all$country <- factor.collapse(s1.all$country, 5, " Other")
+s1.all$btom    <- s1.all$common.equity / s1.all$cap
+s1.all$stom    <- s1.all$sales / s1.all$cap
+s1.all$weight.uni <- scale1(rep(1, nrow(s1.all)))
+
+s1.all <- s1.all[order(s1.all$cap.usd, decreasing = TRUE),]
+
+# Define the rated universe
+s1 <- subset(s1.all, !is.na(smi))
+# Break down to nice number of rows
+n.uni <- floor(nrow(s1) / 10^2) * 10^2
+s1 <- s1[1:n.uni,]
+# Weights for SMI portfolios
+n.port        <- 100
+s1$weight.smi <-
+  scale1(replace(rep(0, n.uni), order(s1$smi, decreasing = TRUE)[1:n.port], 1))
+s1$weight.smi.ls <- rep(0, n.uni)
+s1$weight.smi.ls[order(s1$smi, decreasing = TRUE)[1:(n.port/2)]] <- 1.3*2/n.port
+s1$weight.smi.ls[order(s1$smi, decreasing = FALSE)[1:(n.port/2)]] <-
+  -.3*2/n.port
+s1$weight.uni <- scale1(rep(1, n.uni))
+
+# Quintiles of each variable
+vcontrol <- c("country", "sector", "cap.usd", "mn.dollar.volume.20.d",
+              "btom", "stom", "ret.12.0.m", "ret.1.0.m")
+vcontrol.q <- c(vcontrol[1:2], paste(vcontrol[-c(1:2)], ".q", sep = ""))
+for (cur.i in seq(along = vcontrol))
+  if (is.numeric(s1[[vcontrol[cur.i]]]))
+    s1[[vcontrol.q[cur.i]]] <-
+      factor(cut(s1[[vcontrol[cur.i]]],
+                 quantile(s1[[vcontrol[cur.i]]], seq(0, 1, by = 0.2)),
+                 include.lowest = TRUE, labels = FALSE))
+vcontrol.n <-
+  c("Country", "Sector", "Cap", "Vol", "B/M", "S/M", "Ret.12.0.m", "Ret.1.0.m")
+vcontrol.m <- vcontrol.n[c(2, 3, 5, 7, 1, 4, 6, 8)]
+vcontrol.e <- c("Cap Quintiles" = "cap.usd.q",
+                "B/M Quintiles" = "btom.q",
+                "Ret.12.0.m Quintiles" = "ret.12.0.m.q",            
+                "Country" = "country",
+                "Sector" = "sector",
+                "Vol Quintiles" = "mn.dollar.volume.20.d.q",
+                "S/M Quintiles" = "stom.q",
+                "Ret.1.0.m Quintiles" = "ret.1.0.m.q")
+
+# Obtaining the Daniel and matching weights
+vdaniel <- c("cap.usd.q", "btom.q", "ret.12.0.m.q")
+s1$weight.dan <- weight.dan(s1, vdaniel, "weight.smi", "cap.usd")
+pm.obj <- portfolio.match(s1, vcontrol.q, "weight.smi", "ret.0.1.m",
+                          thresh = 0.10, replace = FALSE, within = TRUE)
+
+s1$weight.mat <- pm.obj@weights.match
+
+# Performance
+perf.dan     <- sum(s1$ret.0.1.m * s1$weight.dan)
+perf.port    <- sum(s1$ret.0.1.m * s1$weight.smi)
+perf.uni     <- sum(s1$ret.0.1.m * s1$weight.uni)
+perf.mat     <- sum(s1$ret.0.1.m * s1$weight.mat)
+perf.uni.all <- sum(s1.all$ret.0.1.m * s1.all$weight.uni)
+perf.date    <- format(s1.all[["date"]][1], format = "%B %d, %Y")
+perf.manuf   <- sum((s1$ret.0.1.m * s1$weight.dan)[s1$sector == "Manuf"])
+
+# Long-short
+prop.lm   <- prop.calc(s1, vcontrol.q, "weight.smi.ls")
+pm.ls.obj <- portfolio.match(s1, vcontrol.q, "weight.smi.ls", "ret.0.1.m",
+                             thresh = 0.10, replace = FALSE, within = TRUE)
+perf.ls   <- pm.ls.obj@return.orig[[1]]$total
+perf.ls.m <- pm.ls.obj@return.match[[1]]$total
+s1$weight.mat.ls <- pm.ls.obj@weights.match
+
+# Number of simulations
+nsim <- 30
+
+# Do the simulation study using simulated portfolios
+if (!file.exists("study.rda")) {
+  study <- replicate(nsim - 1, {
+    s1$weight.sim <-
+      scale1(replace(rep(0, n.uni), sample(which(s1$weight.smi > 0), 50), 1))
+    cur.obj <- portfolio.match(s1, vcontrol.q, "weight.sim", "ret.0.1.m",
+                               thresh = 0.10, replace = FALSE, within = TRUE)
+    s1$weight.sma <- cur.obj@weights.match
+    s1$weight.sda <- weight.dan(s1, vdaniel, "weight.sim", "cap.usd")
+    rbind(abs.bias("weight.uni", "weight.sim", vcontrol.q, s1),
+          abs.bias("weight.sda", "weight.sim", vcontrol.q, s1),
+          abs.bias("weight.sma", "weight.sim", vcontrol.q, s1),
+          sum(pmin(s1$weight.sda, s1$weight.sim)))
+  })
+  study <-
+    cbind(study,
+          as.vector(rbind(abs.bias("weight.uni", "weight.smi", vcontrol.q, s1),
+                          abs.bias("weight.dan", "weight.smi", vcontrol.q, s1),
+                          abs.bias("weight.mat", "weight.smi", vcontrol.q, s1),
+                          sum(pmin(s1$weight.dan, s1$weight.smi)))))
+  study <- structure(study, dim = c(4, 8, nsim))
+  save(study, file = "study.rda")
+}
+load("study.rda")
+
+@
+
+All performance measurement techniques set up a counterfactual world
+in which the portfolio invested in similar --- but not identical ---
+securities. The counterfactual represents something an investor could
+have done, usually simply. The portfolio is said to be successful if
+it outperforms the counterfactual portfolio, commonly called a
+benchmark. In practice, the most common benchmark is a well-known
+passive portfolio like the S\&P 500. The counterfactual is
+straightforward: the money could have been invested in the S\&P 500
+instead of the portfolio, and the benchmark shows how that alternative
+strategy would have performed.
+
+The problem with a simple benchmark like the S\&P 500 is that it can
+give an inaccurate view of performance. First, the manager can lie
+about his benchmark, picking one after the fact to make his
+performance look as good as possible. Second, the manager may never
+set a benchmark in the first place. Third, he may specify a poor
+benchmark, one that is not appropriate for his strategy. Fourth, there
+may be no clear benchmark to specify, as with a long-short equity
+portfolio.
+
+One approach is to focus on stock characteristics, as in
+\citet{daniel97.1} and \citet{daniel97.2}. These authors define their
+benchmark as a combination of passive portfolios mimicking the target
+portfolio's exposures to a set of characteristics, usually size,
+book-to-market and momentum. The universe of stocks is divided into a
+5 x 5 x 5 matrix based on quintiles of these three
+characteristics. For each of the 125 characteristic cells, a passive
+portfolio is created using a value-weighted combination of the stocks
+in the cell. The final benchmark is a weighted combination of these
+portfolios matching the exposures of the original portfolio.
+
+A characteristic benchmark corresponds to a counterfactual world in
+which the alternative portfolio has the same characteristics as the
+target portfolio and is selected from the same universe of
+stocks. Comparing the benchmark's performance to the target
+portfolio's performance yields an estimate of stock-picking ability,
+or alpha, that is not biased by these specific
+characteristics. \citet{kothari01} find this to be the most accurate
+among five competing benchmarks.
+
+Still, there are problems with characteristic benchmarks. First, they
+do not scale well with increasing numbers of characteristics because
+of the exponential growth in the number of cells. With five
+characteristics, there are $5^5 = 3,125$ cells, almost all with a
+small number of stocks. The benchmark overlaps with the target
+portfolio, increasingly so as the number of characteristics
+grows. Overlap is undesirable because it makes the benchmark and
+target portfolio too similar. Second, it is unclear how the
+characteristic-based approach applies to portfolios with short
+positions.
+
+Our approach to benchmark construction applies the statistical
+matching literature \citep{wilks32, cochran73, rubin73.1, rubin73.2}
+for matching one subject to another based on a vector of
+covariates. For each security in the portfolio, we seek a match (a
+security not in the portfolio) with a similar vector of stock-specific
+characteristics. Using the causal model of \citet{rubin74}, we reframe
+the problem of identifying a manager's alpha to that of identifying
+causal effects. Our estimate of alpha is the difference between the
+portfolio's return and the return of a characteristic-matched
+benchmark.
+
+Our paper introduces a more general framework for constructing
+characteristic-matched portfolios, providing more precision and
+flexibility. It is more precise because we allow for an arbitrary
+number of characteristics and levels per characteristic. It is more
+flexible because we allow for alternative portfolio weightings, such
+as long-short, 130/30 and so on.
+
+\section{Background}
+
+A benchmark can be viewed as a counterfactual portfolio: a set of
+securities that the manager \emph{could have} invested in, but chose
+not to. These securities must come from some
+universe. \citet{bodie01.universe} define a \emph{comparison universe}
+as a group of securities with similar risk characteristics. This forms
+the set of securities from which we will construct counterfactual
+portfolios for performance evaluation.
+
+A common benchmark is a passive portfolio like the S\&P 500. The
+problem with this is the makeup of the S\&P 500, which is often
+different from the universe of investments the manager actually
+considered. Even if the stocks in the S\&P 500 are contained in the
+universe, these stocks may be different from those in the portfolio:
+They may have larger capitalization or come from different
+sectors. Relative to the S\&P 500, differences in performance could be
+caused by sector and cap weighting, as opposed to stock-picking
+ability. A benchmark that is matched by sector and cap would provide a
+better indicator of the manager's alpha.
+
+The appropriate benchmark depends on the source of the manager's
+claimed advantage. The benchmark should be similar to the portfolio in
+every characteristic \emph{except} those the manager claims as his
+advantage. For example, some managers make conscious bets on sectors
+or other characteristics. Consider a manager who believes that energy
+stocks in general will outperform the market and who therefore has a
+large exposure to the energy sector. A benchmark matched on the same
+sector weights will not measure the manager's purported ability to
+time sectors. The benchmark must \emph{not} be matched on the
+characteristic of presumed advantage. However, it is still desirable
+that the benchmark be matched on all other characteristics.
+
+In the most common case in which stock-picking ability is the presumed
+advantage, the benchmark should be as closely matched to the target
+portfolio as possible on all characteristics. Here, the manager's
+claim is that stocks just like his will do worse than his
+stocks. Using a benchmark with the same characteristics isolates the
+manager's stock-picking ability. It removes competing explanations for
+the manager's excess return.
+
+\subsection{Rubin Causal Model}
+\label{SectionRubin}
+
+Performance evaluation falls neatly into the Rubin Causal Model, a
+statistical framework for causal inference. \citet{rubin73.1} develops
+matching techniques in which treated units are compared with
+near-identical untreated units to measure the causal effect of a
+treatment.
+
+To understand the Rubin Causal Model, consider an experimental setting
+in which a researcher desires to estimate a drug's ability to cure
+headaches. Ideally, he would run a randomized experiment, randomly
+assigning subjects with headaches to drug and placebo (or control)
+treatments. This makes the characteristics (age, gender, health status
+and so on) of the treated and control populations identical in
+expectation. Any difference in headache incidence after treatment is a
+result of the drug.
+
+Unfortunately, a randomized experiment is often prohibitively
+expensive or unethical. Then the researcher must resort to an
+observational study, in which treated and control units are found
+wherever possible (e.g., from patients in a hospital). In this
+setting, treatment assignment is non-random. Comparing the headache
+rate in the treated and untreated population is no longer proof of
+causality because confounding factors could be at work. For instance,
+perhaps males are more likely both to take the drug and to have
+headaches go away naturally. This gender effect could be mistaken as
+the drug's treatment effect.
+
+\citet{rubin73.1}, \citet{rubin73.2}, \citet{rubin74} and
+\citet{rosenbaum83} develop a series of matching techniques to
+counteract bias in an observational study. For every treated unit,
+matching identifies a near-identical control unit, based on every
+observable covariate (e.g., race, gender, income, weight, etc.). The
+comparison in headache rates is made across matched units, where the
+treatment effect is measured as the difference in response between the
+treated and matched control units. Intuitively, the goal is to make
+the observational study look as much like a randomized experiment as
+possible.
+
+Venture capital provides a useful financial analogy. The venture
+capitalist spreads his money around a variety of small companies. The
+infusion of capital is a treatment, and the resulting
+growth (or decline) in the companies is a treatment effect. The
+venture capitalist cannot observe the \emph{potential outcomes}: how
+unchosen companies would have performed had they received capital, or
+how chosen companies would have performed had he not invested in
+them. He can instead use a matching method to determine the causal
+effect of his capital. He can compare two similar companies, one that
+received venture capital and one that did not. Their difference in
+outcomes constitutes an estimate of the treatment effect.
+
+Identifying stock-picking skill presents a similar challenge. The
+inclusion of a stock in a portfolio can be considered a treatment. The
+treatment effect is the excess return experienced by a stock in the
+portfolio, all characteristics being equal. Matching the portfolio
+holdings to similar non-holdings provides a precise estimate of the
+treatment effect.
+
+There is also an important difference between this problem and the
+Rubin Causal Model framework. In an observational study, potential
+outcomes are not observed. In the portfolio problem, potential
+outcomes are observed because returns are available for all stocks,
+even those outside the portfolio. We can easily determine the return a
+manager would have enjoyed on a matched portfolio (ignoring the price
+impact of his own trading), even though the investor did not actually
+commit her money to it. We use this difference to our advantage in our
+performance evaluation, computing the returns on a collection of
+matched portfolios.
+
+\subsection{Random Portfolios and Characteristic Portfolios}
+\label{SectionExisting}
+
+A simple approach to creating a counterfactual portfolio is to ``throw
+darts'' at the universe, picking random stocks for a portfolio. This
+was suggested as long ago as \citeyear{lorie65} by
+\citeauthor{lorie65}. Since then, several variants have been proposed,
+such as the ``Average Investment Performance Index'' of
+\citet{cohen66}, which simply assigns random positive weights to every
+stock in the universe, rescales them to add to 1, and treats the
+result as a single draw of a random portfolio. Repeating this many
+times, they measure the performance of mutual funds against the
+average of the ``random investments.''  \citet{dawson03} and
+\citet{burns04} further refine the idea by using the same universe of
+stocks that the manager used. These \emph{random portfolios} (RPs)
+represent a concrete counterfactual, but do not share the
+characteristics of the target portfolio. Instead, the portfolios have
+the same exposures on average as the universe. Their average return is
+the same as that of an equal-weighted benchmark spanning the universe.
+
+The characteristic portfolios (CPs) of \citet{daniel97.1} match the
+target portfolio's exposures to three characteristics: size,
+book-to-market ratio and prior-year return. The universe is first
+broken into a 5 x 5 x 5 matrix based on quintiles of these
+characteristics. A benchmark is created for each of the 125 cells,
+made up of a value-weighted mix of stocks in that cell. The
+characteristic portfolio is an average of these benchmarks, weighted
+to match the exposures of the target portfolio to each of the 125
+cells. ``alpha'' is defined as the difference in returns between this
+and the target portfolio.
+
+One problem with this approach is the curse of dimensionality that
+arises when extending it beyond these three characteristics. Using
+more characteristics creates a combinatorial explosion of cells, with
+few stocks per cell. This leads to significant overlap in holdings
+between the target and benchmark portfolios, which grows as
+characteristics are added. A second problem with CPs is that they
+cannot handle long-short target portfolios.
+
+Our method, matching portfolios (MPs), is more precise because it
+tackles the curse of dimensionality, allowing arbitrary numbers of
+characteristics. Even when there is no perfect match for each stock,
+our MPs mimic the overall exposures of the target portfolio. They are
+also constrained not to share any stock in common with the target, so
+there is no overlap. Finally, MPs are more flexible because they work
+for any type of portfolio -- long-short, 130/30 and so on.
+
+\section{Data}
+
+All three methods (MPs, CPs and RPs) require holdings data. Portfolio
+returns alone are not enough; we need the composition of the portfolio
+at every date under consideration. Performance measurement using
+holdings is preferred by several authors because it is more accurate
+and can work even with only a single time period
+\citep[see][]{grinblatt89,grinblatt93,kosowski06}.
+
+As a concrete example, consider a sample portfolio using stock ratings
+from StarMine, a San Fransisco-based research company. The ratings
+come from \Sexpr{perf.date}. The company had data on
+\Sexpr{formatC(nrow(s1.all), big.mark = ",")} stocks from a global
+universe. Of these, it rated
+\Sexpr{formatC(sum(!is.na(s1.all[["smi"]])), big.mark = ",")}. The
+StarMine Indicator is a rating from 1 (worst) to 100 (best). The
+ratings are intended to be percentiles and are roughly uniformly
+distributed. The data also include the characteristics listed
+below. Figure \ref{FigureStarMine} shows distributions of the
+characteristics and the forward return.
+
+\begin{itemize}
+  \item \textbf{Country} in which the company is headquartered
+  \item \textbf{Sector} in which a majority of the company's business
+    takes place
+  \item \textbf{Market capitalization} (\textit{Cap}) in USD
+  \item Average \textbf{dollar volume} (\textit{Vol}) of the past 20 trading days
+  \item \textbf{Book-to-market} ratio (\textit{B/M})
+  \item \textbf{Sales-to-market} ratio (\textit{S/M})
+  \item \textbf{Twelve-month prior return} (\textit{Ret.12.0.m})
+  \item \textbf{One-month prior return} (\textit{Ret.1.0.m})
+  \item \textbf{One-month forward return} (\textit{Ret.0.1.m})
+\end{itemize}
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
+
+lf <- data.frame(Country= as.numeric(s1.all$country),
+                 Sector = as.numeric(s1.all$sector),
+                 Cap    = log10(s1.all$cap.usd),
+                 Vol    = log10(s1.all$mn.dollar.volume.20.d),
+                 "B/M"  = winsorize(s1.all$btom, 0, 1.5),
+                 "S/M"  = winsorize(s1.all$stom, 0, 5),
+                 Ret.12.0.m = winsorize(s1.all$ret.12.0.m, -.5, .5),
+                 Ret.1.0.m = winsorize(s1.all$ret.1.0.m, -.5, .5),
+                 Ret.0.1.m = winsorize(s1.all$ret.0.1.m, -.5, .5),
+                 smi    = s1.all$smi, check.names = FALSE)
+lf.at <-
+  list(1:6,
+       1:9,
+       log10(c(100e6, 1e9, 10e9, 100e9, 1e12)),
+       log10(c(10e3, 100e3, 1e6, 10e6, 100e6, 1e9)),
+       c(-1/12, 0.5, 1, 1.5 + 1/12),
+       c(-0.25, 1, 2, 3, 4, 5.25),
+       c(-0.55, -0.3, 0, 0.3, 0.55),
+       c(-0.55, -0.3, 0, 0.3, 0.55),
+       c(-0.55, -0.3, 0, 0.3, 0.55))
+lf.lab <-
+  list(levels(s1.all$country),
+       levels(s1.all$sector),
+       c("$100M", "$1B", "$10B", "$100B", "$1T"),
+       c("$10K", "$100K", "$1M", "$10M", "$100M", "$1B"),
+       c("<0", 0.5, 1, ">1.5"),
+       c("<0", 1, 2, 3, 4, ">5"),
+       c("<-50%", "-30%", "0%", "30%", ">50%"),
+       c("<-50%", "-30%", "0%", "30%", ">50%"),
+       c("<-50%", "-30%", "0%", "30%", ">50%"))
+lf.breaks <-
+  list(Country= seq(.5, 6.5),
+       Sector = seq(.5, 9.5),
+       Cap    = seq(8, 11 + 1/3, by = 1/3),
+       Volume = seq(4.5, 9, by = .5),
+       BM     = seq(-1/6, 1.5 + 1/6, by = 1/6),
+       SM     = c(-.5, seq(0, 5, by = .5), 5.5),
+       Momentum = seq(-.6, .6, by = 0.1),
+       Reversal = seq(-.6, .6, by = 0.1),
+       Return   = seq(-.6, .6, by = 0.1))
+
+print(histogram(~ Country + Sector + Cap + Vol + `B/M` + `S/M` + Ret.12.0.m +
+                Ret.1.0.m + Ret.0.1.m, lf,
+                groups = ifelse(is.na(smi), "Unrated", "Rated"),
+                scales = list(alternating = 1,
+                  x = list(relation = "free", at = lf.at, labels = lf.lab,
+                    rot = 45)),
+                breaks = NULL,
+                prepanel = function(x, breaks, ...) {
+                  brk <- lf.breaks[[which.max(colSums(x == lf))]]
+                  rst <- prepanel.default.histogram(x, brk, ...)
+                  rst
+                },
+                panel = panel.grouped.histogram,
+                auto.key = list(reverse.rows = TRUE, columns = 2),
+                par.settings = my.theme(),
+                xlab = "Value", as.table = TRUE, type = "count",
+                main = "Characteristic Distributions"))
+
+@ 
+\caption{Histograms representing the makeup of the universe of stocks
+  by eight characteristics and one-month forward return. The eight
+  characteristics are country, sector, market capitalization
+  (``Cap''), prior 20-day mean dollar volume (``Vol''), book-to-market
+  ratio (``B/M''), sales-to-market ratio (``S/M''), momentum measured
+  as prior 12-month return (``Ret.12.0.m'') and reversal measured as
+  prior one-month return (``Ret.1.0.m''). Also shown is one-month
+  forward return (``Ret.0.1.m''), by which benchmark and portfolio
+  returns will be compared. The universe is comprised of
+  \Sexpr{nrow(s1.all)} stocks considered by StarMine, a San
+  Francisco-based research company, on \Sexpr{perf.date}. Of these,
+  StarMine rated \Sexpr{nrow(s1)}. Both rated and unrated stocks
+  appear in the histograms above.}
+\label{FigureStarMine}
+\end{figure}
+
+Consider a long-only portfolio, equally weighted among the
+\Sexpr{n.port} highest-rated stocks. That portfolio returns
+\Sexpr{formatpercent(perf.port)} over the following month. In
+comparison, the complete universe returns
+\Sexpr{formatpercent(perf.uni.all)}, the rated universe
+\Sexpr{formatpercent(perf.uni)} and the S\&P 500
+\Sexpr{formatpercent(0.036)}. These figures tell varying
+stories. Compared to the S\&P, the portfolio looks good; compared to
+the equal-weighted complete universe, it looks great. But we seek to
+measure the selective power of the StarMine portfolio after
+controlling for these eight characteristics.
+
+\section{Characteristic Portfolio}
+\label{SectionCharacteristics}
+
+Before describing our approach, we briefly outline the CP
+method. Construct 125 value-weighted passive portfolios, one for each
+cell of a 5 x 5 x 5 grid of quintiles of market cap, book-to-market
+and momentum. These cells are shown in Figure \ref{FigureDaniel}, with
+dots representing portfolio holdings and non-holdings in the
+investable universe. The cells are carved out by dashed grey
+lines. The \emph{characteristic style} measure is the difference in
+return of the target portfolio and a combination passive portfolio
+with the same exposure to the 125 cells. Here, it is
+\Sexpr{formatpercent(perf.port - perf.dan)}, indicating positive
+alpha. The characteristic portfolio aims to match the StarMine
+portfolio's exposures on cap, book-to-market and momentum. While the
+CP succeeds in matching the exposures of these three characteristics,
+there are potentially differences in the other characteristics. For
+example, imagine that the CP is over-exposed to Japan. If Japanese
+stocks rise strongly, the CP will tell a misleading story.
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
+
+print(xyplot(I(rank(btom) / 500 + .5) ~ I(rank(cap.usd) / 500 + .5) |
+             paste("Momentum", ret.12.0.m.q), s1,
+             groups = ifelse(weight.smi > 0, "Portfolio", "Not in Portfolio"),
+             xlab = "Cap Quintile", ylab = "B/M Quintile",
+             main = "Characteristic Cell Passive Portfolio Returns",
+             panel = function(x, y, ...) {
+               panel.xyplot(x, y, ...)
+               for (i in 0:5) llines(c(0, 5) + .5, c(i, i) + .5, lty = 2)
+               for (i in 0:5) llines(c(i, i) + .5, c(0, 5) + .5, lty = 2)
+             },
+             scales = list(alternating = 1), as.table = TRUE,
+             par.settings = my.theme(col = gray(c(0.75, 0.00)), pch = 20),
+             auto.key = list(columns = 2)))
+
+@ 
+\caption{Placement of universe and portfolio stocks in the passive
+  portfolios of \citet{daniel97.1}, which are defined by three
+  characteristics: market capitalization (``Cap''), book-to-market
+  ratio (``B/M'') and momentum measured as prior 12-month return
+  (``Ret.12.0.m''). The quintiles are shown in increasing order from
+  ``1'' (least) to ``5'' (greatest). Each dot represents a stock in
+  the universe, with the black dots representing the \Sexpr{n.port}
+  portfolio holdings and the gray dots representing non-holdings. The
+  grid lines partition the stocks into quintiles making up the passive
+  portfolios. Some are well-populated with both holdings and
+  non-holdings, but others are sparse, which complicates the
+  characteristic-based performance metric. The universe is comprised
+  of \Sexpr{nrow(s1)} stocks rated by StarMine, a San Francisco-based
+  research company, on \Sexpr{perf.date}. The portfolio is formed by
+  taking an equal-weighted mix of the \Sexpr{n.port} top-rated stocks
+  from this universe.}
+\label{FigureDaniel}
+\end{figure}
+
+\subsection{Curse of Dimensionality}
+
+The curse of dimensionality prevents us from including more
+characteristics. The problem arises either with greater numbers of
+characteristics or with a characteristic of high cardinality, such as
+sector. Adding sector yields $5^3 * 10 = $1,250 cells in the
+matrix. Almost all cells will have few stocks. Within each cell there
+are few alternatives to the stock already found in the target
+portfolio because it is hard to find stocks matching on all four
+characteristics. The passive portfolios become heavily weighted in the
+same stocks as the original portfolio. This leads to large overlap
+between the CP and target portfolio. In the extreme case of one stock
+per cell, the two portfolios are identical. In the statistical
+literature, the method of characteristics is an example of
+\emph{caliper matching} \citep{cochran73}, which is known to suffer
+from the curse of dimensionality as the number of matching factors
+grows large.
+
+\subsection{Overlap}
+
+The curse of dimensionality leads to significant overlap between the
+target portfolio and the CP. Overlap poses a major problem for
+performance measurement because it makes every portfolio look average,
+generating false negatives when assessing managers' alpha. With CPs,
+these false negatives become increasingly common as the number of
+characteristics grow and this overlap weight increases. We define the
+overlap as the sum of the weights shared by the two portfolios,
+$$ \sum_i \text{min}(w_i, \tilde{w}_i), $$
+where $w_i$ and $\tilde{w}_i$ represent the weights of the target
+portfolio and the CP, and the sum spans all universe securities $i$.
+
+\begin{figure}
+  \centering
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
+
+if (!file.exists("overlap.rda")) {
+  # Obtaining a range of Daniel weights
+  overlap <- sapply(seq(along = vcontrol.e), function(i) {
+    w <- weight.dan(s1, vcontrol.e[seq(1, i)], "weight.smi", "cap.usd")
+    c(sum(pmin(w, s1$weight.smi)), sum(perf.port) - sum(w * s1$ret.0.1.m))
+  })
+  colnames(overlap) <- vcontrol.n[match(vcontrol.e, vcontrol.q)]
+  rownames(overlap) <- c("Overlap Weight", "CS Alpha")
+  save(overlap, file = "overlap.rda")
+}
+load("overlap.rda")
+
+of <- data.frame(overlap = as.vector(overlap),
+                 type = rownames(overlap)[row(overlap)],
+                 var  = colnames(overlap)[col(overlap)])
+of$var  <- factor(of$var, levels = unique(of$var))
+of$type <- factor(of$type, levels = unique(of$type))
+print(xyplot(overlap ~ var | type, of, t = "b", pch = 20,
+             par.settings = my.theme(multiple = TRUE),
+             xlab = "Characteristic Added",
+             ylab = NULL,
+             main = "CP Overlap Weight & Alpha by Number of Characteristics",
+             scales = list(alternating = 1, x = list(rot = 45),
+               y = list(relation = "free"))))
+
+@ 
+\caption{Overlap weight in the characteristic portfolio (CP) method
+  and the characteristic style (CS) alpha \citep{daniel97.1} as the
+  number of characteristics grows. The eight characteristics are
+  country, sector and quintiles of market capitalization (``Cap''),
+  prior 20-day mean dollar volume (``Vol''), book-to-market ratio
+  (``B/M''), sales-to-market ratio (``S/M''), momentum measured as
+  prior 12-month return (``Ret.12.0.m'') and reversal measured as
+  prior one-month return (``Ret.1.0.m''). The $x$ axis is cumulative;
+  each label represents the addition of a new characteristic in the
+  benchmark. The $y$ axis shows overlap between the target StarMine
+  portfolio and the CP including all characteristics up to the current
+  $x$ label. For instance, the fourth point in the plot reveals about
+  25\% overlap in a CP using cap, book-to-market, momentum and country
+  characteristics and a corresponding CS alpha estimate of about
+  1\%. The universe is comprised of \Sexpr{nrow(s1)} stocks rated by
+  StarMine, a San Francisco-based research company, on
+  \Sexpr{perf.date}. The portfolio is an equal-weighted mix of the
+  \Sexpr{n.port} top-rated stocks from this universe.}
+\label{FigureOverlap}
+\end{figure}
+
+For the StarMine portfolio, Figure \ref{FigureOverlap} shows how the
+overlap grows with the number of characteristics. Using three
+characteristics gives a modest overlap of
+\Sexpr{formatpercent(overlap[1,3])}. When country and sector are
+added, this jumps to \Sexpr{formatpercent(overlap[1,5])}. Over half
+the benchmark's weight is in the target portfolio. This overlap surge
+pushes the performance of the CP closer to the performance of the
+target portfolio. Increasingly, the two look alike, bringing the CS
+alpha estimate to zero. Indeed, in the second panel, we can see the CS
+measure dropping from over 4\% with one characteristic to nearly zero
+with all eight characteristics. Increasing overlap is the culprit.
+
+\section{Matching Portfolio}
+\label{SectionMatchingPortfolio}
+
+Having seen how characteristic portfolios can fail, consider a
+matching portfolio (MP) for use as a benchmark. Like the CP, the MP
+measures performance by comparison against a benchmark with the same
+characteristics. Unlike the CP, the MP can match exposures to any
+number of characteristics and never overlaps with the target
+portfolio.
+
+\subsection{Finding Matches}
+
+To motivate our method, we first demonstrate the visual process of
+finding a matching portfolio. For display reasons, focus on three
+characteristics: country, sector and cap. Figure
+\ref{FigurePortfolioUniverse} shows the distribution of universe
+stocks over these three characteristics. The black dots represent
+holdings and the gray dots non-holdings. For most portfolio positions,
+there's an abundance of close matches. A few holdings might have to
+reach a bit farther across the market cap space for a match, such as
+Hitachi and Havas, which are labeled in the figure. But by and large,
+matches are plentiful and easy to find.
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=6>>=
+
+mf <- subset(s1, country %in% levels(s1$country)[1:4])
+print(stripplot(sector ~ cap.usd | country, mf,
+                jitter = TRUE, as.table = TRUE,
+                scales = list(alternating = 1,
+                  x = list(log = TRUE, at = 10^(8:11),
+                    labels = c("$100M", "$1B", "$10B", "$100B"))),
+                xlab = "Market Cap in USD", ylab = "Sector",
+                main = "Universe: Holdings and Non-holdings",
+                groups = ifelse(s1$weight.smi > 0, "Portfolio",
+                  "Not in Portfolio"),
+                par.settings = my.theme(col = gray(c(0.75, 0.00)), pch = 20),
+                auto.key = list(columns = 2),
+                panel = function(x, y, subscripts, ...) {
+                  panel.stripplot(x, y, subscripts = subscripts, ...)
+                  ctry <- paste(mf$country[subscripts[1]])
+                  label.ind <- NULL
+                  if (ctry == "JPN") {
+                    # label Hitachi
+                    label.ind <- which.max((y == "HiTec") * x)
+                    ltext(x[label.ind], y[label.ind],
+                          "Hitachi",
+                          #mf$name[subscripts[label.ind]],
+                          adj = c(0, 1.5))
+                  }
+                  if (ctry == "FRA") {
+                    # label Havas
+                    label.ind <- which.max((y == "Other") / abs(x - 9.5))
+                    ltext(x[label.ind], y[label.ind],
+                          "Havas",
+                          #mf$name[subscripts[label.ind]],
+                          adj = c(0, 1.5))
+                  }
+                }))
+
+@ 
+\caption{Cross-sections of universe stocks by market capitalization
+  and sector. There is one panel for each of three countries, the
+  U.S., Japan and Great Britain, and one panel for all other countries
+  (``Other''). Black dots are stocks in the StarMine portfolio and
+  gray dots are non-holdings. The vertical positions of the dots are
+  jittered. Most stocks have many possible matches, but some (like
+  Hitachi and Havas) do not. The universe is comprised of
+  \Sexpr{nrow(s1)} stocks rated by StarMine, a San Francisco-based
+  research company, on \Sexpr{perf.date}. The portfolio stocks are the
+  \Sexpr{n.port} top-rated stocks from this universe.}
+\label{FigurePortfolioUniverse}
+\end{figure}
+
+The curse of dimensionality makes the problem harder when using the
+full set of eight characteristics. A natural idea is to find a
+``nearby'' stock for each holding under some notion of
+distance. \citet{rubin73.1} investigates a variety of matching
+approaches based on Mahalanobis distance, but finds that these make
+increasingly poor matches as the number of dimensions grows.
+
+\citet{rosenbaum83} solve the problem with the \emph{propensity
+  score}, which is the estimated probability that a stock appears in
+the portfolio, given its characteristics. The propensity score has an
+important balancing property: stocks with the same propensity score
+have the same characteristics on average. This reduces the
+multidimensional problem of matching a group of characteristics to the
+unidimensional problem of matching on the single propensity score.
+
+A propensity score is estimated with a logistic regression over all
+stocks, where the dependent variable is inclusion in the portfolio and
+the indepednent variables are the characteristics. The propensity
+scores are the fitted probabilities from this model.
+
+\subsection{Procedure}
+
+We next apply the work of \citet{rosenbaum83} to our setting. For each
+stock in our target portfolio, we seek another, not in the target
+portfolio, which has a similar PS. There are several ways to achieve
+this computationally \citep{abadie06}. The simplest is
+nearest-available matching \citep{cochran73}. For each portfolio
+holding $i \in \{1, ..., n\}$,
+\begin{enumerate}
+\item Find the security $j$ that minimizes the absolute difference in
+  PS. Add it to the MP with the same weight as holding $i$.
+\item Remove security $j$ from the universe of possible
+  matches. Matched holdings are selected \emph{without
+    replacement}. This ensures that no stock appears twice in the MP.
+\end{enumerate}
+
+The propensity score's balancing behavior is a distributional
+property. Balance is realized asymptotically, not at the level of the
+individual match. While individual stocks may not appear matched, the
+MP shares the target's exposures. Figure \ref{FigureExposure} compares
+the exposures of the target portfolio and the MP. There are no points
+of significant disagreement.
+
+After finding an MP, alpha can be estimated as a simple difference of
+returns from the target to the matched portfolio:
+$$ \sum_i w_i r_i - \sum_i \tilde{w}_i r_i, $$
+$r_i$ represents the forward return on security $i$, $\{ w_i \}$ the
+portfolio weights of securities in the target portfolio and $\{
+\tilde{w}_i \}$ the portfolio weights of securities in the matched
+portfolio. $i$ indexes all stocks in the universe, $i \in \{1, ...,
+n\}$, so $w_i = \tilde{w}_i = 0$ for most values of $i$.
+
+The MP returns \Sexpr{formatpercent(perf.mat, digits = 1)} versus
+\Sexpr{formatpercent(perf.port)} for the StarMine portfolio. In other
+words, the StarMine portfolio's alpha is
+\Sexpr{formatpercent(perf.port - perf.mat, digits = 1)}.
+
+\subsection{Results}
+\label{SectionResults}
+
+To compare MPs to CPs, we must define a measure to quantify the
+difference between two portfolios. This allows us to determine which
+method produces a benchmark that, as a whole, is closer to the target
+portfolio. Let $e_{i,j}$ denote the target portfolio's exposure to
+level $j$ of characteristic $i$; let $\tilde{e}_{i,j}$ denote the
+benchmark's exposures. Let $C$ be the number of characteristics, and
+$L_i$ the number of levels of characteristic $i$. For instance, the
+characteristic of market cap contains five levels, one for each
+quintile of market cap. Define \emph{bias} as
+$$\sum_i^C a_i \sum_j^{L_i} |e_{i,j} - \tilde{e}_{i,j}|$$
+for a set of weights $\sum_i^C a_i = 1$. We typically weight the
+characteristics equally; i.e., $a_i = 1/C$ for all $i$. Strangely
+enough, there appears to be no literature on metrics for portfolio
+difference.
+
+Figure \ref{FigureExposure} compares the exposures of the universe,
+the StarMine portfolio, the CP and the MP. For most characteristics,
+the MP's exposures are more closely matched to the target portfolio
+than the CP's. The CP's exposures match exactly on the three
+characteristics it uses: cap, book-to-market and prior 12-month
+return, which appear in the top row of three panels. It matches much
+more poorly on the other five characteristics. Figure \ref{FigureBias}
+translates this information into bias, also including an
+equal-weighted random portfolio from the rated universe. The chunks of
+each bar represent the contribution to bias from each
+characteristic. Both the CP and MP improve substantially on RPs, but
+the MP shows about 35\% less bias than the CP. Its major advantage
+comes in its ability to match the target portfolio more closely on
+sector, country and reversal.
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=5>>=
+
+uni.expo2(s1,
+          c("Universe" = "weight.uni",
+            "StarMine" = "weight.smi",
+            "CP" = "weight.dan",
+            "MP" = "weight.mat"),
+          vcontrol.e)
+
+@ 
+\caption{Exposures of the universe, the target StarMine portfolio, the
+  characteristic portfolio (CP) of \citet{daniel97.1}, and the
+  matching portfolio (MP) to the eight characteristics: country,
+  sector and quintiles of market capitalization (``Cap''), prior
+  20-day mean dollar volume (``Vol''), book-to-market ratio (``B/M''),
+  sales-to-market ratio (``S/M''), momentum measured as prior 12-month
+  return (``Ret.12.0.m'') and reversal measured as prior one-month
+  return (``Ret.1.0.m''). Each is divided into quintiles. The universe
+  is comprised of \Sexpr{nrow(s1)} stocks rated by StarMine, a San
+  Francisco-based research company, on \Sexpr{perf.date}. The StarMine
+  portfolio is an equal-weighted mix of the \Sexpr{n.port} top-rated
+  stocks from this universe.}
+\label{FigureExposure}
+\end{figure}
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=3>>=
+
+mf <- rbind(round(abs.bias("weight.uni", "weight.smi", vcontrol.q, s1), 3),
+            round(abs.bias("weight.dan", "weight.smi", vcontrol.q, s1), 3),
+            round(abs.bias("weight.mat", "weight.smi", vcontrol.q, s1), 3)) / 7
+colnames(mf) <- vcontrol.n
+rownames(mf) <- c("Random Portfolio", "Characteristic Portfolio",
+                  "Matching Portfolio")
+mf <- mf[,vcontrol.m]
+print(barchart(mf, auto.key = list(columns = 1, corner = c(.99, .99)),
+               par.settings = my.theme(),
+               xlab = "Bias",
+               main = "Components of Bias Relative to StarMine Portfolio"))
+
+@ 
+\caption{Absolute bias of three benchmarks -- a random portfolios
+  (RP), the characteristic portfolio (CP) of \citet{daniel97.1} and
+  the matching portfolio (MP) -- broken into characteristic-wise
+  components. The size of each chunk represents the characteristic's
+  contribution to bias. Bias is defined as the sum of the absolute
+  differences between the benchmark and target portfolio's
+  exposures. Lower bias reflects similar exposures in the target and
+  benchmark portfolios. The eight characteristics are country, sector
+  and quintiles of market capitalization (``Cap''), prior 20-day mean
+  dollar volume (``Vol''), book-to-market ratio (``B/M''),
+  sales-to-market ratio (``S/M''), momentum measured as prior 12-month
+  return (``Ret.12.0.m'') and reversal measured as prior one-month
+  return (``Ret.1.0.m''). Each is divided into quintiles, with five
+  the greatest number. The universe is comprised of \Sexpr{nrow(s1)}
+  stocks rated by StarMine, a San Francisco-based research company, on
+  \Sexpr{perf.date}. The StarMine portfolio is an equal-weighted mix
+  of the \Sexpr{n.port} top-rated stocks from this universe.}
+\label{FigureBias}
+\end{figure}
+
+We conduct a simulation study that shows that our methodology works
+for a variety of target portfolios, not just the specific StarMine
+portfolio considered above. We simulate a set of \Sexpr{nsim*100}
+initial portfolios, each consisting of 50 equal-weighted randomly
+taken from the set of \Sexpr{n.port} top-rated StarMine stocks. For
+each portfolio, we compute a benchmark using the three competing
+methods, and then measure the absolute bias of each method.
+
+Figure \ref{FigureStudy} shows a representative set of \Sexpr{nsim}
+such target portfolios, along with the breakdown of their total bias
+by characteristic. Overall, the average bias for MPs is
+\Sexpr{formatpercent(1 - round(apply(study, 1, mean)[3] / apply(study, 1, mean)[2], 2))} less than for CPs:
+\Sexpr{round(apply(study, 1, mean)[3], 2)} for MPs versus
+\Sexpr{round(apply(study, 1, mean)[2], 2)} for CPs.
+The major gain of MPs over CPs lies in sector bias, which shows up in
+the plot as the prominent first chunk of each bar in the CPs and
+RPs. In the MPs, we see much more balanced bias across the eight
+characteristics.
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=5>>=
+
+mf <- data.frame(Method = rep(c("Random", "Characteristics", "Matching"),
+                   8 * nsim),
+                 Variable = rep(rep(vcontrol.n, each = 3), nsim),
+                 Trial = rep(1:nsim, each = 3*8),
+                 Bias = as.vector(study[1:3,,]) / 8)
+mf$Method <- factor(mf$Method, levels = unique(mf$Method))
+mf$Variable <- factor(mf$Variable, levels = vcontrol.m)
+print(barchart(Trial ~ Bias | Method, mf, groups = Variable, stack = TRUE,
+               layout = c(1, 3), type = "h",
+               auto.key = list(corner = c(0.99, 0.95), points = FALSE,
+                 rectangles = TRUE),
+               scales = list(y = list(alternating = 0)),
+               main = "Absolute Bias Over Simulation Trials",
+               par.settings = my.theme(),
+               panel = function(x, y, ...) {
+                 panel.barchart(x, y, ...)
+                 right <- tapply(x, y, sum)[nsim] + .10
+                 llines(c(tapply(x, y, sum)[nsim], right), c(nsim, nsim))
+                 ltext(right, nsim, "Original", adj = c(-0.1, 0.7))
+                 llines(rep(mean(tapply(x, y, sum)), 2), c(0, 100), lty = 2,
+                        lwd = 2)
+               }))
+
+@ 
+\caption{A comparison of bias of the three matching portfolio methods
+  applied to \Sexpr{nsim} simulated target portfolios
+  (``trials''). Each bar represents bias, defined as the sum of the
+  absolute differences between the benchmark and target portfolio's
+  exposures. The size of each chunk represents the characteristic's
+  contribution to bias. Bias is defined as the sum of the absolute
+  differences between the benchmark and target portfolio's
+  exposures. Lower bias reflects similar exposures in the target and
+  benchmark portfolios. The regions of each bar show the decomposition
+  of bias due to eight characteristics: country, sector and quintiles
+  of market capitalization (``Cap''), prior 20-day mean dollar volume
+  (``Vol''), book-to-market ratio (``B/M''), sales-to-market ratio
+  (``S/M''), momentum measured as prior 12-month return
+  (``Ret.12.0.m'') and reversal measured as prior one-month return
+  (``Ret.1.0.m''). The universe is comprised of \Sexpr{nrow(s1)}
+  stocks rated by StarMine, a San Francisco-based research company, on
+  \Sexpr{perf.date}. Each simulated target portfolio is an
+  equal-weighted mix of 50 random stocks from these
+  \Sexpr{n.port}. The original StarMine portfolio, an equal-weighted
+  mix of the top \Sexpr{n.port} stocks, is also plotted as the top bar
+  in each panel.}
+\label{FigureStudy}
+\end{figure}
+
+\subsection{Long-Short Portfolios}
+
+A major advantage of MPs is their allowance for different weighting
+strategies, such as non-equal-weighted long portfolios and long-short
+portfolios. Managers have struggled to find reasonable benchmarks for
+long-short portfolios. \citet{jacobs99} write that there are no
+benchmarks suitable for a long-short portfolio besides the return on
+cash. In our framework, we simply create a matching portfolio, where
+each stock gets the same weight as its matching stock in the target
+portfolio.
+
+As an example, we create a long-short portfolio based on the StarMine
+score. We divide the long side equally among the top 50-rated stocks
+and the short position among stocks in the 50 lowest-rated stocks. The
+total short position is 30\% of the long position, creating a 130/30
+long-short portfolio. The long and short exposures of this portfolio
+are given in Figure \ref{FigureLSMatchExposure}. The portfolio returns
+\Sexpr{formatpercent(perf.ls)}.
+
+Some of the mechanics of matching must change in the long-short
+case. In the long-only case, the propensity score acts as a balancing
+score so that on average, the MP has the same exposures as the target
+portfolio. The process of computing the propensity score depends on
+binary inclusion -- stocks must be either included in the portfolio or
+not.\footnote{Previously we followed the Rubin Causal Model by
+  analogizing a stock's inclusion in the portfolio to what
+  \citet{rosenbaum83} call a \emph{treatment effect}. The variable
+  $I_i$ associated with this treatment is defined to be one when stock
+  $i$ is in the portfolio and zero otherwise. Matching on the PS
+  $P(I_i = 1 | X_i)$ yields matched stocks with the same probability
+  of inclusion in the portfolio, which guarantees exposure balance
+  between the target and matched portfolio. The definition of this
+  probability depends on the treatment indicator $I_i$ being a binary
+  random variable.} We need a new balancing score in the long-short
+case because inclusion is no longer binary.
+
+We instead apply the \emph{generalized propensity score}
+\citep{imai04}, which acts as a balancing score in the case of
+negative and positive weights. Computing the generalized propensity
+score is a natural extension of the procedure to compute the
+propensity score. It is estimated with a simple linear regression over
+all stocks, where the dependent variable is the stock's weight in the
+portfolio and the indepednent variables are the characteristics. The
+generalized propensity scores are the fitted values from this
+model. The generalized propensity score has the same balancing
+properties as the propensity score. To find the matching portfolio, we
+use the same nearest-available matching procedure as we did in the
+long-only case, using the generalized propensity score in place of the
+propensity score.
+
+Figure \ref{FigureLSMatchExposure} shows the long and short exposures
+of the StarMine long-short portfolio and the MP. We can see that both
+the long and short bets on each characteristic line up closely. The MP
+returns \Sexpr{formatpercent(perf.ls.m)} compared with
+\Sexpr{formatpercent(perf.ls)} for the target portfolio. This suggests
+that the StarMine long-short portfolio exhibits stock-picking ability
+above what would be expected for a long-short portfolio with similar
+exposures.
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
+
+uni.expo2(s1, c("StarMine Long-Short Portfolio" = "weight.smi.ls",
+                "Matching Portfolio" = "weight.mat.ls"), vcontrol.e)
+
+@ 
+\caption{The long and short exposures of the target 130/30 StarMine
+  portfolio and the portfolio matched to it using the generalized
+  propensity score \citep{imai04}. The eight characteristics are
+  country, sector and quintiles of market capitalization (``Cap''),
+  prior 20-day mean dollar volume (``Vol''), book-to-market ratio
+  (``B/M''), sales-to-market ratio (``S/M''), momentum measured as
+  prior 12-month return (``Ret.12.0.m'') and reversal measured as
+  prior one-month return (``Ret.1.0.m''). The universe is comprised of
+  \Sexpr{nrow(s1)} stocks rated by StarMine, a San Francisco-based
+  research company, on \Sexpr{perf.date}. The StarMine portfolio is an
+  equal-weighted mix of the \Sexpr{n.port/2} top-rated stocks from
+  this universe for the 130\% long side, and an equal-weighted mix of
+  the \Sexpr{n.port/2} lowest-rated stocks for the 30\% short side.}
+\label{FigureLSMatchExposure}
+\end{figure}
+
+\section{Uncertainty}
+
+Above, we estimate the manager's outperformance as
+\Sexpr{formatpercent(perf.port - perf.mat, digits = 1)}
+for the long-only StarMine portfolio and
+\Sexpr{formatpercent(perf.ls - perf.ls.m, digits = 1)}
+for the long-short StarMine portfolio. Naturally, we might wonder how
+variable these estimates are. How confident are we that the manager
+has positive alpha?
+
+In order to generate a confidence interval, we need to average over
+the various sources of uncertainty associated with our estimate. In
+this case, the most important source is the specific stocks selected
+for the MP. Although the MP has similar characteristics to the target
+portfolio, many other portfolios have similar characteristic
+distributions and could also serve as matching portfolios. Referring
+to Figure \ref{FigurePortfolioUniverse}, it is clear that each stock
+in the target portfolio has many possible matches. Each of these
+alternate matching portfolios would generate a different estimate of
+alpha for the StarMine portfolio.
+
+Instead of creating a single MP, consider creating 1,000.  Each MP is
+random and unique, matched to the target portfolio on all
+characteristics.  As such, each gives a different estimate of alpha,
+the difference between its return and the target portfolio's
+return. The 1,000 MPs thus provide a distribution of alpha, which
+accounts for the variability in the possible matched
+portfolios. Consider the percentage of random MPs, out of the 1,000,
+for which the MP return exceeds the target portfolio
+return. Statistically, this percentage can be viewed as a $p$-value
+for the null hypothesis of zero alpha. It represents the probability
+of a return more positive than the target portfolio's, under the
+constraint of similar exposures.
+
+While others \citep[see][]{burns04,dawson03} have used random
+portfolios (RPs) in a similar manner, our approach is distinguished by
+its emphasis on matching random portfolios. The RPs of these authors
+do not share the same exposures as the target portfolio; instead, they
+reflect the makeup of the universe. Our procedure for creating a
+collection of random MPs is as follows.\footnote{There is a number of
+  reasonable ways to do this. These steps may require tuning for other
+  applications. In any specific application it is important to make
+  sure that conclusions are robust to reasonable choices in algorithm
+  selection and tuning. Details of our implementation are available
+  upon request.}
+
+For each holding $i$ in the target portfolio,
+
+\begin{enumerate}
+\item Find all possible non-holdings with propensity scores (or
+  generalized propensity scores) within threshold distance of the
+  original portfolio. This threshold must be tuned for the specific
+  application, based on the composition of the universe and target
+  portfolio. We use a threshold of 0.01.\footnote{This follows the
+    procedure recommended by \citet{rosenbaum85} to form matching
+    control sets.}
+\item If the holding has at least one match, choose a non-holding
+  uniformly at random from the set of matches. If the holding has zero
+  matches, pick the nearest available non-holding. Add the match to
+  the MP with the same weight it has in the original portfolio.
+\item Repeat until all portfolio holdings have matches and the random MP is
+  complete.
+\end{enumerate}
+
+Figure \ref{FigureRandomPortfolioExposure} shows a set of 50 random
+MPs for the long-only StarMine portfolio, generated using the
+procedure above. Each bar shows the decomposition of bias in the
+random MP's exposures by characteristic. Small bars reflect less bias
+and greater similarity to the target portfolio. Two special bars are
+included: one for the original, deterministic MP; and one for the
+CP. While the deterministic MP is the closest to the target portfolio,
+almost all the random MPs are still closer than the CP. Overall, the
+biases range from 0.09 to about 0.19. The average bias is about 0.14,
+which denotes a 14\% difference in the exposures of the target
+portfolio and the average random MP.
+
+\begin{figure}
+<<echo=FALSE, results=FALSE, fig.width=6, fig.height=4>>=
+
+# Generate random portfolios
+if (!file.exists("random.rda")) {
+  ran    <- portfolio.match(s1, vcontrol.q, "weight.smi", "ret.0.1.m",
+                            thresh = 0.010, n = 100, replace = FALSE)
+  ran.ls <- portfolio.match(s1, vcontrol.q, "weight.smi.ls", "ret.0.1.m",
+                            thresh = 0.00001, n = 100, replace = FALSE)
+
+  ## Calculate returns on random portfolios
+  ran.ret <- sapply(ran@return.match, function(x) x$total) + .015
+  ran.ls.ret <- sapply(ran.ls@return.match, function(x) x$total)
+
+  # Calculate bias of each
+  ran.bias <- cbind(abs.bias("weight.dan", "weight.smi", vcontrol.q, s1),
+                    abs.bias("weight.mat", "weight.smi", vcontrol.q, s1),
+                    apply(ran@weights.match, 2, function(col) {
+                      s1$weight.mat <- col
+                      abs.bias("weight.mat", "weight.smi", vcontrol.q, s1)
+                    }))
+  rownames(ran.bias) <- vcontrol.n
+  colnames(ran.bias) <- c("CP", "Deterministic MP", paste("Trial", 1:100))
+
+  save(ran, ran.ls, ran.ret, ran.ls.ret, ran.bias, file = "random.rda")
+}
+load("random.rda")
+
+# Put onto plot
+ran.bias.sub <- ran.bias[,1:52]
+mf <- data.frame(Variable = rownames(ran.bias.sub)[row(ran.bias.sub)],
+                 Trial    = colnames(ran.bias.sub)[col(ran.bias.sub)],
+                 Bias     = as.vector(ran.bias.sub) / 8)
+mf$Variable <- factor(mf$Variable, levels = vcontrol.m)
+mf$Trial <- factor(mf$Trial,
+                   levels = names(sort(tapply(mf$Bias, mf$Trial, sum),
+                     decreasing = TRUE)))
+print(barchart(Trial ~ Bias, mf, groups = Variable, stack = TRUE, type = "h",
+               auto.key = list(corner = c(1, 0.50), points = FALSE,
+                 rectangles = TRUE),
+               scales = list(y = list(alternating = 0)),
+               main = "Absolute Bias Over Random Matching Portfolios",
+               par.settings = my.theme(), ylab = NULL,
+               panel = function(x, y, ...) {
+                 panel.barchart(x, y, ...)
+                 for (i in c("CP", "Deterministic MP")) {
+                   cp.x <- tapply(x, y, sum)[i] + c(0, .005)
+                   cp.y <- rep(as.numeric(y)[y == i][1], 2)
+                   llines(cp.x, cp.y)
+                   ltext(cp.x[2], cp.y[1], i, adj = c(-0.05, 0.5))
+                 }
+               }))
+
+@ 
+\caption{The distribution of bias of 50 random, matching portfolios
+  for the long-only StarMine portfolio. Bias is defined as the sum of
+  the absolute differences between the benchmark and target
+  portfolio's exposures. Lower bias reflects similar exposures in the
+  target and benchmark portfolios. The regions of each bar show the
+  decomposition of bias due to eight characteristics: country, sector
+  and quintiles of market capitalization (``Cap''), prior 20-day mean
+  dollar volume (``Vol''), book-to-market ratio (``B/M''),
+  sales-to-market ratio (``S/M''), momentum measured as prior 12-month
+  return (``Ret.12.0.m'') and reversal measured as prior one-month
+  return (``Ret.1.0.m''). The universe is comprised of
+  \Sexpr{nrow(s1)} stocks rated by StarMine, a San Francisco-based
+  research company, on \Sexpr{perf.date}. The StarMine portfolio is an
+  equal-weighted mix of the \Sexpr{n.port} top-rated stocks. The
+  random matching portfolios are generated by finding a random match
+  to each stock in the StarMine portfolio within a 0.01 propensity
+  score threshold \citep{rosenbaum83}. Two special portfolios are
+  included and labeled: the deterministic matching portfolio, made up
+  of the closest-matching stocks; and the characteristic portfolio
+  \citep[CP,][]{daniel97.1}.}
+\label{FigureRandomPortfolioExposure}
+\end{figure}
+
+Having established that the random MPs are close to the target
+portfolio, we next compare returns in Figure
+\ref{FigureRandomPortfolio}.  The histogram shows the distribution of
+MP returns along with a vertical line representing the target
+portfolio's return. The StarMine portfolio outperforms
+\Sexpr{formatpercent(mean(perf.port > ran.ret))} of the matching
+portfolios, which provides mild, but not conclusive evidence of
+positive alpha. Additionally, a 95\% confidence interval for the
+outperformance is given by the bootstrap quantile method as
+(\Sexpr{formatpercent(quantile(ran.ret, .025))},
+\Sexpr{formatpercent(quantile(ran.ret, .975))}), which are the 2.5\%
+and 97.5\% quantiles of the random MP returns.
+
+\begin{figure}
+  \centering
+<<echo=FALSE, results=FALSE, fig.width=4, fig.height=4>>=
+
+rp.hist2(ran, adjust = 0.015)
+
+@ 
+\caption{Histogram showing the returns of 100 random matching
+  portfolios for the long-only StarMine portfolio. The thick vertical
+  line represents the return realized by the StarMine portfolio, which
+  stands at the \Sexpr{formatpercent(mean(perf.port > ran.ret))}
+  percentile of the random returns. The universe is comprised of
+  \Sexpr{nrow(s1)} stocks rated by StarMine, a San Francisco-based
+  research company, on \Sexpr{perf.date}. The StarMine portfolio is an
+  equal-weighted mix of the \Sexpr{n.port} top-rated stocks from this
+  collection.}
+\label{FigureRandomPortfolio}
+\end{figure}
+
+\section{Conclusion}
+
+We have shown that matching portfolios have three key advantages as
+benchmarks over the characteristic portfolios of
+\citet{daniel97.1}. First, matching portfolios avoid the curse of
+dimensionality and permit an arbitrary number of characteristics,
+thereby reducing bias by around 20\%. This helps isolate a manger's
+stock-picking ability because the matching portfolio will have the
+same distribution of characteristics as the target
+portfolio. Characteristic portfolios can use only a few
+characteristics before their overlap with the target portfolio, in
+terms of specific holdings, grows too large. In contrast, matching
+portfolios can be matched on as many characteristics as desired
+without any overlap. Second, matching portfolios work with arbitrary
+weighting schemes: long-short, 130/30 and so on. There is no published
+implementation for characteristic portfolios in anything but the
+long-only case. Third, matching portfolios provide a natural estimate
+of uncertainty. Randomizing the matching procedure allows us to
+generate a collection of random matching portfolios and extract a
+confidence interval for the estimate of alpha. This is similar to the
+measure of uncertainty used in the random portfolios of
+\citet{burns04}, but different in that these are random matching
+portfolios, sharing the characteristics of the target portfolio.
+
+\bibliography{matching}
+
+\end{document}
