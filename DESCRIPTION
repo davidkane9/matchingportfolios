@@ -1,4 +1,4 @@
-Package: randPort
+Package: matchingportfolios
 Type: Package
 Title: Generate Random or Matching Portfolios
 Version: 0.1-1
@@ -10,7 +10,8 @@ Depends:
     MASS,
     limSolve,
     knitr,
-    kmatching
+    kmatching,
+    MatchingPortfolios
 Description: Creates random Portfolios to test the skill of a portfolio manager
 License: GPL-2
 LazyLoad: yes
@@ -20,6 +21,5 @@ Collate:
     'randPort.R'
     'jan-data.R'
     'AllGenerics.R'
-    'overlap.R'
     'show.R'
     'summary.R'
