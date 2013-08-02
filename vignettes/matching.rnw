@@ -12,9 +12,13 @@
   
   \author[stat]{Kevin Bartz}
   \ead{bartz@fas.harvard.edu}
+  
+  \author[iqss]{Michael Flynn}
+  \ead{?}
 
-  \author[iqss]{Dave Kane}
-  \ead{dkane@iq.harvard.edu}
+
+  \author[iqss]{David Kane}
+  \ead{dave.kane@gmail.com}
 
   \address[stat]{Statistics Department, Harvard Univeristy}
   \address[iqss]{IQSS Fellow, Harvard University}
@@ -791,170 +795,8 @@ The MP returns \Sexpr{formatpercent(perf.mat, digits = 1)} versus
 words, the StarMine portfolio's alpha is
 \Sexpr{formatpercent(perf.port - perf.mat, digits = 1)}.
 
-\subsection{Results}
-\label{SectionResults}
+%% Need to add some material here about the overall results of the matching. What are the results of our cool procedure?
 
-To compare MPs to CPs, we must define a measure to quantify the
-difference between two portfolios. This allows us to determine which
-method produces a benchmark that, as a whole, is closer to the target
-portfolio. Let $e_{i,j}$ denote the target portfolio's exposure to
-level $j$ of characteristic $i$; let $\tilde{e}_{i,j}$ denote the
-benchmark's exposures. Let $C$ be the number of characteristics, and
-$L_i$ the number of levels of characteristic $i$. For instance, the
-characteristic of market cap contains five levels, one for each
-quintile of market cap. Define \emph{bias} as
-$$\sum_i^C a_i \sum_j^{L_i} |e_{i,j} - \tilde{e}_{i,j}|$$
-for a set of weights $\sum_i^C a_i = 1$. We typically weight the
-characteristics equally; i.e., $a_i = 1/C$ for all $i$. Strangely
-enough, there appears to be no literature on metrics for portfolio
-difference.
-
-Figure \ref{FigureExposure} compares the exposures of the universe,
-the StarMine portfolio, the CP and the MP. For most characteristics,
-the MP's exposures are more closely matched to the target portfolio
-than the CP's. The CP's exposures match exactly on the three
-characteristics it uses: cap, book-to-market and prior 12-month
-return, which appear in the top row of three panels. It matches much
-more poorly on the other five characteristics. Figure \ref{FigureBias}
-translates this information into bias, also including an
-equal-weighted random portfolio from the rated universe. The chunks of
-each bar represent the contribution to bias from each
-characteristic. Both the CP and MP improve substantially on RPs, but
-the MP shows about 35\% less bias than the CP. Its major advantage
-comes in its ability to match the target portfolio more closely on
-sector, country and reversal.
-
-\begin{figure}
-<<echo=FALSE, results=FALSE, fig.width=6, fig.height=5>>=
-
-uni.expo2(s1,
-          c("Universe" = "weight.uni",
-            "StarMine" = "weight.smi",
-            "CP" = "weight.dan",
-            "MP" = "weight.mat"),
-          vcontrol.e)
-
-@ 
-\caption{Exposures of the universe, the target StarMine portfolio, the
-  characteristic portfolio (CP) of \citet{daniel97.1}, and the
-  matching portfolio (MP) to the eight characteristics: country,
-  sector and quintiles of market capitalization (``Cap''), prior
-  20-day mean dollar volume (``Vol''), book-to-market ratio (``B/M''),
-  sales-to-market ratio (``S/M''), momentum measured as prior 12-month
-  return (``Ret.12.0.m'') and reversal measured as prior one-month
-  return (``Ret.1.0.m''). Each is divided into quintiles. The universe
-  is comprised of \Sexpr{nrow(s1)} stocks rated by StarMine, a San
-  Francisco-based research company, on \Sexpr{perf.date}. The StarMine
-  portfolio is an equal-weighted mix of the \Sexpr{n.port} top-rated
-  stocks from this universe.}
-\label{FigureExposure}
-\end{figure}
-
-\begin{figure}
-<<echo=FALSE, results=FALSE, fig.width=6, fig.height=3>>=
-
-mf <- rbind(round(abs.bias("weight.uni", "weight.smi", vcontrol.q, s1), 3),
-            round(abs.bias("weight.dan", "weight.smi", vcontrol.q, s1), 3),
-            round(abs.bias("weight.mat", "weight.smi", vcontrol.q, s1), 3)) / 7
-colnames(mf) <- vcontrol.n
-rownames(mf) <- c("Random Portfolio", "Characteristic Portfolio",
-                  "Matching Portfolio")
-mf <- mf[,vcontrol.m]
-print(barchart(mf, auto.key = list(columns = 1, corner = c(.99, .99)),
-               par.settings = my.theme(),
-               xlab = "Bias",
-               main = "Components of Bias Relative to StarMine Portfolio"))
-
-@ 
-\caption{Absolute bias of three benchmarks -- a random portfolios
-  (RP), the characteristic portfolio (CP) of \citet{daniel97.1} and
-  the matching portfolio (MP) -- broken into characteristic-wise
-  components. The size of each chunk represents the characteristic's
-  contribution to bias. Bias is defined as the sum of the absolute
-  differences between the benchmark and target portfolio's
-  exposures. Lower bias reflects similar exposures in the target and
-  benchmark portfolios. The eight characteristics are country, sector
-  and quintiles of market capitalization (``Cap''), prior 20-day mean
-  dollar volume (``Vol''), book-to-market ratio (``B/M''),
-  sales-to-market ratio (``S/M''), momentum measured as prior 12-month
-  return (``Ret.12.0.m'') and reversal measured as prior one-month
-  return (``Ret.1.0.m''). Each is divided into quintiles, with five
-  the greatest number. The universe is comprised of \Sexpr{nrow(s1)}
-  stocks rated by StarMine, a San Francisco-based research company, on
-  \Sexpr{perf.date}. The StarMine portfolio is an equal-weighted mix
-  of the \Sexpr{n.port} top-rated stocks from this universe.}
-\label{FigureBias}
-\end{figure}
-
-We conduct a simulation study that shows that our methodology works
-for a variety of target portfolios, not just the specific StarMine
-portfolio considered above. We simulate a set of \Sexpr{nsim*100}
-initial portfolios, each consisting of 50 equal-weighted randomly
-taken from the set of \Sexpr{n.port} top-rated StarMine stocks. For
-each portfolio, we compute a benchmark using the three competing
-methods, and then measure the absolute bias of each method.
-
-Figure \ref{FigureStudy} shows a representative set of \Sexpr{nsim}
-such target portfolios, along with the breakdown of their total bias
-by characteristic. Overall, the average bias for MPs is
-\Sexpr{formatpercent(1 - round(apply(study, 1, mean)[3] / apply(study, 1, mean)[2], 2))} less than for CPs:
-\Sexpr{round(apply(study, 1, mean)[3], 2)} for MPs versus
-\Sexpr{round(apply(study, 1, mean)[2], 2)} for CPs.
-The major gain of MPs over CPs lies in sector bias, which shows up in
-the plot as the prominent first chunk of each bar in the CPs and
-RPs. In the MPs, we see much more balanced bias across the eight
-characteristics.
-
-\begin{figure}
-<<echo=FALSE, results=FALSE, fig.width=6, fig.height=5>>=
-
-mf <- data.frame(Method = rep(c("Random", "Characteristics", "Matching"),
-                   8 * nsim),
-                 Variable = rep(rep(vcontrol.n, each = 3), nsim),
-                 Trial = rep(1:nsim, each = 3*8),
-                 Bias = as.vector(study[1:3,,]) / 8)
-mf$Method <- factor(mf$Method, levels = unique(mf$Method))
-mf$Variable <- factor(mf$Variable, levels = vcontrol.m)
-print(barchart(Trial ~ Bias | Method, mf, groups = Variable, stack = TRUE,
-               layout = c(1, 3), type = "h",
-               auto.key = list(corner = c(0.99, 0.95), points = FALSE,
-                 rectangles = TRUE),
-               scales = list(y = list(alternating = 0)),
-               main = "Absolute Bias Over Simulation Trials",
-               par.settings = my.theme(),
-               panel = function(x, y, ...) {
-                 panel.barchart(x, y, ...)
-                 right <- tapply(x, y, sum)[nsim] + .10
-                 llines(c(tapply(x, y, sum)[nsim], right), c(nsim, nsim))
-                 ltext(right, nsim, "Original", adj = c(-0.1, 0.7))
-                 llines(rep(mean(tapply(x, y, sum)), 2), c(0, 100), lty = 2,
-                        lwd = 2)
-               }))
-
-@ 
-\caption{A comparison of bias of the three matching portfolio methods
-  applied to \Sexpr{nsim} simulated target portfolios
-  (``trials''). Each bar represents bias, defined as the sum of the
-  absolute differences between the benchmark and target portfolio's
-  exposures. The size of each chunk represents the characteristic's
-  contribution to bias. Bias is defined as the sum of the absolute
-  differences between the benchmark and target portfolio's
-  exposures. Lower bias reflects similar exposures in the target and
-  benchmark portfolios. The regions of each bar show the decomposition
-  of bias due to eight characteristics: country, sector and quintiles
-  of market capitalization (``Cap''), prior 20-day mean dollar volume
-  (``Vol''), book-to-market ratio (``B/M''), sales-to-market ratio
-  (``S/M''), momentum measured as prior 12-month return
-  (``Ret.12.0.m'') and reversal measured as prior one-month return
-  (``Ret.1.0.m''). The universe is comprised of \Sexpr{nrow(s1)}
-  stocks rated by StarMine, a San Francisco-based research company, on
-  \Sexpr{perf.date}. Each simulated target portfolio is an
-  equal-weighted mix of 50 random stocks from these
-  \Sexpr{n.port}. The original StarMine portfolio, an equal-weighted
-  mix of the top \Sexpr{n.port} stocks, is also plotted as the top bar
-  in each panel.}
-\label{FigureStudy}
-\end{figure}
 
 \subsection{Long-Short Portfolios}
 
