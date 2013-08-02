@@ -305,7 +305,7 @@ the drug's treatment effect.
 counteract bias in an observational study. For every treated unit,
 matching identifies a near-identical control unit, based on every
 observable covariate (e.g., race, gender, income, weight, etc.). The
-comparison in headache rates is made across matched units, where the
+comparison of headache rates is made across matched units, where the
 treatment effect is measured as the difference in response between the
 treated and matched control units. Intuitively, the goal is to make
 the observational study look as much like a randomized experiment as
@@ -327,7 +327,7 @@ Identifying stock-picking skill presents a similar challenge. The
 inclusion of a stock in a portfolio can be considered a treatment. The
 treatment effect is the excess return experienced by a stock in the
 portfolio, all characteristics being equal. Matching the portfolio
-holdings to similar non-holdings provides a precise estimate of the
+holdings to similar non-holdings provides a more precise estimate of the
 treatment effect.
 
 There is also an important difference between this problem and the
@@ -356,10 +356,10 @@ times, they measure the performance of mutual funds against the
 average of the ``random investments.''  \citet{dawson03} and
 \citet{burns04} further refine the idea by using the same universe of
 stocks that the manager used. These \emph{random portfolios} (RPs)
-represent a concrete counterfactual, but do not share the
+represent a concrete counterfactual. Yet they do not share the
 characteristics of the target portfolio. Instead, the portfolios have
 the same exposures on average as the universe. Their average return is
-the same as that of an equal-weighted benchmark spanning the universe.
+the same as that of an equal-weighted portfolio spanning the entire universe.
 
 The characteristic portfolios (CPs) of \citet{daniel97.1} match the
 target portfolio's exposures to three characteristics: size,
