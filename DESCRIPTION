@@ -2,7 +2,7 @@ Package: matchingportfolios
 Type: Package
 Title: Generate Random or Matching Portfolios
 Version: 0.1-1
-Date: 2013-06-18
+Date: 2013-08-02
 Author: Mike Flynn, Angel Zhou and David Kane
 Maintainer: David Kane <dave.kane@gmail.com>
 Depends:
