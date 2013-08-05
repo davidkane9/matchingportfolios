@@ -18,7 +18,8 @@
 #' @export
 #' @examples
 #' data(jan)
-#' rP = randPort(data = jan, match.var = "growth", weight.var = "portfolio", ret.var = "fwd.ret.1m", n = 1000 )
+#' ## this hangs, fix mirror
+#' ##rP = randPort(data = jan, match.var = "growth", weight.var = "portfolio", ret.var = "fwd.ret.1m", n = 1000 )
 
 randPort <- function(data, match.var=NULL, weight.var=NULL, ret.var = NULL, exposures=NULL, n, replace = TRUE,
                      verbose = FALSE, ...) {
