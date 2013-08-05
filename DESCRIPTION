@@ -1,4 +1,4 @@
-Package: matchingportfolios
+Package: matching.portfolios
 Type: Package
 Title: Generate Random or Matching Portfolios
 Version: 0.1-1

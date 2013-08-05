@@ -33,27 +33,7 @@ randPort <- function(data, match.var=NULL, weight.var=NULL, ret.var = NULL, expo
         }
     }
 
-    Amat = matrix(1, ncol = nrow(data), nrow = 1)
-    for(v in match.var) {
-        Amat = rbind(Amat, data[[v]])
-    }
-
-    if(!is.null(weight.var)) {
-        if(!is.null(exposures)){
-           warning("exposures overrides weight.var to determine constraints")
-           b = c(1, exposures)
-       } else {
-           b =  Amat %*% data[[weight.var]]
-       }
-    } else {
-        if(!is.null(exposures)) {
-            b = c(1, exposures)
-        } else {
-            stop("One of 'weight.var' or 'exposures' must be provided")
-        }
-    }
-
-    mW = kmatch(x = data, weight.var = ret.var, match.var = match.var, n=n, replace = replace, ...)
+    mW = kmatch(x = data, weight.var = weight.var, match.var = match.var, n=n, replace = replace, ...)
       
     if(is.null(match.var)) {
         match.var = character(0)

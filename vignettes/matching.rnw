@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[round]{natbib}
 
-\usepackage{Sweave,bbm,amsmath,url}
+\usepackage{Sweave, caption, bbm,amsmath,url}
 
 \bibliographystyle{plainnat}
 
@@ -99,6 +99,7 @@ than five. The method does not scale well because of the inevitably limited
 number of stocks in the universe. Additionally, it is unclear how the approach
 applies to portfolios with short positions.
 
+%% FLAG: This is where we should start making changes
 Our approach applies the statistical matching literature
 (\cite{wilks32}, \cite{cochran73}, \cite{rubin73.1},
 \cite{rubin73.2}), which examines techniques for matching one subject
@@ -170,6 +171,8 @@ stock-picking ability. A benchmark that is matched by sector, cap and
 country would provide a better indicator of the manager's
 stock-picking ability.
 
+%% FLAG: this type of testing is probably going to be overwhelmed by 
+%% variance
 The appropriate benchmark depends on the source of the manager's
 claimed advantage. The benchmark should be similar to the portfolio in
 every characteristic \emph{except} those the manager claims as his
@@ -585,8 +588,8 @@ print(stripplot(sector ~ cap.usd | country,
 \setkeys{Gin}{height=0.8\textwidth,width=0.8\textwidth}
 \end{center}
 \caption{Cross-sections of universe stocks by market cap and
-  sector. There is one panel for each of the four countries, the U.S.,
-  Japan, Great Britain and Australia, with the most universe
+  sector. There is one panel for each of the four countries, the United States,
+  Japan, Great Britain and France, with the most universe
   securities. Black dots
   are portfolio holdings and grey dots non-holdings. The vertical
   positions of the dots are jittered slightly so as to appear

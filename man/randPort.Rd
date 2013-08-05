@@ -36,6 +36,7 @@ Generates random portfolios for the evaluation of portfolio management}
   the evaluation of portfolio management
 }
 \examples{
+data(jan)
 rP = randPort(data = jan, match.var = "value",exposures = 0, n = 1000 )
 }
 \keyword{Random-Portfolio}
