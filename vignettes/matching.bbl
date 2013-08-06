@@ -1,0 +1,202 @@
+\begin{thebibliography}{30}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadie and Imbens(2006)]{abadie06}
+Alberto Abadie and Guido Imbens.
+\newblock Large sample properties of matching estimators for average treatment
+  effects.
+\newblock \emph{Econometrica}, 74\penalty0 (1):\penalty0 235--267, 2006.
+
+\bibitem[Bodie et~al.(2001)Bodie, Kane, and Marcus]{bodie01.universe}
+Zvi Bodie, Alex Kane, and Alan~J. Marcus.
+\newblock \emph{Investments}, pages 811--812.
+\newblock McGraw-Hill-Irwin, 6 edition, 2001.
+
+\bibitem[Burns(2004)]{burns04}
+Patrick Burns.
+\newblock Performance measurement via random portfolios, 2004.
+\newblock URL
+  \url{http://www.burns-stat.com/pages/Working/perfmeasrandport.pdf}.
+
+\bibitem[Cochran and Rubin(1973)]{cochran73}
+W.G. Cochran and D.B. Rubin.
+\newblock Controlling bias in observational studies.
+\newblock \emph{THE INDIAN JOURNAL OF STATISTICS SERIES A}, 35:\penalty0
+  417--446, Dec 1973.
+
+\bibitem[Cohen and Fitch(1966)]{cohen66}
+Kalman~J. Cohen and Bruce~P. Fitch.
+\newblock The average investment performance index.
+\newblock \emph{Management Science}, 12\penalty0 (6):\penalty0 B195--B215, feb
+  1966.
+\newblock ISSN 0025-1909.
+
+\bibitem[Daniel and Titman(1997)]{daniel97.2}
+Kent Daniel and Sheridan Titman.
+\newblock Evidence on the characteristics of cross sectional variation in stock
+  returns.
+\newblock \emph{The Journal of Finance}, 52\penalty0 (1):\penalty0 1--33, mar
+  1997.
+\newblock ISSN 0022-1082.
+
+\bibitem[Daniel et~al.(1997)Daniel, Grinblatt, Titman, and Wermers]{daniel97.1}
+Kent Daniel, Mark Grinblatt, Sheridan Titman, and Russ Wermers.
+\newblock Measuring mutual fund performance with characteristic-based
+  benchmarks.
+\newblock \emph{The Journal of Finance}, 52\penalty0 (3):\penalty0 1035--1058,
+  jul 1997.
+\newblock ISSN 0022-1082.
+
+\bibitem[Dawid(1979)]{dawid79}
+A.~P. Dawid.
+\newblock Conditional independence in statistical theory.
+\newblock \emph{Journal of the Royal Statistical Society. Series B
+  (Methodological)}, 41\penalty0 (1):\penalty0 1--31, 1979.
+\newblock ISSN 0035-9246.
+
+\bibitem[Dawson and Young(2003)]{dawson03}
+R.~Dawson and R.~Young.
+\newblock \emph{Advances in Portfolio Construction and Implementation}, chapter
+  Near-uniformly distributed, stochastically generated portfolios.
+\newblock Butterworth--Heinemann, 2003.
+
+\bibitem[Fama and French(1992)]{fama92}
+Eugene~F. Fama and Kenneth~R. French.
+\newblock The cross-section of expected stock returns.
+\newblock \emph{The Journal of Finance}, 47\penalty0 (2), 1992.
+
+\bibitem[Ferson and Qian(2004)]{ferson04}
+Wayne~E. Ferson and Meijun Qian.
+\newblock \emph{Conditional Performance Evaluation, Revisited}.
+\newblock The Research Foundation of CFA Institute, 2004.
+
+\bibitem[Grinblatt and Titman(1989)]{grinblatt89}
+Mark Grinblatt and Sheridan Titman.
+\newblock Portfolio performance evaluation: Old issues and new insights.
+\newblock \emph{The Review of Financial Studies}, 2\penalty0 (3):\penalty0
+  393--421, 1989.
+\newblock ISSN 0893-9454.
+
+\bibitem[Grinblatt and Titman(1993)]{grinblatt93}
+Mark Grinblatt and Sheridan Titman.
+\newblock Performance measurement without benchmarks: An examination of mutual
+  fund returns.
+\newblock \emph{The Journal of Business}, 66\penalty0 (1):\penalty0 47--68, jan
+  1993.
+\newblock ISSN 0021-9398.
+
+\bibitem[Hirano and Imbens(2004)]{hirano04}
+Keisuke Hirano and Guido~W. Imbens.
+\newblock The propensity score with continuous treatments, February 2004.
+\newblock A draft of a chapter for an upcoming book.
+
+\bibitem[Ho et~al.(2005{\natexlab{a}})Ho, Imai, King, and
+  Stuart]{matchit.paper}
+Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart.
+\newblock Matching as nonparametric preprocessing for parametric causal
+  inference, 2005{\natexlab{a}}.
+\newblock URL \url{http://gking.harvard.edu/files/matchp.pdf}.
+
+\bibitem[Ho et~al.(2005{\natexlab{b}})Ho, Imai, King, and Stuart]{matchit.pkg}
+Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart.
+\newblock \emph{MatchIt: Nonparametric Preprocessing for Parametric Casual
+  Inference}, 2005{\natexlab{b}}.
+\newblock URL \url{http://gking.harvard.edu/matchit}.
+\newblock R package version 2.2-5.
+
+\bibitem[Imai and van Dyk(2004)]{imai04}
+Kosuke Imai and David~A. van Dyk.
+\newblock Causal inference with general treatment regimes: Generalizing the
+  propensity score.
+\newblock \emph{Journal of the American Statistical Association}, 99\penalty0
+  (467), September 2004.
+
+\bibitem[Jacobs et~al.(1999)Jacobs, Levy, and Starer]{jacobs99}
+Bruce~I. Jacobs, Kenneth~N. Levy, and David Starer.
+\newblock Long-short portfolio management: An integrated approach.
+\newblock \emph{The Journal of Portfolio Management}, Winter:\penalty0 21--32,
+  1999.
+
+\bibitem[Jensen(1968)]{jensen68}
+Michael~C. Jensen.
+\newblock The performance of mutual funds in the period 1945-1964.
+\newblock \emph{The Journal of Finance}, 23\penalty0 (2), 1968.
+
+\bibitem[Kosowski et~al.(2006)Kosowski, Timbermann, Wemers, and
+  White]{kosowski06}
+Robert Kosowski, Allan Timbermann, Russ Wemers, and Hal White.
+\newblock Can mutual fund "stars" really pick stocks? new evidence from a
+  bootstrap analysis.
+\newblock \emph{The Journal of Finance}, 61\penalty0 (6):\penalty0 2551--2595,
+  2006.
+
+\bibitem[Kothari and Warner(2001)]{kothari01}
+S.~P. Kothari and Jerold~B. Warner.
+\newblock Evaluating mutual fund performance.
+\newblock \emph{The Journal of Finance}, 56\penalty0 (5):\penalty0 1985--2010,
+  2001.
+
+\bibitem[Lorie(1965)]{lorie65}
+James~H. Lorie.
+\newblock Current controversies on the stock market, 1965.
+
+\bibitem[Lu et~al.(2001)Lu, Zanutto, Hornik, and Rosenbaum]{lu01}
+Bo~Lu, Elaine Zanutto, Robert Hornik, and Paul~R. Rosenbaum.
+\newblock Matching with doses in an observational study of a media campaign
+  against drug abuse.
+\newblock \emph{Journal of the American Statistical Association}, 96\penalty0
+  (456):\penalty0 1245--1253, December 2001.
+
+\bibitem[Rosenbaum and Rubin(1983)]{rosenbaum83}
+Paul~R. Rosenbaum and Donald~B. Rubin.
+\newblock The central role of the propensity score in observational studies for
+  causal effects.
+\newblock \emph{Biometrika}, 70\penalty0 (1):\penalty0 41--55, apr 1983.
+\newblock ISSN 0006-3444.
+
+\bibitem[Rosenbaum and Rubin(1985)]{rosenbaum85}
+Paul~R. Rosenbaum and Donald~B. Rubin.
+\newblock Constructing a control group using multivariate matched sampling
+  methods that incorporate the propensity score.
+\newblock \emph{The American Statistician}, 39\penalty0 (1):\penalty0 33--38,
+  February 1985.
+
+\bibitem[Rubin(1973{\natexlab{a}})]{rubin73.1}
+Donald~B. Rubin.
+\newblock Matching to remove bias in observational studies.
+\newblock \emph{Biometrics}, 29\penalty0 (1):\penalty0 159--183, mar
+  1973{\natexlab{a}}.
+\newblock ISSN 0006-341X.
+
+\bibitem[Rubin(1973{\natexlab{b}})]{rubin73.2}
+Donald~B. Rubin.
+\newblock The use of matched sampling and regression adjustment to remove bias
+  in observational studies.
+\newblock \emph{Biometrics}, 29\penalty0 (1):\penalty0 185--203, mar
+  1973{\natexlab{b}}.
+\newblock ISSN 0006-341X.
+
+\bibitem[Rubin(1974)]{rubin74}
+Donald~B. Rubin.
+\newblock Estimating causal effects of treatments in randomized and
+  nonrandomized studies.
+\newblock \emph{Journal of Educational Psychology}, 66:\penalty0 688--701,
+  1974.
+
+\bibitem[Rubin and Thomas(1996)]{rubin96}
+Donald~B. Rubin and Neal Thomas.
+\newblock Matching using estimated propensity scores: Relating theory to
+  practice.
+\newblock \emph{Biometrics}, 52:\penalty0 249--264, 1996.
+
+\bibitem[Wilks(1932)]{wilks32}
+S.~S. Wilks.
+\newblock On the distribution of statistics in samples from a normal population
+  of two variables with matched sampling of one variable.
+\newblock \emph{Metron}, 9:\penalty0 87--126, 1932.
+
+\end{thebibliography}
