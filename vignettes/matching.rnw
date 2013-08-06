@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[round]{natbib}
 
-\usepackage{Sweave, caption, bbm,amsmath,url}
+\usepackage{Sweave,bbm,amsmath,url}
 
 \bibliographystyle{plainnat}
 
@@ -42,10 +42,18 @@ portfolio.\footnote{Comments welcome. An R package, which reproduces
 <<echo=FALSE, results='hide'>>=
 op <- options(width = 80, digits = 2, scipen = 5)
 
-require(MatchingPortfolios)
+require(portfolioMatch)
 trellis.par.set(canonical.theme(color = FALSE))
 
 set.seed(0)
+
+formatpercent <- function(vec, digits = 1, escape = 2) {
+  rst <- paste(formatC(vec * 100, digits = digits, format = "f"),
+               paste(c(rep("\\", escape), "%"), collapse = ""), sep = "")
+  dim(rst) <- dim(vec)
+  dimnames(rst) <- dimnames(vec)
+  rst
+}
 @
 
 \section{Introduction}
@@ -99,7 +107,6 @@ than five. The method does not scale well because of the inevitably limited
 number of stocks in the universe. Additionally, it is unclear how the approach
 applies to portfolios with short positions.
 
-%% FLAG: This is where we should start making changes
 Our approach applies the statistical matching literature
 (\cite{wilks32}, \cite{cochran73}, \cite{rubin73.1},
 \cite{rubin73.2}), which examines techniques for matching one subject
@@ -171,8 +178,6 @@ stock-picking ability. A benchmark that is matched by sector, cap and
 country would provide a better indicator of the manager's
 stock-picking ability.
 
-%% FLAG: this type of testing is probably going to be overwhelmed by 
-%% variance
 The appropriate benchmark depends on the source of the manager's
 claimed advantage. The benchmark should be similar to the portfolio in
 every characteristic \emph{except} those the manager claims as his
@@ -346,15 +351,7 @@ universe.
 \section{StarMine}
 
 <<echo=FALSE,results='hide'>>=
-data(starmine)
-s1.all <- subset(starmine, date == "1995-01-31" & !is.na(cap.usd) &
-                 !is.na(sector) & !is.na(country) & !is.na(ret.1.0.m))
-s1.all$sector  <- factor(s1.all$sector)
-s1.all$country <- factor(s1.all$country)
-s1.all$cap.usd.bucket <- cut(s1.all$cap.usd, c(0, 250e6, 2e9, 10e9, Inf),
-                             labels = c("Micro", "Small", "Mid", "Large"))
-s1.all$weight.uni <- scale1(rep(1, nrow(s1.all)))
-s1.all <- s1.all[order(s1.all$cap.usd, decreasing = TRUE),]
+data(s1)
 @ 
 
 As a concrete example, we will focus on a portfolio for a single month
@@ -381,11 +378,8 @@ distribution of these attributes in the data appears in Figure
 \ref{FigureStarMine}.
 
 <<echo=FALSE,results='asis'>>=
-s1.out <- s1.all[sample(nrow(s1.all), 6),]
-rownames(s1.out) <- s1.out$name
-s1.out$cap.usd   <- round(s1.out$cap.usd / 1e6)
-s1.out$smi[is.na(s1.out$smi)] <- "NA"
-xtable(structure(s1.out[c("country", "sector", "cap.usd", "smi", "ret.1.0.m")],
+require(xtable)
+xtable(structure(s1.out[c("country", "sector", "cap.usd", "smi", "fwd.ret.1m")],
                  names  = c("Coun.", "Sector", "Cap. (M)", "SMI",
                    "1-mo. Ret.")),
        digits  = c(NA, NA, NA, 1, 0, 3),
@@ -399,28 +393,7 @@ xtable(structure(s1.out[c("country", "sector", "cap.usd", "smi", "ret.1.0.m")],
 <<echo=FALSE, results='hide'>>=
 
 require(lattice)
-s1.summ.lf <- list()
-s1.summ.lf$str <-
-  rbind(data.frame(category = "Sector",  table(s1.all$sector)),
-        data.frame(category = "Country", table(s1.all$country)))
-s1.summ.lf$num <-
-  rbind(data.frame(category = "Return",     val = s1.all$ret.1.0.m),
-        data.frame(category = "Score",      val = s1.all$smi),
-        data.frame(category = "Log10(Market Cap)", val = log10(s1.all$cap.usd)))
-         
-s1.summ.lf$l1 <-
-  barchart(Var1 ~ Freq | category, s1.summ.lf$str,
-           xlab = "Number of Stocks",
-           scales = list(relation = "free"),
-           main = "Characteristics of Universe Stocks")
-s1.summ.lf$l2 <-
-  histogram(~ val | category, s1.summ.lf$num, breaks = NULL, as.table = TRUE,
-            type = "count", ylab = "Number of Stocks",
-            xlab = "Value",
-            scales = list(relation = "free"))
-print(s1.summ.lf$l1, split = c(1, 1, 1, 2), more = TRUE)
-print(s1.summ.lf$l2, split = c(1, 2, 1, 2))
-
+uni.histograms(s1.all)
 @ 
 \end{center}
 \caption{Histograms representing the makeup of the universe of stocks
@@ -431,37 +404,18 @@ print(s1.summ.lf$l2, split = c(1, 2, 1, 2))
 \end{figure}
 
 <<echo=FALSE,results='hide'>>=
-# Define the universe
-s1 <- subset(s1.all, !is.na(smi))
-# Break down to nice number of rows
-n.uni <- round(nrow(s1) - 10^2, -2)
-s1 <- s1[1:n.uni,]
-
-# Weights for SMI portfolio
-smi.new       <- s1$smi +
-  (s1$sector %in% c("Manuf", "NoDur")) * -10 +
-  (s1$country %in% c("USA", "JPN")) * -5 +
-  (s1$cap.usd.bucket %in% "Micro-cap (0-250M)") * -100
-n.port        <- 100
-s1$weight.smi <-
-  scale1(replace(rep(0, nrow(s1)),
-                 order(smi.new, decreasing = TRUE)[1:n.port], 1))
-
-# Weights for equal-weighted universe portfolio
-s1$weight.uni <- scale1(rep(1, nrow(s1)))
-
 # Performance
-perf.port <- sum(s1$ret.1.0.m * s1$weight.smi)
-perf.uni  <- sum(s1$ret.1.0.m * s1$weight.uni)
-perf.uni.all <- sum(s1.all$ret.1.0.m * s1.all$weight.uni)
+perf.port <- sum(s1$fwd.ret.1m * s1$weight.smi)
+perf.uni  <- sum(s1$fwd.ret.1m * s1$weight.uni)
+perf.uni.all <- sum(s1.all$fwd.ret.1m * s1.all$weight.uni)
 @
 
 The object of our analysis is a simple long-only portfolio using the SMI score,
-splitting our position equally among the \Sexpr{n.port}
+splitting our position equally among the \Sexpr{100}
 top-rated stocks in the universe, representing roughly the top decile of
 StarMine's ratings. Figure \ref{FigureExposure} shows this portfolio's
 primary exposures. The portfolio returns
-\Sexpr{formatpercent(perf.port)} over the following month.
+\Sexpr{formatpercent(perf.port, escape = 1)} over the following month.
 
 Figure \ref{FigureExposure} compares this portfolio's exposures
 to those of the universe. This portfolio is relatively heavily weighted in
@@ -472,25 +426,7 @@ Australian stocks.
 \begin{center}
 <<echo=FALSE, results='hide'>>=
 
-p.char   <- c("sector", "country", "cap.usd.bucket")
-p.char.n <- c("Sector", "Country", "Cap")
-
-p.exp.lf <-
-  do.call("rbind", sapply(seq(along = p.char), function(i) {
-    rbind(data.frame(por = "Portfolio",
-                     var = p.char.n[i],
-                     lev = names(tapply(s1$weight.smi, s1[[p.char[i]]], sum)),
-                     wei = tapply(s1$weight.smi, s1[[p.char[i]]], sum)),
-          data.frame(por = "Universe",
-                     var = p.char.n[i],
-                     lev = names(tapply(s1$weight.uni, s1[[p.char[i]]], sum)),
-                     wei = tapply(s1$weight.uni, s1[[p.char[i]]], sum)))
-  }, simplify = FALSE))
-
-print(barchart(lev ~ wei | var, p.exp.lf, groups = por, as.table = TRUE,
-               xlab = "Weight",
-               scales = list(relation = "free"), auto.key = TRUE,
-               main = "Exposures of Portfolio, Universe"))
+uni.expo(s1)
 
 @ 
 \end{center}
@@ -574,22 +510,14 @@ holdings have many more possible matches.
 \setkeys{Gin}{height=1\textwidth,width=1\textwidth}
 <<echo=FALSE,results='hide', fig.height=8.75, fig.width=8.75>>=
 
-country.use <- names(sort(table(s1$country), decreasing = TRUE)[1:4])
-print(stripplot(sector ~ cap.usd | country,
-                subset(s1, country %in% country.use),
-                jitter = TRUE, col = c("grey", "black"), pch = 20,
-                scales =  list(x = list(log = TRUE, at = 10^(8:11),
-                                 labels = c("$100M", "$1B", "$10B", "$100B"))),
-                xlab = "Market Cap in USD", ylab = "Sector",
-                main = "Universe: Holdings and Non-holdings",
-                groups = weight.smi > 0))
+uni.sec.plot(s1, c("country", "sector", "cap.usd"), "weight.smi")
 
 @ 
 \setkeys{Gin}{height=0.8\textwidth,width=0.8\textwidth}
 \end{center}
 \caption{Cross-sections of universe stocks by market cap and
-  sector. There is one panel for each of the four countries, the United States,
-  Japan, Great Britain and France, with the most universe
+  sector. There is one panel for each of the four countries, the U.S.,
+  Japan, Great Britain and Australia, with the most universe
   securities. Black dots
   are portfolio holdings and grey dots non-holdings. The vertical
   positions of the dots are jittered slightly so as to appear
@@ -657,9 +585,9 @@ excluded level, Australia. Likewise, the positive high-tech
 coefficient indicates exposure to that sector.
 
 <<echo=FALSE,results='asis'>>=
+
 # Fit the propensity score
-prop.glm <- glm(weight.smi > 0 ~ country + sector + cap.usd.bucket, s1,
-                family = quasibinomial)
+prop.glm <- prop.calc(s1, c("country", "sector", "cap.usd.bucket"), "weight.smi")
 
 # Stupid gaming of the summary output to allow renaming variables
 prop.glm.s <- summary(prop.glm)$coef
@@ -720,10 +648,9 @@ characteristics as the original.
 \begin{figure}
 \begin{center}
 <<echo=FALSE,results='hide'>>=
-# Matching using propensity score
-rr.port <- as.vector(which(prop.glm$y))
-rr.prop <- prop.match(prop.glm, 0)
-expo.plot.all(s1, "weight.smi", ind1 = rr.port, ind2 = rr.prop)
+## Create a portfolioMatch object
+pm.obj <- portfolio.match(s1, c("country", "sector", "cap.usd.bucket"), "weight.smi", replace = FALSE)
+expo.plot.all(pm.obj, c("sector", "country", "cap.usd.bucket"))
 @ 
 \end{center}
 \caption{Bar plots comparing the exposures of the original StarMine
@@ -737,7 +664,7 @@ expo.plot.all(s1, "weight.smi", ind1 = rr.port, ind2 = rr.prop)
 
 <<echo=FALSE,results='hide'>>=
 # Matching portfolio performance
-perf.match <- sum(s1$ret.1.0.m[rr.prop] * s1$weight.smi[rr.port])
+perf.match <- pm.obj@return.match[[1]]$total
 @ 
 
 After we have found a matching portfolio, outperformance
@@ -751,8 +678,8 @@ portfolio. Here $i$ indexes all stocks in the universe, $i \in \{1,
 ..., n\}$, so that most $w_i = 0$.
 
 For the StarMine portfolio, the matching portfolio attains a return of
-\Sexpr{formatpercent(perf.match, digits = 2)}
-versus a return of \Sexpr{formatpercent(perf.port)} for the original
+\Sexpr{formatpercent(perf.match, digits = 2, escape = 1)}
+versus a return of \Sexpr{formatpercent(perf.port, escape = 1)} for the original
 portfolio, so the portfolio slightly outperforms. The simple
 weighted average of the universe yields a somewhat higher
 outperformance, but this is narrowed when matching portfolios are used
@@ -792,8 +719,8 @@ distance from the original.
 
 <<echo=FALSE,results='hide'>>=
 # Generate random portfolios
-rp.1  <- sapply(seq(1, 100), function(i) prop.match(prop.glm, .005))
-rp.10 <- sapply(seq(1, 100), function(i) prop.match(prop.glm, .100))
+pm.r1.obj <- portfolio.match(s1, c("country", "sector", "cap.usd.bucket"), "weight.smi", thresh = 0.005, n = 100, replace = FALSE)
+pm.r10.obj <- portfolio.match(s1, c("country", "sector", "cap.usd.bucket"), "weight.smi", thresh = 0.100, n = 100, replace = FALSE)
 @ 
 
 Before we can sample portfolios, we need some guidelines on how far a
@@ -851,12 +778,12 @@ returns results related in the following sections we use the
 \begin{center}
 \setkeys{Gin}{height=1\textwidth,width=1\textwidth}
 <<echo=FALSE,results='hide'>>=
-opar <- par(mfrow = c(2, 1), mar = c(2, 2, 2, 0))
-rp.plot(rp.1, rr.port, s1, "sector", "weight.smi",
-        main = "Sector Exposures of Random Portfolios, Thresh = .005")
-rp.plot(rp.10, rr.port, s1, "sector", "weight.smi",
-        main = "Sector Exposures of Random Portfolios, Thresh = .05")
-par(opar)
+par(mfrow = c(2, 1), mar = c(2, 2, 2, 0))
+
+rp.plot(pm.r1.obj, "sector",
+ main = "Sector Exposures of Random Portfolios, Thresh = .005")
+rp.plot(pm.r10.obj, "sector",
+ main = "Sector Exposures of Random Portfolios, Thresh = .05")
 @ 
 \setkeys{Gin}{height=0.8\textwidth,width=0.8\textwidth}
 \end{center}
@@ -875,15 +802,15 @@ par(opar)
 \subsubsection{Results}
 
 <<echo=FALSE,results='hide'>>=
-# Calculate returns on random portfolios
-rp.ret <- rp.return(rp.1, rr.port, s1, "ret.1.0.m", "weight.smi")
+## Calculate returns on random portfolios
+rp.ret <- sapply(pm.r1.obj@return.match, function(x) x$total)
 @ 
 
 We next compare the returns enjoyed by the random, matching portfolios
 to those of the original. Figure \ref{FigureRandomPortfolio} shows the
 distribution of matched portfolio returns along with a vertical line
 representing the original portfolio's return. The StarMine portfolio
-outperforms \Sexpr{formatpercent(mean(perf.port > rp.ret))} of the
+outperforms \Sexpr{formatpercent(mean(perf.port > rp.ret), escape = 1)} of the
 random, matching portfolios. This provides some evidence for
 outperformance of the StarMine portfolio, but not enough to achieve
 statistical significance.
@@ -892,22 +819,13 @@ statistical significance.
 \begin{center}
 <<echo=FALSE,results='hide'>>=
 
-print(histogram(~ rp.ret, nint = 12, type = "count",
-                xlab = "Matched Portfolio Return", ylab = "Number",
-                main = "Distribution of Random Portfolios' Returns",
-                panel = function(...) {
-                  panel.histogram(...)
-                  llines(x = rep(perf.port, 2), y = c(-100, 100),
-                         lwd = 2)
-                  ltext(x = perf.port, y = 15,
-                        labels = "Original Portfolio", adj = c(0.49, 1))
-                }))
+rp.hist(pm.r1.obj)
 
 @ 
 \caption{Histogram showing the returns of random, matched portfolios
   for the StarMine data. The thick vertical line represents the return
   realized by the StarMine decile portfolio. It stands at the
-  \Sexpr{formatpercent(mean(perf.port > rp.ret))} percentile of the
+  \Sexpr{formatpercent(mean(perf.port > rp.ret), escape = 1)} percentile of the
   random returns.}
 \label{FigureRandomPortfolio}
 \end{center}
@@ -934,9 +852,11 @@ random portfolios and compare the performance results to other
 measures.
 
 <<echo=FALSE,results='hide'>>=
-s1$weight.smi.ls <- s1$weight.smi * 1.0
-s1$weight.smi.ls[order(smi.new)[1:n.port]] <- -.75 / n.port
-perf.ls <- sum(s1$weight.smi.ls * s1$ret.1.0.m)
+prop.lm <- prop.calc(s1, c("country", "sector", "cap.usd.bucket"), "weight.smi.ls")
+pm.ls.obj <- portfolio.match(s1,
+ c("country", "sector", "cap.usd.bucket"), "weight.smi.ls", replace = FALSE)
+perf.ls <- pm.ls.obj@return.orig[[1]]$total
+perf.ls.m <- pm.ls.obj@return.match[[1]]$total
 @ 
 
 For the tests in this section we create a long-short portfolio
@@ -947,14 +867,7 @@ the long position, creating a 100/75 long-short portfolio.
 
 The long and short exposures of this portfolio are given in Table
 \ref{FigureLSMatchExposure}. Overall, the portfolio returns
-\Sexpr{formatpercent(perf.ls)}.
-
-<<echo=FALSE,results='hide'>>=
-prop.lm <- lm(weight.smi.ls ~ country + sector + cap.usd.bucket, s1)
-rr.ls   <- which(s1$weight.smi.ls != 0)
-rr.ls.m <- prop.match(prop.lm, 0)
-perf.ls.m <- sum(s1$weight.smi.ls[rr.ls] * s1$ret.1.0.m[rr.ls.m])
-@ 
+\Sexpr{formatpercent(perf.ls, escape = 1)}.
 
 Some of the mechanics of matching must change. Previously we followed
 the Rubin Causal Model by analogizing a stock's inclusion in the
@@ -1012,8 +925,8 @@ the long and short exposures of the original and matched
 portfolios. We can see that both the long and short bets in the
 original portfolio line up very nicely with the matched portfolio's.
 
-The matched portfolio returns \Sexpr{formatpercent(perf.ls.m)}
-compared with \Sexpr{formatpercent(perf.ls)} for the original
+The matched portfolio returns \Sexpr{formatpercent(perf.ls.m, escape = 1)}
+compared with \Sexpr{formatpercent(perf.ls, escape = 1)} for the original
 portfolio. This suggests that the StarMine long-short portfolio
 exhibits some stock-picking ability; its returns are more than can be
 explained by its sector, country and market cap bets.
@@ -1021,7 +934,7 @@ explained by its sector, country and market cap bets.
 \begin{figure}
 \begin{center}
 <<echo=FALSE,results='hide'>>=
-expo.plot.all(s1, "weight.smi.ls", ind1 = rr.ls, ind2 = rr.ls.m, style = "ls")
+expo.plot.all(pm.ls.obj, c("sector", "country", "cap.usd.bucket"), style = "ls")
 @ 
 \end{center}
 \caption{The long and short exposures of the original long-short
@@ -1040,13 +953,13 @@ of 0.0001, a single basis point, to lead to high-quality matches
 without sacrificing diversity.
 
 <<echo=FALSE,results='hide'>>=
-rp.ls <- sapply(seq(1, 100), function(i) prop.match(prop.lm, .0001))
-rp.ls.ret <- rp.return(rp.ls, rr.ls, s1, "ret.1.0.m", "weight.smi.ls")
-@ 
+pm.lsr.obj <- portfolio.match(s1, c("country", "sector", "cap.usd.bucket"), "weight.smi.ls", thresh = 0.0001, n = 100, replace = FALSE)
+rp.ls.ret <- sapply(pm.lsr.obj@return.match, function(x) x$total)
+@
 
 The returns of the matching portfolios are shown in the histogram in
 Figure \ref{FigureLSRandomPortfolio}. Since the original portfolio's
-return falls at the \Sexpr{formatpercent(mean(perf.ls > rp.ls.ret))}
+return falls at the \Sexpr{formatpercent(mean(perf.ls > rp.ls.ret), escape = 1)}
 percentile of the random portfolios' returns, it turns out to be a
 little worse than we thought. We cannot reject the hypothesis that the
 stock-picking ability is zero.
@@ -1055,23 +968,13 @@ stock-picking ability is zero.
 \begin{center}
 <<echo=FALSE,results='hide'>>=
 
-print(histogram(~ rp.ls.ret, nint = 12, type = "count",
-                xlab = "Matched Portfolio Return", ylab = "Number",
-                main = "Distribution of Random Long-short Portfolios' Returns",
-                panel = function(...) {
-                  panel.histogram(...)
-                  llines(x = rep(perf.ls, 2), y = c(-100, 100),
-                         lwd = 2)
-                  ltext(x = perf.ls, y = 15,
-                        labels = "Original L-S Portfolio",
-                        adj = c(0.49, 1))
-                }))
+rp.hist(pm.lsr.obj)
 
 @ 
 \caption{Histogram showing the returns of random portfolios matched to
   the long-short StarMine portfolio. The thick vertical line
   represents the return realized by the StarMine decile portfolio. It
-  stands at the \Sexpr{formatpercent(mean(perf.ls > rp.ls.ret))}
+  stands at the \Sexpr{formatpercent(mean(perf.ls > rp.ls.ret), escape = 1)}
   percentile of the random returns, suggesting that the StarMine
   portfolio's excess return is indeed due to stock-picking ability.}
 \label{FigureLSRandomPortfolio}
@@ -1083,17 +986,7 @@ print(histogram(~ rp.ls.ret, nint = 12, type = "count",
 \setkeys{Gin}{height=0.5\textwidth,width=0.8\textwidth}
 <<echo=FALSE,results='hide', fig.height=4.375, fig.width=7>>=
 
-p.perf.lf2 <-
-  structure(matrix(c(perf.port, 0.036, perf.uni,
-                     mean(rp.ret), perf.ls, mean(rp.ls.ret)) * 100),
-            dimnames = list(c("Portfolio", "S&P 500", "Universe",
-              "Matching Portfolio Average",
-              "Long-short Portfolio", "Matching Long-short Average"),
-              c("One-month Forward Return (%)")))
-p.perf.lf2 <- p.perf.lf2[seq(nrow(p.perf.lf2), 1),,drop=FALSE]
-
-print(barchart(p.perf.lf2, xlab = "One-month Forward Return (%)",
-               main = "Forward Return of All Portfolios"))
+uni.ret.plot(s1, pm.r1.obj, pm.lsr.obj)
 
 @ 
 \setkeys{Gin}{height=0.8\textwidth,width=0.8\textwidth}
