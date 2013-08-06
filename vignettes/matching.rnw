@@ -1207,6 +1207,7 @@ Decomposing excess return in this way yields
   \ensuremath{\boldsymbol{w_p}} - \ensuremath{\boldsymbol{w_b}})' (
   \ensuremath{\boldsymbol{r_p}} - \ensuremath{\boldsymbol{r_b}})}}
 \end{eqnarray*}
+
 Interpretively, the three parts answer different questions:
 
 1. {\textbf{Allocation Effect}}. Across the board, did you select a better mix
@@ -1220,4 +1221,21 @@ benchmark and underweight groups where you didn't?
 
 <<echo=FALSE>>=
 options(op)
+@
+
+<<newfigs>>=
+project.simplex <- function(m) {
+  points <- data.frame(x = m[,2] + 1/2*m[,3], y = sqrt(3)/2*m[,3])
+  return(points)
+}
+library(ggplot2)
+biased.points <- matrix(runif(30000), ncol = 3)
+biased.points <- apply(biased.points, 2, function(x) x/rowSums(biased.points))
+biased.points.p <- project.simplex(biased.points)
+biased.plot <- ggplot(biased.points.p, aes(x=x, y=y)) + geom_point()
+
+uni.points <- matrix(rexp(30000), ncol = 3)
+uni.points <- apply(uni.points, 2, function(x) x/rowSums(uni.points))
+uni.points.p <- project.simplex(uni.points)
+uni.plot <- ggplot(uni.points.p, aes(x=x, y=y)) + geom_point()
 @
