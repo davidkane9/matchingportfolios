@@ -16,7 +16,7 @@
 \maketitle
 
 %%\VignetteIndexEntry{Matching Portfolios}
-%%\VignetteDepends{MatchingPortfolios}
+%%\VignetteDepends{matching.portfolios}
 
 \begin{abstract}
 

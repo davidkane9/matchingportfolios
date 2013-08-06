@@ -3,5 +3,6 @@
 .RData
 features.txt
 matchingportfolios.Rproj
+vignettes/outline.txt
 
 

@@ -6,14 +6,14 @@ I will relabel it as undone.
 
 0) Move any relevant items from the other TODO list to this one.
 
-1) Change name of package to "matching.portfolios"
+1) DONE. Change name of package to "matching.portfolios"
 
-2) Do we really need lmSolve and MatchingPortfolios in DEPENDS? If not delete them. And make sure package passes R CMD check.
+2) DONE. Do we really need lmSolve and MatchingPortfolios in DEPENDS? If not delete them. And make sure package passes R CMD check.
 
 3) Check in the latest version of the matching.portfolios.Rnw pdf 
 into the doc directory at the end of each day.
 
-4) Clean up the dreck from the doc directory. That is, it is fine if 
+4) DONE. Got rid of it all. Clean up the dreck from the doc directory. That is, it is fine if 
 creating the vignette makes some temporary files (.tex, .log and so on) 
 but these should not be part of the repository. After you delete them, 
 add them to .gitignore so that they are not checked in. And I guess this 
