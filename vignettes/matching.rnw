@@ -509,7 +509,7 @@ holdings have many more possible matches.
 \begin{center}
 \setkeys{Gin}{height=1\textwidth,width=1\textwidth}
 <<echo=FALSE,results='hide', fig.height=8.75, fig.width=8.75>>=
-
+s1$country = factor(s1$country, levels=c("JPN", "USA", "FRA", "GBR"), labels = c("Japan", "USA", "France", "Great Britain"))
 uni.sec.plot(s1, c("country", "sector", "cap.usd"), "weight.smi")
 
 @ 
