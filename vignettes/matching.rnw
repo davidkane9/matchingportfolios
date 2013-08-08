@@ -1315,3 +1315,52 @@ p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + geom_point(
   geom_point(x = .4, y = .5, size = 3)
 p3
 @
+
+<<hitandrun walkthrough, echo = FALSE>>=
+dat <- data.frame(x = .4, y = .6)
+p1 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+p1
+
+p2 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .386, yend = .625), arrow = arrow(length = unit(.2, "cm")))
+p2
+
+p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm")))
+p3
+
+p4 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm"))) +
+  geom_segment(aes(x = .4, y = .6, xend = .88, yend = 0), arrow = arrow(length = unit(.2, "cm")))
+p4
+
+p4 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + 
+  geom_point(x = .88, y = 0, size = 3) + 
+  geom_point(x = .37, y = 0.635, size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+p4
+
+dat2 <- data.frame(x = .7, y = .226)
+p4 <- ggplot(data = dat2, aes(x = x, y = y)) + geom_point(size = 3) + 
+  simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+p4
+@
