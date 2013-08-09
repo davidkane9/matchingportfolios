@@ -1014,73 +1014,6 @@ constructing matching portfolios. Our methodology extends naturally to
 creating matching portfolios under any weighting scheme.
 
 \bibliography{matching}
-
-<<newfigs, echo = FALSE>>=
-project.simplex <- function(m) {
-  points <- data.frame(x = m[,2] + 1/2*m[,3], y = sqrt(3)/2*m[,3])
-  return(points)
-}
-library(ggplot2)
-library(grid)
-library(devtools)
-library(base)
-library(rgl)
-library(wq)
-library(reshape2)
-load_all("..")
-
-simpTheme = theme(
-  panel.background = NULL,
-  panel.grid.major = element_blank(),
-  panel.grid.minor = element_blank(),
-  axis.title.x = element_blank(),
-  axis.ticks.x = element_blank(),
-  axis.text.x = element_blank(),
-  axis.text.y = element_blank(),
-  axis.ticks.y = element_blank(),
-  axis.title.y = element_blank(),
-  axis.line.x = element_blank(),
-  axis.line.y = element_blank(),
-  axis.line = element_blank(),
-  panel.border = element_blank()
-)
-
-biased.points <- matrix(runif(30000), ncol = 3)
-biased.points <- apply(biased.points, 2, function(x) x/rowSums(biased.points))
-biased.points.p <- project.simplex(biased.points)
-biased.plot <- ggplot(biased.points.p, aes(x=x, y=y)) + geom_point()
-
-biased.plot <- biased.plot + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
-ggsave(filename="biased.jpg", plot=biased.plot)
-
-uni.points <- matrix(rexp(30000), ncol = 3)
-uni.points <- apply(uni.points, 2, function(x) x/rowSums(uni.points))
-uni.points.p <- project.simplex(uni.points)
-uni.plot <- ggplot(uni.points.p, aes(x=x, y=y)) + geom_point(size = 0.5)
-uni.plot <- uni.plot + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
-ggsave(filename="unbiased.jpg", plot=uni.plot)
-@
-
-\begin{figure}[H]
-  \begin{subfigure}[b]{0.3\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{biased}
-      \caption{Biased}
-      \label{fig:biased}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.3\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{unbiased}
-      \caption{Unbiased}
-      \label{fig:unbiased}
-      \end{subfigure}
-  \end{figure}
   
 \end{document}
 
@@ -1292,3 +1225,71 @@ benchmark and underweight groups where you didn't?
 <<echo=FALSE>>=
 options(op)
 @
+
+
+<<newfigs, echo = FALSE>>=
+project.simplex <- function(m) {
+  points <- data.frame(x = m[,2] + 1/2*m[,3], y = sqrt(3)/2*m[,3])
+  return(points)
+}
+library(ggplot2)
+library(grid)
+library(devtools)
+library(base)
+library(rgl)
+library(wq)
+library(reshape2)
+load_all("..")
+
+simpTheme = theme(
+  panel.background = NULL,
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  axis.title.x = element_blank(),
+  axis.ticks.x = element_blank(),
+  axis.text.x = element_blank(),
+  axis.text.y = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.title.y = element_blank(),
+  axis.line.x = element_blank(),
+  axis.line.y = element_blank(),
+  axis.line = element_blank(),
+  panel.border = element_blank()
+)
+
+biased.points <- matrix(runif(30000), ncol = 3)
+biased.points <- apply(biased.points, 2, function(x) x/rowSums(biased.points))
+biased.points.p <- project.simplex(biased.points)
+biased.plot <- ggplot(biased.points.p, aes(x=x, y=y)) + geom_point()
+
+biased.plot <- biased.plot + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+ggsave(filename="biased.jpg", plot=biased.plot)
+
+uni.points <- matrix(rexp(30000), ncol = 3)
+uni.points <- apply(uni.points, 2, function(x) x/rowSums(uni.points))
+uni.points.p <- project.simplex(uni.points)
+uni.plot <- ggplot(uni.points.p, aes(x=x, y=y)) + geom_point(size = 0.5)
+uni.plot <- uni.plot + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+ggsave(filename="unbiased.jpg", plot=uni.plot)
+@
+
+\begin{figure}[H]
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{biased}
+      \caption{Biased}
+      \label{fig:biased}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{unbiased}
+      \caption{Unbiased}
+      \label{fig:unbiased}
+      \end{subfigure}
+  \end{figure}
