@@ -8,7 +8,7 @@ I will relabel it as undone.
 
 
 
-5) PARTIALLY DONE. We need a figure that puts two simplexes side by side, each of which
+5) PARTIALLY DONE. ANGEL ADD TRAINGLES AND MAKE PRETTY. We need a figure that puts two simplexes side by side, each of which
 features random sampling. The first uses uniform draws that are then
 normalized. This (see the discussion in West) produces too many samples
 from the "center" of the simplex. The second uses exponential draws that
@@ -17,7 +17,7 @@ comment to this figure. Again, this should be a single figure with the two
 triangles side-by-side.
 ----
 
-6) PLOTMIRROR. Figure which shows how mirror works. That is, walk the reader through, 
+6) PLOTMIRROR. ANGEL. Figure which shows how mirror works. That is, walk the reader through, 
 step-by-step, how the mirror algorithm works by showing clear graphics on a
 3 stock simplex. That is, first a point is picked that is not on the simplex. 
 (Show that point.) Then we figure out the direction toward the side of the
@@ -26,13 +26,13 @@ mirror works, so this description may be wrong. But you get the idea.
 ----plotmirror does exactly this
 
 
-7) PLOTMIRROR. Figure, again on the stocks = 3 simplex, of how hitandrun works after it
+7) PLOTMIRROR. ANGEL. Figure, again on the stocks = 3 simplex, of how hitandrun works after it
 has found a point in the simplex. Show that point. Then it picks a random
 direction. Then it measures the distance to the edge. And so on. Again, the
 graphic will include (drawn in by hand) all the bits and pieces. And then the 
 caption will have a paragraph or more which walks us through the process.
 
-8) PLOTMIRROR. Figure, again on the stocks = 3 simplex, of the first 15 steps (or however
+8) PLOTMIRROR. ANGEL. Figure, again on the stocks = 3 simplex, of the first 15 steps (or however
 many look good, 50?) of hitandrun, showing each point connected to the 
 next by a line segment. This just gives the reader a sense of how the 
 algorythm explores the sample space.

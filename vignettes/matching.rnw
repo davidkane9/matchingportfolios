@@ -1,7 +1,10 @@
 \documentclass{article}
 \usepackage[round]{natbib}
-
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{Sweave,bbm,amsmath,url}
+\usepackage{float}
 
 \bibliographystyle{plainnat}
 
@@ -387,7 +390,7 @@ xtable(structure(s1.out[c("country", "sector", "cap.usd", "smi", "fwd.ret.1m")],
        label   = "TableStarMine")
 @
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 
 <<echo=FALSE, results='hide'>>=
@@ -422,7 +425,7 @@ to those of the universe. This portfolio is relatively heavily weighted in
 high-tech., shopping and durable goods stocks, as well as mid-caps and
 Australian stocks.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 <<echo=FALSE, results='hide'>>=
 
@@ -442,7 +445,7 @@ portfolio looks bad; compared to the equal-weighted complete universe, it looks
 great. The equal-weighted return on the
 rated universe also underperforms the actual portfolio.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \setkeys{Gin}{height=0.4\textwidth,width=0.8\textwidth}
 <<echo=FALSE, results='hide', fig.height=3.5, fig.width=7>>=
@@ -505,11 +508,11 @@ non-Japanese matches, the closest we can get is General Motors (\$28
 billion). Thankfully, either of these is a plausible match, and most
 holdings have many more possible matches.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \setkeys{Gin}{height=1\textwidth,width=1\textwidth}
 <<echo=FALSE,results='hide', fig.height=8.75, fig.width=8.75>>=
-
+s1$country = factor(s1$country, levels=c("JPN", "USA", "FRA", "GBR"), labels = c("Japan", "USA", "France", "Great Britain"))
 uni.sec.plot(s1, c("country", "sector", "cap.usd"), "weight.smi")
 
 @ 
@@ -645,7 +648,7 @@ propensity score-matched portfolio. There are no points of significant
 disagreement. The matched portfolio has nearly exactly the same
 characteristics as the original.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 <<echo=FALSE,results='hide'>>=
 ## Create a portfolioMatch object
@@ -774,7 +777,7 @@ with the tighter threshold, though the difference is moderate. For the
 returns results related in the following sections we use the
 0.005-threshold random portfolio collection.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \setkeys{Gin}{height=1\textwidth,width=1\textwidth}
 <<echo=FALSE,results='hide'>>=
@@ -815,7 +818,7 @@ random, matching portfolios. This provides some evidence for
 outperformance of the StarMine portfolio, but not enough to achieve
 statistical significance.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 <<echo=FALSE,results='hide'>>=
 
@@ -931,7 +934,7 @@ portfolio. This suggests that the StarMine long-short portfolio
 exhibits some stock-picking ability; its returns are more than can be
 explained by its sector, country and market cap bets.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 <<echo=FALSE,results='hide'>>=
 expo.plot.all(pm.ls.obj, c("sector", "country", "cap.usd.bucket"), style = "ls")
@@ -964,7 +967,7 @@ percentile of the random portfolios' returns, it turns out to be a
 little worse than we thought. We cannot reject the hypothesis that the
 stock-picking ability is zero.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 <<echo=FALSE,results='hide'>>=
 
@@ -981,7 +984,7 @@ rp.hist(pm.lsr.obj)
 \end{center}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \setkeys{Gin}{height=0.5\textwidth,width=0.8\textwidth}
 <<echo=FALSE,results='hide', fig.height=4.375, fig.width=7>>=
@@ -1011,7 +1014,7 @@ constructing matching portfolios. Our methodology extends naturally to
 creating matching portfolios under any weighting scheme.
 
 \bibliography{matching}
-
+  
 \end{document}
 
 \section{Appendix}
@@ -1105,7 +1108,7 @@ the estimated variance will be inflated. Consequently match quality
 would suffer among small caps, since a difference of \$100 million
 is insignificant on the scale of billions.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \setkeys{Gin}{height=0.4\textwidth}
 <<echo=FALSE,results='hide',fig.height=2.8>>=
@@ -1223,19 +1226,70 @@ benchmark and underweight groups where you didn't?
 options(op)
 @
 
-<<newfigs>>=
+
+<<newfigs, echo = FALSE>>=
 project.simplex <- function(m) {
   points <- data.frame(x = m[,2] + 1/2*m[,3], y = sqrt(3)/2*m[,3])
   return(points)
 }
 library(ggplot2)
+library(grid)
+library(devtools)
+library(base)
+library(rgl)
+library(wq)
+library(reshape2)
+load_all("..")
+
+simpTheme = theme(
+  panel.background = NULL,
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  axis.title.x = element_blank(),
+  axis.ticks.x = element_blank(),
+  axis.text.x = element_blank(),
+  axis.text.y = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.title.y = element_blank(),
+  axis.line.x = element_blank(),
+  axis.line.y = element_blank(),
+  axis.line = element_blank(),
+  panel.border = element_blank()
+)
+
 biased.points <- matrix(runif(30000), ncol = 3)
 biased.points <- apply(biased.points, 2, function(x) x/rowSums(biased.points))
 biased.points.p <- project.simplex(biased.points)
 biased.plot <- ggplot(biased.points.p, aes(x=x, y=y)) + geom_point()
 
+biased.plot <- biased.plot + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+ggsave(filename="biased.jpg", plot=biased.plot)
+
 uni.points <- matrix(rexp(30000), ncol = 3)
 uni.points <- apply(uni.points, 2, function(x) x/rowSums(uni.points))
 uni.points.p <- project.simplex(uni.points)
-uni.plot <- ggplot(uni.points.p, aes(x=x, y=y)) + geom_point()
+uni.plot <- ggplot(uni.points.p, aes(x=x, y=y)) + geom_point(size = 0.5)
+uni.plot <- uni.plot + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+ggsave(filename="unbiased.jpg", plot=uni.plot)
 @
+
+\begin{figure}[H]
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{biased}
+      \caption{Biased}
+      \label{fig:biased}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{unbiased}
+      \caption{Unbiased}
+      \label{fig:unbiased}
+      \end{subfigure}
+  \end{figure}

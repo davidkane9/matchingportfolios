@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -63,6 +63,13 @@ R.~Dawson and R.~Young.
 \newblock \emph{Advances in Portfolio Construction and Implementation}, chapter
   Near-uniformly distributed, stochastically generated portfolios.
 \newblock Butterworth--Heinemann, 2003.
+
+\bibitem[Diamond and Sekhon(2005)]{diamond05}
+Alexis Diamond and Jasjeet~S. Sekhon.
+\newblock Genetic matching for estimating causal effects: A general
+  multivariate matching method for achieving balance in observational studies.,
+  2005.
+\newblock URL \url{http://sekhon.berkeley.edu/papers/GenMatch.pdf}.
 
 \bibitem[Fama and French(1992)]{fama92}
 Eugene~F. Fama and Kenneth~R. French.
@@ -150,6 +157,12 @@ Bo~Lu, Elaine Zanutto, Robert Hornik, and Paul~R. Rosenbaum.
   against drug abuse.
 \newblock \emph{Journal of the American Statistical Association}, 96\penalty0
   (456):\penalty0 1245--1253, December 2001.
+
+\bibitem[Mahalanobis(1936)]{mahalanobis36}
+P.C. Mahalanobis.
+\newblock On the generalized distance in statistics.
+\newblock \emph{Proceedings of the National Institute of Science of India},
+  12:\penalty0 49--55, 1936.
 
 \bibitem[Rosenbaum and Rubin(1983)]{rosenbaum83}
 Paul~R. Rosenbaum and Donald~B. Rubin.
