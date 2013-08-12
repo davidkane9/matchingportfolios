@@ -128,6 +128,70 @@ Now let's say that you want to add Coca-Cola (KO) to the stocks that you are inv
 \caption{1000 random samples.}
 \end{figure}
 
+\section*{hitandrun()}
+
+Random points were generated in order to create the data for the previous two figures. The function used to create the random weights is called "hitandrun".
+
+\begin{figure}[H]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hitandrun_walkthrough1} 
+
+\end{knitrout}
+
+\caption{There are a number of steps within the function, the first of which is that it picks a random point within a simplex.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hitandrun_walkthrough2} 
+
+\end{knitrout}
+
+\caption{Next, hitandrun() picks a random direction, as shown by the arrow.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hitandrun_walkthrough3} 
+
+\end{knitrout}
+
+\caption{The function then extends that arrow until it hits an edge of the simplex.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hitandrun_walkthrough4} 
+
+\end{knitrout}
+
+\caption{Next, hitandrun() extends the arrow in the other direction until it hits another point on the edge of the simplex.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hitandrun_walkthrough5} 
+
+\end{knitrout}
+
+\caption{A line segment is formed. It passes through the initial point and connects the two points where the directional arrows intersected the simplex.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hitandrun_walkthrough6} 
+
+\end{knitrout}
+
+\caption{Finally, a random point is picked on the line segment shown in the previous figure.}
+\end{figure}
+
 \end{document}
 
 \begin{knitrout}

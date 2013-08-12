@@ -362,6 +362,87 @@ print(h5, vp = vp(5,5))
 \caption{1000 random samples.}
 \end{figure}
 
+\section*{hitandrun()}
+
+Random points were generated in order to create the data for the previous two figures. The function used to create the random weights is called "hitandrun".
+
+\begin{figure}[H]
+<<hitandrun walkthrough1, echo = FALSE, warning = FALSE>>=
+dat <- data.frame(x = .4, y = .6)
+p1 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+p1
+@
+\caption{There are a number of steps within the function, the first of which is that it picks a random point within a simplex.}
+\end{figure}
+
+\begin{figure}[H]
+<<hitandrun walkthrough2, echo = FALSE, warning = FALSE>>=
+p2 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .386, yend = .625), arrow = arrow(length = unit(.2, "cm")))
+p2
+@
+\caption{Next, hitandrun() picks a random direction, as shown by the arrow.}
+\end{figure}
+
+\begin{figure}[H]
+<<hitandrun walkthrough3, echo = FALSE, warning = FALSE>>=
+p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm")))
+p3
+@
+\caption{The function then extends that arrow until it hits an edge of the simplex.}
+\end{figure}
+
+\begin{figure}[H]
+<<hitandrun walkthrough4, echo = FALSE, warning = FALSE>>=
+p4 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm"))) +
+  geom_segment(aes(x = .4, y = .6, xend = .88, yend = 0), arrow = arrow(length = unit(.2, "cm")))
+p4
+@
+\caption{Next, hitandrun() extends the arrow in the other direction until it hits another point on the edge of the simplex.}
+\end{figure}
+
+\begin{figure}[H]
+<<hitandrun walkthrough5, echo = FALSE, warning = FALSE>>=
+p5 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + 
+  geom_point(x = .88, y = 0, size = 3) + 
+  geom_point(x = .37, y = 0.635, size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+p5
+@
+\caption{A line segment is formed. It passes through the initial point and connects the two points where the directional arrows intersected the simplex.}
+\end{figure}
+
+\begin{figure}[H]
+<<hitandrun walkthrough6, echo = FALSE, warning = FALSE>>=
+dat2 <- data.frame(x = .7, y = .226)
+p6 <- ggplot(data = dat2, aes(x = x, y = y)) + geom_point(size = 3) + 
+  simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+p6
+@
+\caption{Finally, a random point is picked on the line segment shown in figure 10.}
+\end{figure}
+
 \end{document}
 
 <<mirror walk-through plots, echo = FALSE, warning = FALSE>>=
