@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.7.17)  12 AUG 2013 13:27
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.7.17)  12 AUG 2013 16:33
 entering extended mode
 **C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/random.portfo
 lios.tex
@@ -418,15 +418,51 @@ Package pdftex.def Info: figure/hitandrun_walkthrough6.pdf used on input line 1
 88.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [11 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
-andrun_walkthrough5.pdf>] [12 <C:/Users/angel/matching.portfolios/matchingportf
-olios/vignettes/figure/hitandrun_walkthrough6.pdf>]
+andrun_walkthrough5.pdf>]
+Package color Info: Redefining color shadecolor on input line 197.
+<figure/hitandrun_walkthrough7.pdf, id=100, 505.89pt x 505.89pt>
+File: figure/hitandrun_walkthrough7.pdf Graphic file (type pdf)
+<use figure/hitandrun_walkthrough7.pdf>
+Package pdftex.def Info: figure/hitandrun_walkthrough7.pdf used on input line 1
+98.
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+[12 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
+andrun_walkthrough6.pdf>]
+Package color Info: Redefining color shadecolor on input line 211.
+<figure/mirror_walkthrough1.pdf, id=108, 505.89pt x 505.89pt>
+File: figure/mirror_walkthrough1.pdf Graphic file (type pdf)
+<use figure/mirror_walkthrough1.pdf>
+Package pdftex.def Info: figure/mirror_walkthrough1.pdf used on input line 212.
+
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+[13 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
+andrun_walkthrough7.pdf>]
+Package color Info: Redefining color shadecolor on input line 221.
+<figure/mirror_walkthrough2.pdf, id=116, 505.89pt x 505.89pt>
+File: figure/mirror_walkthrough2.pdf Graphic file (type pdf)
+<use figure/mirror_walkthrough2.pdf>
+Package pdftex.def Info: figure/mirror_walkthrough2.pdf used on input line 222.
+
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+[14 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/mir
+ror_walkthrough1.pdf>]
+Package color Info: Redefining color shadecolor on input line 231.
+<figure/mirror_walkthrough3.pdf, id=124, 505.89pt x 505.89pt>
+File: figure/mirror_walkthrough3.pdf Graphic file (type pdf)
+<use figure/mirror_walkthrough3.pdf>
+Package pdftex.def Info: figure/mirror_walkthrough3.pdf used on input line 232.
+
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+[15 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/mir
+ror_walkthrough2.pdf>] [16 <C:/Users/angel/matching.portfolios/matchingportfoli
+os/vignettes/figure/mirror_walkthrough3.pdf>]
 (C:\Users\angel\matching.portfolios\matchingportfolios\vignettes\random.portfol
 ios.aux) ) 
 Here is how much of TeX's memory you used:
- 4244 strings out of 493921
- 63529 string characters out of 3154500
+ 4264 strings out of 493921
+ 64192 string characters out of 3154500
  119300 words of memory out of 3000000
- 7484 multiletter control sequences out of 15000+200000
+ 7500 multiletter control sequences out of 15000+200000
  10888 words of font info for 43 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  44i,6n,42p,1062b,318s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -434,9 +470,9 @@ Here is how much of TeX's memory you used:
 /type1/public/amsfonts/cm/cmmi10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmr10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmr17.pfb>
-Output written on random.portfolios.pdf (12 pages, 178430 bytes).
+Output written on random.portfolios.pdf (16 pages, 198081 bytes).
 PDF statistics:
- 124 PDF objects out of 1000 (max. 8388607)
+ 156 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
 

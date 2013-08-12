@@ -443,22 +443,46 @@ p6
 \caption{Finally, a random point is picked on the line segment shown in figure 10.}
 \end{figure}
 
-\end{document}
+\begin{figure}[H]
+<<hitandrun walkthrough7, echo = FALSE, warning = FALSE>>=
+A <- matrix(1, ncol = 3)
+b = 1
 
-<<mirror walk-through plots, echo = FALSE, warning = FALSE>>=
+m <- hitandrun(A, b, n = 50, skiplength = 1)[[1]]
+plotmirror(m) + simpTheme
+@
+\caption{hitandrun() then repeats the previous steps, resulting in the creation of many points. This figure displays the outcome of 50 repetitions of the hitandrun algorithm that was just explained.}
+\end{figure}
+
+\section*{mirror()}
+
+mirror() is another function used in the process of creating random portfolios.This function also consists of points jumping from one place to another.
+
+\begin{figure}[H]
+<<mirror walkthrough1, echo = FALSE, warning = FALSE>>=
 dat <- data.frame(x = .55, y = .65)
 p1 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + geom_point(x = .55, y = 0.65, size = 3) + simpTheme+
   geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
   geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
   geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
 p1
+@
+\caption{Similar to hitandrun(), mirror() begins by selecting a random point.}
+\end{figure}
 
+\begin{figure}[H]
+<<mirror walkthrough2, echo = FALSE, warning = FALSE>>=
 p2 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + geom_point(x = .7, y = 0.6, size = 3) + simpTheme+
   geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
   geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
   geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) +  geom_segment(aes(x = .55, y = .65, xend = .7, yend = .6), arrow = arrow(length = unit(.2, "cm")))
 p2
+@
+\caption{The point then jumps to a random place in space.}
+\end{figure}
 
+\begin{figure}[H]
+<<mirror walkthrough3, echo = FALSE, warning = FALSE>>=
 p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + geom_point(x = .7, y = 0.6, size = 3) + simpTheme+
   geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
   geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
@@ -467,60 +491,7 @@ p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + geom_point(
   geom_point(x = .4, y = .5, size = 3)
 p3
 @
+\caption{The step from Figure 14 is then repeated.}
+\end{figure}
 
-<<hitandrun walkthrough, echo = FALSE, warning = FALSE>>=
-dat <- data.frame(x = .4, y = .6)
-p1 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
-p1
-
-p2 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
-  geom_segment(aes(x = .4, y = .6, xend = .386, yend = .625), arrow = arrow(length = unit(.2, "cm")))
-p2
-
-p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
-  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm")))
-p3
-
-p4 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
-  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm"))) +
-  geom_segment(aes(x = .4, y = .6, xend = .88, yend = 0), arrow = arrow(length = unit(.2, "cm")))
-p4
-
-p5 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + 
-  geom_point(x = .88, y = 0, size = 3) + 
-  geom_point(x = .37, y = 0.635, size = 3) + simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
-  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
-p5
-
-dat2 <- data.frame(x = .7, y = .226)
-p6 <- ggplot(data = dat2, aes(x = x, y = y)) + geom_point(size = 3) + 
-  simpTheme +
-  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
-  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
-  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
-  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
-p6
-@
-
-<<hitandrun samples, echo = FALSE, warning = FALSE>>=
-A <- matrix(1, ncol = 3)
-b = 1
-
-m <- hitandrun(A, b, n = 50, skiplength = 1)[[1]]
-plotmirror(m) + simpTheme
-@
+\end{document}
