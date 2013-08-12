@@ -80,7 +80,7 @@ points = as.data.frame(t(w))
 colnames(points) = c("GE", "IBM")
 
 p1 <- ggplot(data = points, aes(x = GE, y = IBM))
-p1 <- p1 + geom_point(size = 0.5) + scale_y_continuous(breaks = c(0, 0.75)) + scale_x_continuous(breaks = c(0, 0.75)) + theme(axis.line = element_line())
+p1 <- p1 + geom_point(size = 0.5) + scale_y_continuous(breaks = c(0, 0.75)) + scale_x_continuous(breaks = c(0, 0.75)) + theme_bw()
 p1
 
 w2 = hitandrun(A = Amat, b = b, n = 10000)[[1]]
