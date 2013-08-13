@@ -1,10 +1,11 @@
 \documentclass{article}
 \usepackage{mathtools}
 \usepackage{amsfonts}
-\usepackage{subfig}
 \usepackage{float}
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{Sweave,bbm,amsmath,url}
+\usepackage{subcaption}
 
 \begin{document}
 \title{Random Portfolios}
@@ -27,24 +28,25 @@ load_all("..")
 Imagine you have one thousand dollars that you want to invest in two stocks: General Electric (GE) and International Business Machines (IBM). You could invest 25 percent of your million dollars in GE and the remaining 75 percent in IBM, or, to present another scenario, you could halve your money and put five hundred thousand dollars into GE and five hundred thousand dollars into IBM. There is an endless amount of ways that you can invest one million dollars into the two stocks.
 
 \begin{figure}[H]
-<<figure1, echo = FALSE, fig.height = 3, fig.width = 5, cache = TRUE, warning = FALSE>>=
-dat <- data.frame(IBM = 25, GE = 50)
-p1 <- ggplot(data = dat, aes(x = IBM, y = GE)) + geom_point(size = 5) + scale_y_continuous(limits = c(-100, 100)) + scale_x_continuous(limits = c(-250, 250)) + theme_bw()
-
-dat <- data.frame(IBM = 5000, GE = 1250)
-p2 <- ggplot(data = dat, aes(x = IBM, y = GE)) + geom_point(size = 5)  + theme_bw() + scale_y_continuous(limits = c(-1500, 1500)) + scale_x_continuous(limits = c(-6000, 6000))
-
-layOut(list(p1, 1, 1), list(p2, 1, 2))
-@
+  \begin{subfigure}[b]{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{sharespace}
+      \label{fig:sharespace}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{dollarspace}
+      \label{fig:dollarspace}
+      \end{subfigure}
 \caption{Let's say your portfolio consists of 25 shares of IBM and 50 shares of GE. The plot on the left displays this coordinate in share space, meaning the x and y coordinates of the point represent the amount of shares invested in each stock. Alternatively, you can view the portfolio in dollar terms. This is done by multiplying the stock price by the number of shares, resulting in the total amount spent in each stock. The price of GE is currently at around 25 dollars apiece while the price of each IBM stock is approximately 200 dollars. Thus, 25 shares of IBM becomes 5,000 dollars and 50 shares of GE is valued at 1,250 dollars. The plot on the right displays the same portfolio as the one on the left, but plots the portfolio is in dollar space. This means that the x and y coordinates represent the total amount of money that you invested into each respective stock.}
 \end{figure}
 
 \begin{figure}[H]
-<<figure2, echo = FALSE, fig.height = 3, fig.width = 5, cache = TRUE, warning = FALSE>>=
-dat <- data.frame(IBM = .8, GE =.2)
-p <- ggplot(data = dat, aes(x = IBM, y = GE)) + geom_point(size = 5) + theme_bw() + scale_y_continuous(limits = c(-.5, .5)) + scale_x_continuous(limits = c(-1, 1))
-p
-@
+  \begin{subfigure}[b]{1.0\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{portionspace}
+    \label{fig:portionspace}
+  \end{subfigure}
 \caption{The same portfolio as that in Figure 1 is replotted in portion space. In other words, this figure displays the portfolio where the x and y coordinates represent the percentage of the total amount of money that is invested into each respective stock. To use the same example as before, since you spent 5,000 dollars on IBM and 1,250 dollars on GE, you expended a total of 6,250 dollars. $1250/6250 = 0.2$, so 20 percent of your budget is spent in GE. Transitively, and 80 percent is spent on IBM. These percentages are plotted in decimal form in the figure. In this document, we will be referring to portfolios plotted in portion space.}
 \end{figure}
 
@@ -52,43 +54,11 @@ As mentioned before, there are an infinite amount of ways to split the invested 
 In order to visualize how all the possible portfolios would appear in a 2-D space, you can generate random weights, creating a random way of splitting the money. When generating random weights, the sum of the variables $x + y = 1$ and ${x, y} > 0$.
 
 \begin{figure}[H]
-<<figure3, echo = FALSE, fig.height = 3, fig.width = 5, cache = TRUE, warning = FALSE>>=
-Amat = matrix(c(1,1), nrow = 1, ncol =2)
-b = 1
-
-graphTheme1 = theme(
-  panel.background = NULL,
-  panel.grid.major = element_blank(),
-  panel.grid.minor = element_blank(),
-  axis.title.x = element_blank(),
-  axis.ticks.x = element_blank(),
-  axis.text.x = element_blank(),
-  plot.margin = unit(c(0.1,0.1,0.1,1.5), "lines")
-)
-
-graphTheme2 = theme(
-  panel.background = NULL,
-  panel.grid.major = element_blank(),
-  panel.grid.minor = element_blank(),
-  plot.margin = unit(c(0.1,0.1,0.1,1.5), "lines")
-)
-
-set.seed(40)
-
-w = hitandrun(A = Amat, b = b, n = 1000)[[1]]
-points = as.data.frame(t(w))
-colnames(points) = c("GE", "IBM")
-
-p1 <- ggplot(data = points, aes(x = GE, y = IBM))
-p1 <- p1 + geom_point(size = 0.5) + scale_y_continuous(breaks = c(0, 0.75)) + scale_x_continuous(breaks = c(0, 0.75)) + theme_bw()
-p1
-
-w2 = hitandrun(A = Amat, b = b, n = 10000)[[1]]
-points2 = as.data.frame(t(w2))
-colnames(points2) = c("GE", "IBM")
-
-layOut(list(p1, 1, 1), list(p2, 1, 2))
-@
+  \begin{subfigure}[b]{0.7\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{samples}
+      \label{fig:samples}
+  \end{subfigure}
 \caption{1,000 random samples of two stocks were taken, where each stocks' value represents the percentage of the total money that is invested in each stock. The two percentages are represented in decimal form, thus summing to one. The result is a diagonal line from the points (0,1) to (1,0). Each point on this line represents a possible portfolio.}
 \end{figure}
 
@@ -493,5 +463,59 @@ p3
 @
 \caption{The step from Figure 14 is then repeated.}
 \end{figure}
+
+<<hitandrun walkthrough, echo = FALSE, warning = FALSE, fig.width = 5, fig.height = 5>>=
+vp = function(x,y) viewport(layout.pos.row = x, layout.pos.col = y)
+grid.newpage()
+pushViewport(viewport(layout = grid.layout(3, 3, heights = unit(c(7,7,7), "cm"), widths = unit(c(7,7,7), "cm"))))
+
+dat <- data.frame(x = .4, y = .6)
+p1 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
+
+p2 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .386, yend = .625), arrow = arrow(length = unit(.2, "cm")))
+
+p3 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm")))
+
+p4 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .4, y = .6, xend = .37, yend = .635), arrow = arrow(length = unit(.2, "cm"))) +
+  geom_segment(aes(x = .4, y = .6, xend = .88, yend = 0), arrow = arrow(length = unit(.2, "cm")))
+
+p5 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + 
+  geom_point(x = .88, y = 0, size = 3) + 
+  geom_point(x = .37, y = 0.635, size = 3) + simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+
+dat2 <- data.frame(x = .7, y = .226)
+p6 <- ggplot(data = dat2, aes(x = x, y = y)) + geom_point(size = 3) + 
+  simpTheme +
+  geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
+  geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
+  geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
+  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+
+print(p1, vp = vp(3,1))
+print(p2, vp = vp(2,1))
+print(p3, vp = vp(3,2))
+print(p4, vp = vp(1,1))
+print(p5, vp = vp(2,2))
+print(p6, vp = vp(3,3))
+@
 
 \end{document}
