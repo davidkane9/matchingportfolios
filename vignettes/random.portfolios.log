@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.7.17)  13 AUG 2013 16:37
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.7.17)  14 AUG 2013 18:10
 entering extended mode
 **C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/random.portfo
 lios.tex
@@ -361,8 +361,13 @@ File: dollarspace.jpg Graphic file (type jpg)
 Package pdftex.def Info: dollarspace.jpg used on input line 85.
 (pdftex.def)             Requested size: 172.5pt x 212.90233pt.
 
-Overfull \hbox (2.21997pt too wide) in paragraph at lines 78--88
+Overfull \hbox (2.21997pt too wide) in paragraph at lines 78--91
 [][] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 91--91
+
  []
 
 [1
@@ -371,132 +376,157 @@ Overfull \hbox (2.21997pt too wide) in paragraph at lines 78--88
 ce.jpg, id=11, 420.06938pt x 260.47313pt>
 File: portionspace.jpg Graphic file (type jpg)
 <use portionspace.jpg>
-Package pdftex.def Info: portionspace.jpg used on input line 94.
+Package pdftex.def Info: portionspace.jpg used on input line 97.
 (pdftex.def)             Requested size: 345.0pt x 213.92717pt.
 [2 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/sharespace.
 jpg> <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/dollarspa
 ce.jpg>] <samples.jpg, id=15, 237.88875pt x 276.28218pt>
 File: samples.jpg Graphic file (type jpg)
 <use samples.jpg>
-Package pdftex.def Info: samples.jpg used on input line 106.
+Package pdftex.def Info: samples.jpg used on input line 109.
 (pdftex.def)             Requested size: 241.49895pt x 280.48877pt.
 [3 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/portionspac
 e.jpg>]
-Package color Info: Redefining color shadecolor on input line 116.
+Package color Info: Redefining color shadecolor on input line 119.
 <figure/figChunk1.pdf, id=20, 361.35pt x 216.81pt>
 File: figure/figChunk1.pdf Graphic file (type pdf)
 <use figure/figChunk1.pdf>
-Package pdftex.def Info: figure/figChunk1.pdf used on input line 117.
+Package pdftex.def Info: figure/figChunk1.pdf used on input line 120.
 (pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
+
+ []
+
 [4 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/samples.jpg
 >]
-Package color Info: Redefining color shadecolor on input line 126.
+Package color Info: Redefining color shadecolor on input line 135.
 <figure/fiveByFiveGrid.pdf, id=24, 361.35pt x 216.81pt>
 File: figure/fiveByFiveGrid.pdf Graphic file (type pdf)
 <use figure/fiveByFiveGrid.pdf>
-Package pdftex.def Info: figure/fiveByFiveGrid.pdf used on input line 127.
+Package pdftex.def Info: figure/fiveByFiveGrid.pdf used on input line 136.
 (pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
+
+ []
+
+
+Underfull \hbox (badness 1895) in paragraph at lines 143--143
+\T1/aer/m/n/10 The his-tograms are den-sity plots of 10,000 ran-domly sam-pled 
+weights
+ []
+
 [5 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/figC
 hunk1.pdf>]
-Package color Info: Redefining color shadecolor on input line 140.
+Package color Info: Redefining color shadecolor on input line 152.
 <figure/hitandrun_walkthrough1.pdf, id=34, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough1.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough1.pdf>
 Package pdftex.def Info: figure/hitandrun_walkthrough1.pdf used on input line 1
-41.
+53.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [6 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/five
 ByFiveGrid.pdf>]
-Package color Info: Redefining color shadecolor on input line 150.
+Package color Info: Redefining color shadecolor on input line 162.
 <figure/hitandrun_walkthrough2.pdf, id=42, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough2.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough2.pdf>
 Package pdftex.def Info: figure/hitandrun_walkthrough2.pdf used on input line 1
-51.
+63.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [7 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hita
 ndrun_walkthrough1.pdf>]
-Package color Info: Redefining color shadecolor on input line 160.
+Package color Info: Redefining color shadecolor on input line 172.
 <figure/hitandrun_walkthrough3.pdf, id=51, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough3.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough3.pdf>
 Package pdftex.def Info: figure/hitandrun_walkthrough3.pdf used on input line 1
-61.
+73.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [8 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hita
 ndrun_walkthrough2.pdf>]
-Package color Info: Redefining color shadecolor on input line 170.
+Package color Info: Redefining color shadecolor on input line 182.
 <figure/hitandrun_walkthrough4.pdf, id=59, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough4.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough4.pdf>
 Package pdftex.def Info: figure/hitandrun_walkthrough4.pdf used on input line 1
-71.
+83.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [9 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hita
 ndrun_walkthrough3.pdf>]
-Package color Info: Redefining color shadecolor on input line 180.
+Package color Info: Redefining color shadecolor on input line 192.
 <figure/hitandrun_walkthrough5.pdf, id=67, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough5.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough5.pdf>
 Package pdftex.def Info: figure/hitandrun_walkthrough5.pdf used on input line 1
-81.
+93.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [10 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
 andrun_walkthrough4.pdf>]
-Package color Info: Redefining color shadecolor on input line 190.
+Package color Info: Redefining color shadecolor on input line 202.
 <figure/hitandrun_walkthrough6.pdf, id=75, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough6.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough6.pdf>
-Package pdftex.def Info: figure/hitandrun_walkthrough6.pdf used on input line 1
-91.
+Package pdftex.def Info: figure/hitandrun_walkthrough6.pdf used on input line 2
+03.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [11 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
 andrun_walkthrough5.pdf>]
-Package color Info: Redefining color shadecolor on input line 200.
+Package color Info: Redefining color shadecolor on input line 212.
 <figure/hitandrun_walkthrough7.pdf, id=83, 505.89pt x 505.89pt>
 File: figure/hitandrun_walkthrough7.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough7.pdf>
 Package pdftex.def Info: figure/hitandrun_walkthrough7.pdf used on input line 2
-01.
+13.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [12 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
 andrun_walkthrough6.pdf>]
-Package color Info: Redefining color shadecolor on input line 214.
+Package color Info: Redefining color shadecolor on input line 226.
 <figure/mirror_walkthrough1.pdf, id=91, 505.89pt x 505.89pt>
 File: figure/mirror_walkthrough1.pdf Graphic file (type pdf)
 <use figure/mirror_walkthrough1.pdf>
-Package pdftex.def Info: figure/mirror_walkthrough1.pdf used on input line 215.
+Package pdftex.def Info: figure/mirror_walkthrough1.pdf used on input line 227.
 
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [13 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/hit
 andrun_walkthrough7.pdf>]
-Package color Info: Redefining color shadecolor on input line 224.
+Package color Info: Redefining color shadecolor on input line 236.
 <figure/mirror_walkthrough2.pdf, id=99, 505.89pt x 505.89pt>
 File: figure/mirror_walkthrough2.pdf Graphic file (type pdf)
 <use figure/mirror_walkthrough2.pdf>
-Package pdftex.def Info: figure/mirror_walkthrough2.pdf used on input line 225.
+Package pdftex.def Info: figure/mirror_walkthrough2.pdf used on input line 237.
 
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [14 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/mir
 ror_walkthrough1.pdf>]
-Package color Info: Redefining color shadecolor on input line 234.
+Package color Info: Redefining color shadecolor on input line 246.
 <figure/mirror_walkthrough3.pdf, id=107, 505.89pt x 505.89pt>
 File: figure/mirror_walkthrough3.pdf Graphic file (type pdf)
 <use figure/mirror_walkthrough3.pdf>
-Package pdftex.def Info: figure/mirror_walkthrough3.pdf used on input line 235.
+Package pdftex.def Info: figure/mirror_walkthrough3.pdf used on input line 247.
 
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 [15 <C:/Users/angel/matching.portfolios/matchingportfolios/vignettes/figure/mir
 ror_walkthrough2.pdf>]
-Package color Info: Redefining color shadecolor on input line 243.
+Package color Info: Redefining color shadecolor on input line 255.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 258.
+
+(C:\MiKTeX\tex\latex\ae\t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)
+
+LaTeX Font Warning: Font shape `T1/aett/bx/n' undefined
+(Font)              using `T1/aett/m/n' instead on input line 258.
+
 <figure/hitandrun_walkthrough.pdf, id=115, 361.35pt x 361.35pt>
 File: figure/hitandrun_walkthrough.pdf Graphic file (type pdf)
 <use figure/hitandrun_walkthrough.pdf>
-Package pdftex.def Info: figure/hitandrun_walkthrough.pdf used on input line 24
-4.
+Package pdftex.def Info: figure/hitandrun_walkthrough.pdf used on input line 25
+9.
 (pdftex.def)             Requested size: 345.0pt x 345.00084pt.
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 244--245
+Overfull \hbox (15.0pt too wide) in paragraph at lines 259--260
 [][] 
  []
 
@@ -504,22 +534,27 @@ Overfull \hbox (15.0pt too wide) in paragraph at lines 244--245
 ror_walkthrough3.pdf>] [17 <C:/Users/angel/matching.portfolios/matchingportfoli
 os/vignettes/figure/hitandrun_walkthrough.pdf>]
 (C:\Users\angel\matching.portfolios\matchingportfolios\vignettes\random.portfol
-ios.aux) ) 
+ios.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5001 strings out of 493921
- 73333 string characters out of 3154500
- 129891 words of memory out of 3000000
- 8185 multiletter control sequences out of 15000+200000
- 23057 words of font info for 61 fonts, out of 3000000 for 9000
+ 5028 strings out of 493921
+ 73720 string characters out of 3154500
+ 130891 words of memory out of 3000000
+ 8206 multiletter control sequences out of 15000+200000
+ 23904 words of font info for 64 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 36i,8n,38p,1062b,398s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmmi10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmr10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmr17.pfb>
-Output written on random.portfolios.pdf (17 pages, 240411 bytes).
+ 36i,8n,38p,1049b,398s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmmi10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pf
+b><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmr17.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb
+>
+Output written on random.portfolios.pdf (17 pages, 254441 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
+ 151 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  86 words of extra memory for PDF output out of 10000 (max. 10000000)
 

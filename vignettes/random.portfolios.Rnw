@@ -38,7 +38,10 @@ Imagine you have one thousand dollars that you want to invest in two stocks: Gen
       \includegraphics[width=\textwidth]{dollarspace}
       \label{fig:dollarspace}
       \end{subfigure}
-\caption{Let's say your portfolio consists of 25 shares of IBM and 50 shares of GE. The plot on the left displays this coordinate in share space, meaning the x and y coordinates of the point represent the amount of shares invested in each stock. Alternatively, you can view the portfolio in dollar terms. This is done by multiplying the stock price by the number of shares, resulting in the total amount spent in each stock. The price of GE is currently at around 25 dollars apiece while the price of each IBM stock is approximately 200 dollars. Thus, 25 shares of IBM becomes 5,000 dollars and 50 shares of GE is valued at 1,250 dollars. The plot on the right displays the same portfolio as the one on the left, but plots the portfolio is in dollar space. This means that the x and y coordinates represent the total amount of money that you invested into each respective stock.}
+\caption{Let's say your portfolio consists of 25 shares of IBM and 50 shares of GE. The plot on the left displays this coordinate in share space, meaning the x and y coordinates of the point represent the amount of shares invested in each stock. Alternatively, you can view the portfolio in dollar terms. This is done by multiplying the stock price by the number of shares, resulting in the total amount spent in each stock. 
+\\
+\\
+The current price of GE stock is around 25 dollars while the value of IBM stock is approximately 200 dollars. Thus, 25 shares of IBM costs 5,000 dollars and 50 shares of GE is valued at 1,250 dollars. The above plot on the right displays the same portfolio as the one on the left, but plotted in dollar space. This means that the x and y coordinates represent the total amount of money that you have invested into each respective stock.}
 \end{figure}
 
 \begin{figure}[H]
@@ -47,11 +50,11 @@ Imagine you have one thousand dollars that you want to invest in two stocks: Gen
     \includegraphics[width=\textwidth]{portionspace}
     \label{fig:portionspace}
   \end{subfigure}
-\caption{The same portfolio as that in Figure 1 is replotted in portion space. In other words, this figure displays the portfolio where the x and y coordinates represent the percentage of the total amount of money that is invested into each respective stock. To use the same example as before, since you spent 5,000 dollars on IBM and 1,250 dollars on GE, you expended a total of 6,250 dollars. $1250/6250 = 0.2$, so 20 percent of your budget is spent in GE. Transitively, and 80 percent is spent on IBM. These percentages are plotted in decimal form in the figure. In this document, we will be referring to portfolios plotted in portion space.}
+\caption{The same portfolio as that in Figure 1 is replotted in portion space. In other words, this figure displays the portfolio on the x-y axes so that the x and y coordinates represent the percentage of the total amount of money that is invested into each respective stock. To use the same example as before, since you spent 5,000 dollars on IBM and 1,250 dollars on GE, a total of 6,250 dollars was expended. $1250/6250 = 0.2$, so 20 percent of your budget is spent in GE. Transitively, we find that 80 percent is spent on IBM. These percentages are plotted in decimal form in the above figure. In the rest of this document, we will be referring to portfolios plotted in portion space.}
 \end{figure}
 
-As mentioned before, there are an infinite amount of ways to split the invested money. Earlier we thought about dividing the money in dollar terms. Now let's think about it in percentages in decimal form. No matter how you split the money, whether you put .5 in IBM and .5 in GE, or .2 in IBM and .8 in GE, the two values must sum to 1, or 100 percent. In other words, this portfolio is fully invested; no money is put aside for other uses.
-In order to visualize how all the possible portfolios would appear in a 2-D space, you can generate random weights, creating a random way of splitting the money. When generating random weights, the sum of the variables $x + y = 1$ and ${x, y} > 0$.
+As mentioned before, there are an infinite amount of ways to split the invested money. Earlier, we thought about dividing the money in dollar terms. Now let's think about it in percentages. [Note: whenever percentages are mentioned or used in this document, they are converted to decimal form. For example, 75 percent is equivalent 0.75.] No matter how you split your money, whether you put .5 in IBM and .5 in GE, or .2 in IBM and .8 in GE, the two values must sum to 1, or 100 percent. In other words, this portfolio is fully invested; no money is put aside for other uses.
+In order to visualize how all the possible portfolios would appear in a 2-D space, you can generate random weights, creating a completely arbitrary way of splitting the money. Some constraints that must be followed when generating random weights are: $x + y = 1$ and ${x, y} > 0$.
 
 \begin{figure}[H]
   \begin{subfigure}[b]{0.7\textwidth}
@@ -59,10 +62,10 @@ In order to visualize how all the possible portfolios would appear in a 2-D spac
       \includegraphics[width=\textwidth]{samples}
       \label{fig:samples}
   \end{subfigure}
-\caption{1,000 random samples of two stocks were taken, where each stocks' value represents the percentage of the total money that is invested in each stock. The two percentages are represented in decimal form, thus summing to one. The result is a diagonal line from the points (0,1) to (1,0). Each point on this line represents a possible portfolio.}
+\caption{1,000 random samples of two stocks are taken, where each stocks' value represents the percentage of the total money that is invested in that stock. Each point represents a possible portfolio. The result is a diagonal line extending from the point (0,1) to the point (1,0). A line is formed becauseone of the constraints when generating weights, as previously mentioned, is that the weights must sum to 1.}
 \end{figure}
 
-Now let's say that you want to add Coca-Cola (KO) to the stocks that you are investing in. Now that you have three stocks, you must generate three random weights that sum to 1. For example, you could invest .3, .3, and .4 of your total funding in KO, GE, and IBM respectively. 
+Let's say that you want to add Coca-Cola (KO) to the stocks that you are investing in. Now that you have three stocks instead of two, you must generate three random weights that sum to 1. To create an example, you could invest .3, .3, and .4 of your total funding in KO, GE, and IBM respectively. 
   
 \begin{figure}[H]
 <<figChunk1, echo=FALSE, fig.height = 3, fig.width = 5, cache =TRUE, warning = FALSE>>=
@@ -171,8 +174,14 @@ print(h1, vp = vp(1,1))
 print(h2, vp = vp(2,2))
 print(h3, vp = vp(3,3))
 @
-\caption{Random weights were sampled for Google (GE), Coca-Cola (KO), and International Business Machines (IBM). Each set of randomly sampled weights for the three stocks all sum to 1. The pairwise scatterplots display the same distribution of 1000 random weights, and shows that they were of the same distribution. Additionally, the maximum sum for the weight distributions for any two variables is 1, and the minimum sum is 0. On the diagonal above the three scatterplots are three histograms. They represent density plots of 10,000 randomly sampled weights. The histograms display the distributions of the variables and indicate that the most likely value for any given variable is close to 0.}
+\caption{Random weights were sampled for Google (GE), Coca-Cola (KO), and International Business Machines (IBM). Once again, these portfolios are fully invested. The pairwise scatterplots display the same distribution of 1000 random weights. The maximum sum for the weight distributions for any two variables is 1, and the minimum sum is 0.
+\\
+\\
+The three histograms represent density plots of 10,000 randomly sampled weights. More samples are taken for histograms in order to up their resolution. The histograms display the distributions of the variables and they indicate that the most likely value for any given variable is close to 0.}
+
 \end{figure}
+
+Now let's take a scenario where you are investing money in five different stocks: General Electric (GE), International Business MAchines (IBM), Coca-Cola (KO), General Motors (GM), and Microsoft (MSFT). Like before, the generated portfolios are fully invested and long-only.
 
 \begin{figure}[H]
 <<fiveByFiveGrid, echo=FALSE, fig.height = 3, fig.width = 5, cache =TRUE, warning = FALSE>>=
@@ -329,23 +338,26 @@ print(h3, vp = vp(3,3))
 print(h4, vp = vp(4,4))
 print(h5, vp = vp(5,5))
 @
-\caption{1000 random samples.}
+\caption{Random weights were sampled for Google (GE), Coca-Cola (KO), International Business Machines (IBM), General Motors (GM), and Microsoft (MSFT). Like before, these portfolios are fully invested and long-only (no stocks are short-sold). The pairwise scatterplots display 1000 random weights, and show that they have the same distribution.
+\\
+\\
+The histograms are density plots of 10,000 randomly sampled weights and display the distributions of the variables. They indicate that the most likely value for any given variable is close to 0. (***)}
 \end{figure}
 
 \section*{hitandrun()}
 
-Random points were generated in order to create the data for the previous two figures. The function used to create the random weights is called "hitandrun".
+In the scatterplots and histograms shown previously in the document, random points were generated. These points were created using the function hitandrun(). The algorithm for this function requires several steps:
 
 \begin{figure}[H]
 <<hitandrun walkthrough1, echo = FALSE, warning = FALSE>>=
 dat <- data.frame(x = .4, y = .6)
-p1 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) + simpTheme +
+p1 <- ggplot(data = dat, aes(x = x, y = y), height = 150, width = 200) + geom_point(size = 3) + simpTheme +
   geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
   geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
   geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0))
 p1
 @
-\caption{There are a number of steps within the function, the first of which is that it picks a random point within a simplex.}
+\caption{hitandrun() first picks a random point within a simplex.}
 \end{figure}
 
 \begin{figure}[H]
@@ -500,7 +512,7 @@ p5 <- ggplot(data = dat, aes(x = x, y = y)) + geom_point(size = 3) +
   geom_segment(aes(x = 0, y = 0, xend = .5, yend = sqrt(3)/2)) +
   geom_segment(aes(x = .5, y = sqrt(3)/2, xend = 1, yend = 0)) + 
   geom_segment(aes(x = 1, y = 0, xend = 0, yend = 0)) + 
-  geom_segment(aes(x = .88, y = 0, xend = .37, yend = .635))
+  geom_segment(aes(x = .88, y = 0, xend = .x37, yend = .635))
 
 dat2 <- data.frame(x = .7, y = .226)
 p6 <- ggplot(data = dat2, aes(x = x, y = y)) + geom_point(size = 3) + 
