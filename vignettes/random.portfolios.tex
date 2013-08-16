@@ -90,6 +90,7 @@ Put yourself in a scenario where you have 6,250 dollars. Let's say that you want
 
 Now that we have seen portfolios in both share and dollar space, what else is there?
 \\
+\\
 Portion space refers to percentages. Say you spend 30 percent of your money on IBM. In other words, .3 of your total money is invested in IBM. For the rest of this document, we will be referring to portfolios plotted in portion space.
 
 \begin{figure}[H]
@@ -102,6 +103,7 @@ Portion space refers to percentages. Say you spend 30 percent of your money on I
 \end{figure}
 
 As mentioned before, there is an infinite number of ways to split the invested money. No matter how you divide your total dollar amount, whether you put .5 in IBM and .5 in GE, or .2 in IBM and .8 in GE, the two values must sum to 1, or 100 percent. In other words, every portfolio that we will consider will be fully invested.
+\\
 \\
 In order to visualize how all the possible portfolios would appear in a 2-D space, you can generate random weights, creating a completely arbitrary way of splitting the money. Some constraints that must be followed when generating random weights are as follows: $x + y = 1$ and ${x, y} > 0$.
 
@@ -125,6 +127,7 @@ Let's say that you want to add Coca-Cola (KO) to the stocks that you are investi
 
 \caption{1,000 random weights were sampled for Google (GE), Coca-Cola (KO), and International Business Machines (IBM). Once again, these portfolios are all fully invested. The pairwise scatterplots display the same distribution of the 1,000 random weights. According to the plots, the maximum sum for the weight distributions for any two variables is 1, and the minimum sum is 0.
 \\
+\\
 The three histograms on the diagonal represent density plots of 10,000 randomly sampled weights. More samples are taken for the histograms in order to increase their resolution. The histograms display the distributions of the variables and they indicate that the most likely value for any given variable is close to 0.}
 
 \end{figure}
@@ -138,7 +141,16 @@ Now let's consider yet another scenario, where you are investing in five differe
 
 \end{knitrout}
 
+\end{figure}
+
+\begin{figure}[H]
+  \begin{subfigure}[b]{1.0\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{5v5}
+    \label{fig:5v5}
+  \end{subfigure}
 \caption{1,000 random weights were sampled for Google (GE), Coca-Cola (KO), International Business Machines (IBM), General Motors (GM), and Microsoft (MSFT).
+\\
 \\
 10,000 weights were randomly sampled for the five histograms. These graphs function as density plots.}
 \end{figure}
